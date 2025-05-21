@@ -46,15 +46,15 @@ const dropdowns = [
 ];
 
 const secondaryMenuItems = (isAuthenticated) => [
-  { name: "Home", path: "/Home" },
-  { name: "Courses", path: "/Courses" },
+  { name: "Home", path: "/home" },
+  { name: "Courses", path: "/cources" },
   ...(isAuthenticated
     ? []
     : [
         { name: "Register", path: "/Register" },
         { name: "Login", path: "/StudentLogin" },
       ]),
-  { name: "About", path: "/About" },
+  { name: "About", path: "/about" },
   { name: "Gallery", path: "/Gallery" },
   { name: "Achievements", path: "/Achievements" },
   ...(isAuthenticated ? [{ name: "Logout", path: "#" }] : []),

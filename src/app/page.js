@@ -62,10 +62,10 @@ const dropdowns = [
 ];
 
 const buttons = [
-  { path: "/Courses", icon: <FaBook />, text: "Courses" },
+  { path: "/cources", icon: <FaBook />, text: "Courses" },
   { path: "/Gallery", icon: <FaImage />, text: "Gallery" },
   { path: "/Register", icon: <FaUserPlus />, text: "Register" },
-  { path: "/About", icon: <FaInfoCircle />, text: "About" }
+  { path: "/about", icon: <FaInfoCircle />, text: "About" }
 ];
 
 const LandingPage = () => {
@@ -90,7 +90,7 @@ const LandingPage = () => {
         </div>
 
         <div className="flex flex-wrap gap-4 justify-center pt-2">
-          <Link href="/Home" className="inline-flex items-center px-8 py-4 bg-blue-500 text-white font-semibold rounded-full shadow-md hover:bg-blue-700 hover:scale-105 hover:-translate-y-0.5 transition-all duration-300">
+          <Link href="/home" className="inline-flex items-center px-8 py-4 bg-blue-500 text-white font-semibold rounded-full shadow-md hover:bg-blue-700 hover:scale-105 hover:-translate-y-0.5 transition-all duration-300">
             <FaHome className="mr-2 text-xl" /> Home
           </Link>
         </div>
