@@ -2,9 +2,16 @@ import { NextResponse } from 'next/server';
 import registered_students from '../../../../models/students.js';
 import jwt from 'jsonwebtoken';
 import connectDB from '../../../../lib/DBconnection.js';
+import { registrationLimiter } from '../../../middleware/rateLimiter';
 
 export async function POST(request) {
   try {
+    // Apply rate limiter
+    const rateLimitResult = await registrationLimiter(request);
+    if (rateLimitResult) {
+      return rateLimitResult;
+    }
+
     // Check for required environment variables
     if (!process.env.MONGO_URI) {
       console.error('MONGO_URI is not defined');

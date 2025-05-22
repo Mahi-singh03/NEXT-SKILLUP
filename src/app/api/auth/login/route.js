@@ -3,9 +3,16 @@ import registered_students from '../../../../models/students';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import connectDB from '../../../../lib/DBconnection';
+import { loginLimiter } from '../../../middleware/rateLimiter';
 
 export async function POST(request) {
   try {
+    // Apply rate limiter
+    const rateLimitResult = await loginLimiter(request);
+    if (rateLimitResult) {
+      return rateLimitResult;
+    }
+
     await connectDB();
     const { emailAddress, password } = await request.json();
 
