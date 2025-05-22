@@ -20,13 +20,13 @@ export async function POST(request) {
     }).select('+password');
 
     if (!student) {
-      return NextResponse.json({ error: 'Invalid email or password' }, { status: 401 });
+      return NextResponse.json({ error: 'Invalid email' }, { status: 401 });
     }
 
     // Compare password
     const isMatch = await bcrypt.compare(password, student.password);
     if (!isMatch) {
-      return NextResponse.json({ error: 'Invalid email or password' }, { status: 401 });
+      return NextResponse.json({ error: 'Invalid password' }, { status: 401 });
     }
 
     // Generate JWT token

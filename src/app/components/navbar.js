@@ -51,8 +51,8 @@ const secondaryMenuItems = (isAuthenticated) => [
   ...(isAuthenticated
     ? []
     : [
-        { name: "Register", path: "/Register" },
-        { name: "Login", path: "/StudentLogin" },
+        { name: "Register", path: "/register" },
+        { name: "Login", path: "/student-login" },
       ]),
   { name: "About", path: "/about" },
   { name: "Gallery", path: "/Gallery" },

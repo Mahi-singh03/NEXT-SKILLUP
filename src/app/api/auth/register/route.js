@@ -89,7 +89,7 @@ export async function POST(request) {
         { aadharNumber },
         { phoneNumber },
       ],
-    });
+    }).select('+password');
 
     if (existingUser) {
       const field =
