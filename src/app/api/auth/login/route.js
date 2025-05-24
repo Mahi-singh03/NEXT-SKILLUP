@@ -10,7 +10,10 @@ export async function POST(request) {
     // Apply rate limiter
     const rateLimitResult = await loginLimiter(request);
     if (rateLimitResult) {
-      return rateLimitResult;
+      return NextResponse.json(
+        { error: rateLimitResult.message },
+        { status: rateLimitResult.status }
+      );
     }
 
     await connectDB();

@@ -85,6 +85,25 @@ const StudentLoginForm = () => {
     return isValid;
   };
 
+  const getFriendlyErrorMessage = (error) => {
+    // Handle API error messages
+    if (error.includes('Invalid email') || error.includes('Invalid password')) {
+      return 'The email or password you entered is incorrect. Please try again.';
+    }
+    if (error.includes('Email and password are required')) {
+      return 'Please enter both your email and password.';
+    }
+    if (error.includes('rate limit')) {
+      return 'Too many login attempts. Please wait a moment and try again.';
+    }
+    if (error.includes('Server configuration error')) {
+      return 'We\'re experiencing technical difficulties. Please try again later.';
+    }
+    
+    // Default message for unexpected errors
+    return 'Something went wrong. Please try again.';
+  };
+
   const onSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -114,13 +133,18 @@ const StudentLoginForm = () => {
       const data = await response.json();
 
       if (!response.ok) {
-        if (response.status === 401) {
-          setErrors({ general: 'Invalid email or password' });
+        let errorMessage = 'Login failed';
+        if (data.error) {
+          errorMessage = getFriendlyErrorMessage(data.error);
+        } else if (response.status === 401) {
+          errorMessage = 'The email or password you entered is incorrect.';
         } else if (response.status === 400) {
-          setErrors({ general: 'Email and password are required' });
-        } else {
-          setErrors({ general: data.error || 'Login failed' });
+          errorMessage = 'Please enter both your email and password.';
+        } else if (response.status === 429) {
+          errorMessage = 'Too many login attempts. Please wait a moment.';
         }
+        
+        setErrors({ general: errorMessage });
         return;
       }
 
@@ -130,7 +154,7 @@ const StudentLoginForm = () => {
     } catch (error) {
       console.error('Login error:', error);
       setErrors({
-        general: 'An unexpected error occurred. Please try again.',
+        general: 'We\'re having trouble connecting to our servers. Please check your internet connection and try again.',
       });
     } finally {
       setLoading(false);
@@ -138,7 +162,7 @@ const StudentLoginForm = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex  justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex justify-center p-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-gray-800">Welcome Back</h1>
@@ -158,7 +182,7 @@ const StudentLoginForm = () => {
               />
             </svg>
             <div>
-              <h3 className="font-medium text-red-800">Login Error</h3>
+              <h3 className="font-medium text-red-800">Unable to Sign In</h3>
               <p className="text-sm text-red-600 mt-1">{errors.general}</p>
             </div>
           </div>

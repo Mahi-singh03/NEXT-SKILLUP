@@ -1,13 +1,33 @@
-import rateLimit from 'express-rate-limit';
+// Simple in-memory store for rate limiting
+const store = new Map();
 
-export const loginLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 5, // 5 attempts
-  message: 'Too many login attempts, please try again after 15 minutes'
-});
+const createRateLimiter = (windowMs, max) => {
+  return async (request) => {
+    const ip = request.headers.get('x-forwarded-for') || 'unknown';
+    const now = Date.now();
+    const windowStart = now - windowMs;
 
-export const registrationLimiter = rateLimit({
-  windowMs: 60 * 60 * 1000, // 1 hour
-  max: 3, // 3 attempts
-  message: 'Too many registration attempts, please try again after an hour'
-}); 
+    // Get existing records for this IP
+    const records = store.get(ip) || [];
+    
+    // Remove expired records
+    const validRecords = records.filter(timestamp => timestamp > windowStart);
+    
+    // Check if limit is exceeded
+    if (validRecords.length >= max) {
+      return {
+        status: 429,
+        message: `Too many requests, please try again after ${windowMs / 60000} minutes`
+      };
+    }
+
+    // Add new record
+    validRecords.push(now);
+    store.set(ip, validRecords);
+    
+    return null; // No rate limit exceeded
+  };
+};
+
+export const loginLimiter = createRateLimiter(15 * 60 * 1000, 5); // 15 minutes, 5 attempts
+export const registrationLimiter = createRateLimiter(60 * 60 * 1000, 3); // 1 hour, 3 attempts 
