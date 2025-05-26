@@ -31,7 +31,7 @@ const dropdowns = [
     icon: <FaGraduationCap />,
     label: "Exam",
     links: [
-      { path: "/Exams/Weekly-Exam", text: "Weekly Exam" },
+      { path: "/weekly-exam", text: "Weekly Exam" },
       { path: "/Exams/Final-Exam", text: "Final Exams" },
     ],
   },
@@ -55,7 +55,7 @@ const dropdowns = [
     icon: <FaSignInAlt />,
     label: "Login",
     links: [
-      { path: "/StudentLogin", text: "Student Login" },
+      { path: "/student-login", text: "Student Login" },
       { path: "/Admin/login", text: "Admin Login" },
     ],
   },
@@ -63,8 +63,8 @@ const dropdowns = [
 
 const buttons = [
   { path: "/cources", icon: <FaBook />, text: "Courses" },
-  { path: "/Gallery", icon: <FaImage />, text: "Gallery" },
-  { path: "/Register", icon: <FaUserPlus />, text: "Register" },
+  { path: "/gallery", icon: <FaImage />, text: "Gallery" },
+  { path: "/register", icon: <FaUserPlus />, text: "Register" },
   { path: "/about", icon: <FaInfoCircle />, text: "About" }
 ];
 

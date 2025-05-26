@@ -39,14 +39,7 @@ const Gallery = () => {
 
       if (!data?.images?.length) {
         throw new Error('No images found');
-      }
-
-      // Log fetched images for debugging
-      console.log('Fetched images:', data.images.map(img => ({
-        publicId: img.publicId,
-        url: img.url,
-        alt: img.context?.custom?.alt || 'No alt text',
-      })));
+      };
 
       // Sort images by publicId (fallback to alphabetical if no number)
       const sortedImages = data.images
@@ -145,7 +138,7 @@ const Gallery = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 px-4 sm:px-6 lg:px-8 pt-7">
-      <h1 className="text-center text-4xl sm:text-5xl font-bold text-[#2C3E50] mb-8 relative after:content-[''] after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-16 after:h-1 after:bg-blue-600">
+      <h1 className="text-center text-4xl sm:text-5xl font-bold text-[#2C3E50] mb-8 relative after:content-[''] after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-16 after:h-1">
         Gallery
       </h1>
 

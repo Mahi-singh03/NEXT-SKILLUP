@@ -47,7 +47,7 @@ const dropdowns = [
 
 const secondaryMenuItems = (isAuthenticated) => [
   { name: "Home", path: "/home" },
-  { name: "Courses", path: "/cources" },
+  { name: "Courses", path: "/courses" },
   ...(isAuthenticated
     ? []
     : [
@@ -72,7 +72,7 @@ const Navbar = () => {
 
   const handleLogout = () => {
     logout();
-    router.push("/Home");
+    router.push("/home");
     setIsOpen(false);
   };
 
@@ -106,9 +106,22 @@ const Navbar = () => {
               onMouseEnter={() => setActiveDropdown(dropdown.name)}
               onMouseLeave={() => setActiveDropdown(null)}
             >
-              <button className="flex items-center text-gray-700 hover:text-blue-400 transition">
+              <button
+                className={`flex items-center text-gray-700 hover:text-blue-400 transition ${
+                  dropdown.options.some((option) => router.asPath === option.path)
+                    ? "text-blue-500 font-bold"
+                    : ""
+                }`}
+              >
                 {dropdown.name}
-                <ChevronDown size={16} className="ml-1 transition-transform group-hover:rotate-180" />
+                <ChevronDown
+                  size={16}
+                  className={`ml-1 transition-transform group-hover:rotate-180 ${
+                    dropdown.options.some((option) => router.asPath === option.path)
+                      ? "text-blue-500"
+                      : ""
+                  }`}
+                />
               </button>
               <AnimatePresence>
                 {activeDropdown === dropdown.name && (
@@ -122,7 +135,9 @@ const Navbar = () => {
                       <Link
                         key={option.name}
                         href={option.path}
-                        className="block px-4 py-2 text-gray-700 hover:bg-gray-100 transition"
+                        className={`block px-4 py-2 text-gray-700 hover:bg-gray-100 transition ${
+                          router.asPath === option.path ? "text-blue-500 font-bold bg-gray-100" : ""
+                        }`}
                       >
                         {option.name}
                       </Link>
@@ -132,14 +147,24 @@ const Navbar = () => {
               </AnimatePresence>
             </div>
           ))}
-          <Link href="/Profile" className="text-gray-700 hover:text-blue-400 transition">
+          <Link
+            href="/Profile"
+            className={`text-gray-700 hover:text-blue-400 transition ${
+              router.asPath === "/Profile" ? "text-blue-500 font-bold" : ""
+            }`}
+          >
             <User size={28} />
           </Link>
         </div>
 
         {/* Mobile Menu Button */}
         <div className="lg:hidden flex items-center space-x-4">
-          <Link href="/Profile" className="text-gray-700 hover:text-blue-400 transition">
+          <Link
+            href="/Profile"
+            className={`text-gray-700 hover:text-blue-400 transition ${
+              router.asPath === "/Profile" ? "text-blue-500 font-bold" : ""
+            }`}
+          >
             <User size={28} />
           </Link>
           <button
@@ -158,9 +183,11 @@ const Navbar = () => {
             <button
               key={item.name}
               onClick={handleLogout}
-              className="mx-4 text-gray-700 hover:text-red-400 transition"
+              className={`mx-4 text-gray-700 hover:text-red-400 transition ${
+                router.asPath === item.path ? "text-blue-500 font-bold" : ""
+              }`}
             >
-              Logout
+              {item.name}
             </button>
           ) : (
             <Link
@@ -198,7 +225,9 @@ const Navbar = () => {
                 <button
                   key={item.name}
                   onClick={handleLogout}
-                  className="w-full px-6 py-4 text-left border-b text-gray-700 hover:bg-gray-50 text-lg"
+                  className={`w-full px-6 py-4 text-left border-b text-gray-700 hover:bg-gray-50 text-lg ${
+                    router.asPath === item.path ? "text-blue-500 font-bold bg-gray-50" : ""
+                  }`}
                 >
                   {item.name}
                 </button>
@@ -207,7 +236,9 @@ const Navbar = () => {
                   key={item.name}
                   href={item.path}
                   onClick={() => setIsOpen(false)}
-                  className="w-full px-6 py-4 text-left border-b text-gray-700 hover:bg-gray-50 text-lg"
+                  className={`w-full px-6 py-4 text-left border-b text-gray-700 hover:bg-gray-50 text-lg ${
+                    router.asPath === item.path ? "text-blue-500 font-bold bg-gray-50" : ""
+                  }`}
                 >
                   {item.name}
                 </Link>
@@ -218,13 +249,21 @@ const Navbar = () => {
               <div key={dropdown.name} className="w-full border-b">
                 <button
                   onClick={() => handleDropdownClick(dropdown.name)}
-                  className="w-full px-6 py-4 text-left flex justify-between items-center hover:bg-gray-50"
+                  className={`w-full px-6 py-4 text-left flex justify-between items-center hover:bg-gray-50 text-lg ${
+                    dropdown.options.some((option) => router.asPath === option.path)
+                      ? "text-blue-500 font-bold bg-gray-50"
+                      : ""
+                  }`}
                 >
-                  <span className="text-gray-700 text-lg">{dropdown.name}</span>
+                  <span>{dropdown.name}</span>
                   <ChevronRight
                     size={20}
                     className={`transform transition-transform ${
                       activeDropdown === dropdown.name ? "rotate-90" : ""
+                    } ${
+                      dropdown.options.some((option) => router.asPath === option.path)
+                        ? "text-blue-500"
+                        : ""
                     }`}
                   />
                 </button>
@@ -244,7 +283,9 @@ const Navbar = () => {
                             setIsOpen(false);
                             setActiveDropdown(null);
                           }}
-                          className="block px-4 py-3 text-gray-600 hover:bg-gray-100 border-t"
+                          className={`block px-4 py-3 text-gray-600 hover:bg-gray-100 border-t text-base ${
+                            router.asPath === option.path ? "text-blue-500 font-bold bg-gray-100" : ""
+                          }`}
                         >
                           {option.name}
                         </Link>
