@@ -162,10 +162,10 @@ const StudentLoginForm = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex justify-center p-4">
+    <div className="min-h-screen bg-[#e3f1f1] flex justify-center p-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-800">Welcome Back</h1>
+          <h1 className="text-center text-4xl sm:text-5xl font-bold text-[#1e90ff]">Welcome Back</h1>
         </div>
 
         {errors.general && (

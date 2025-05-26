@@ -25,8 +25,8 @@ const dropdowns = [
   {
     name: "Verification",
     options: [
-      { name: "Verify Student", path: "/Verification/Verify-Student" },
-      { name: "Verify Staff", path: "/Verification/Verify-Staff" },
+      { name: "Verify Student", path: "/verification/student" },
+      { name: "Verify Staff", path: "/verification/staff" },
     ],
   },
   {
@@ -55,9 +55,9 @@ const secondaryMenuItems = (isAuthenticated) => [
         { name: "Login", path: "/student-login" },
       ]),
   { name: "About", path: "/about" },
-  { name: "Gallery", path: "/Gallery" },
-  { name: "Achievements", path: "/Achievements" },
-  ...(isAuthenticated ? [{ name: "Logout", path: "#" }] : []),
+  { name: "Gallery", path: "/gallery" },
+  { name: "Achievements", path: "/achievements" },
+  ...(isAuthenticated ? [{ name: "Logout", path: "/home" }] : []),
 ];
 
 const Navbar = () => {

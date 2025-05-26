@@ -552,10 +552,10 @@ const StudentRegistrationForm = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-white py-8 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-[#e3f1f1] py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-3xl mx-auto">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-extrabold text-gray-900">Student Registration</h1>
+          <h1 className="text-center text-4xl sm:text-5xl font-bold text-[#1e90ff]">Student Registration</h1>
         </div>
 
         {errors.general && (

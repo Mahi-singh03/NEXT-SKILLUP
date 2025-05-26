@@ -27,8 +27,8 @@ const CardGrid = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col items-center py-8">
-      <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mb-8">
+    <div className="min-h-screen bg-[#e3f1f1] flex flex-col items-center py-8">
+      <h1 className="text-center text-4xl sm:text-5xl font-bold text-[#1e90ff] mb-8">
         Courses Available
       </h1>
       <motion.div

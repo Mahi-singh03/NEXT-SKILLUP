@@ -3,9 +3,9 @@ import Image from 'next/image';
 
 const About = () => {
   return (
-    <div className="min-h-screen bg-[#C3E6E6] px-4 sm:px-6 lg:px-8 pt-7">
+    <div className="min-h-screen bg-[#e3f1f1]  px-4 sm:px-6 lg:px-8 pt-7">
       {/* Main About Section */}
-      <h1 className="text-center text-4xl sm:text-5xl font-bold text-[#2C3E50] mb-8">
+      <h1 className="text-center text-4xl sm:text-5xl font-bold text-[#1e90ff] mb-8">
         About
       </h1>
       <section className="text-center py-16 bg-gradient-to-r from-[#F8F9FA] to-white mb-12 animate-slideIn">
