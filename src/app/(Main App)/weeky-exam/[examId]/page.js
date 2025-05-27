@@ -19,7 +19,7 @@ import { WE_11 } from "@/WE_Question_paper/WE_11.jsx";
 import { WE_12 } from "@/WE_Question_paper/WE_12.jsx";
 import { WE_13 } from "@/WE_Question_paper/WE_13.jsx";
 import { WE_14 } from "@/WE_Question_paper/WE_14.jsx";
-import "../style/question.css";
+import "../style/Question.css";
 
 export default function WeeklyExam({ params }) {
   const { examId } = params;
