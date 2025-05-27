@@ -34,8 +34,20 @@ const AddStaff = () => {
       const payload = { ...formData };
       if (!payload.LeavingDate) delete payload.LeavingDate;
 
-      const response = await ('/staff', payload);
-      setGeneratedStaffId(response.data.StaffID);
+      const response = await fetch('/api/staff/addStaff', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to add staff');
+      }
+
+      const data = await response.json();
+      setGeneratedStaffId(data.StaffID);
       setShowPopup(true);
       setFormData({
         Name: '',
