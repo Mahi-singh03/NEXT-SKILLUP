@@ -55,18 +55,19 @@ export default function WeeklyExam() {
 
   // Timer effect
   useEffect(() => {
-    if (!questions.length) return;
+    if (state.timeLeft > 0 && !state.isSubmitted) {
+      const timer = setInterval(() => {
+        setState((prev) => ({
+          ...prev,
+          timeLeft: prev.timeLeft - 1,
+        }));
+      }, 1000);
 
-    const timer = setInterval(() => {
-      if (state.timeLeft > 0 && !state.isSubmitted) {
-        setState((prev) => ({ ...prev, timeLeft: prev.timeLeft - 1 }));
-      } else if (state.timeLeft === 0 && !state.isSubmitted) {
-        handleSubmit();
-      }
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, [state.timeLeft, state.isSubmitted, questions.length]);
+      return () => clearInterval(timer);
+    } else if (state.timeLeft === 0 && !state.isSubmitted) {
+      handleSubmit();
+    }
+  }, [state.timeLeft, state.isSubmitted, questions.length, handleSubmit]);
 
   const handleChange = (qIndex, option) => {
     setState((prev) => ({
@@ -118,7 +119,7 @@ export default function WeeklyExam() {
       <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 p-4">
         <div className="bg-white p-8 rounded-lg shadow-md text-center max-w-md">
           <h1 className="text-2xl font-bold text-red-500 mb-4">Invalid Exam ID</h1>
-          <p className="text-gray-600 mb-6">The exam you're trying to access doesn't exist.</p>
+          <p className="text-gray-600 mb-6">The exam you&apos;re trying to access doesn&apos;t exist.</p>
           <Link href="/exams" className="inline-block px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition">
             Back to Exam List
           </Link>

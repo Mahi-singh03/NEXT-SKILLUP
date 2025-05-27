@@ -29,7 +29,7 @@ const About = () => {
       <section className="bg-[#2C3E50] py-16 text-center mb-12 animate-fadeIn">
         <div>
           <h2 className="text-3xl sm:text-4xl text-white italic mb-4 drop-shadow-md">
-            "Learn Today, Lead Tomorrow"
+            &ldquo;Learn Today, Lead Tomorrow&rdquo;
           </h2>
           <p className="text-[#BDC3C7] text-base sm:text-lg uppercase tracking-wide">
             Building Competence & Confidence
