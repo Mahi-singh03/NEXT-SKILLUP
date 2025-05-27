@@ -1,9 +1,9 @@
 import { useState } from 'react';
 
 
-const getRandomQuestions = (questionsArray, num) => {
-    const shuffled = [...questionsArray].sort(() => 0.5 - Math.random());
-    return shuffled.slice(0, num);
+const getRandomQuestions = (questions, count) => {
+  const shuffled = [...questions].sort(() => 0.5 - Math.random());
+  return shuffled.slice(0, count);
 };
 
 const allQuestions = [
@@ -297,3 +297,5 @@ const Question = ({ currentQuestion, onAnswerSubmit }) => {
 // Only export the 30 random questions and the component
 export { questions };
 export default Question;
+
+export const WE_6 = getRandomQuestions(questions, 10);

@@ -19,7 +19,7 @@ const dropdowns = [
     name: "Exams",
     options: [
       { name: "Exam Result", path: "/Exams/Exam-Result" },
-      { name: "Weekly Exam", path: "/Exams/Weekly-Exam" },
+      { name: "Weekly Exam", path: "/weekly-exam" },
     ],
   },
   {

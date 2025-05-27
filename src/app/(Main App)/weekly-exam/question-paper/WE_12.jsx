@@ -1,7 +1,8 @@
-const getRandomQuestions = (questionsArray, num) => {
-    const shuffled = [...questionsArray].sort(() => 0.5 - Math.random());
-    return shuffled.slice(0, num);
+const getRandomQuestions = (questions, count) => {
+  const shuffled = [...questions].sort(() => 0.5 - Math.random());
+  return shuffled.slice(0, count);
 };
+
 const allQuestions = [
   {
     "question": "In MS Word, which feature allows you to track changes made to a document?",
@@ -658,4 +659,6 @@ const Question = ({ currentQuestion, onAnswerSubmit }) => {
 
 // Only export the 30 random questions and the component
 export { questions };
-export default Question;    
+export default Question;
+
+export const WE_12 = getRandomQuestions(questions, 10);    

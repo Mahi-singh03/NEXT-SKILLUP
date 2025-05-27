@@ -1,8 +1,7 @@
-const getRandomQuestions = (questionsArray, num) => {
-    const shuffled = [...questionsArray].sort(() => 0.5 - Math.random());
-    return shuffled.slice(0, num);
+const getRandomQuestions = (questions, count) => {
+  const shuffled = [...questions].sort(() => 0.5 - Math.random());
+  return shuffled.slice(0, count);
 };
-
 
 const allQuestions = [
     // MS Excel Questions (20)
@@ -147,7 +146,7 @@ const allQuestions = [
       "answer": "Adjust number formats and alignment"
     },
     {
-      "question": "In MS Excel, what is the shortcut to copy a cell’s content?",
+      "question": "In MS Excel, what is the shortcut to copy a cell's content?",
       "options": [
         "Ctrl+X",
         "Ctrl+C",
@@ -582,11 +581,11 @@ const allQuestions = [
       "question": "In accounting, what does 'Equity' represent?",
       "options": [
         "A type of expense",
-        "The owner’s interest in the business",
+        "The owner's interest in the business",
         "Money borrowed",
         "A tax liability"
       ],
-      "answer": "The owner’s interest in the business"
+      "answer": "The owner's interest in the business"
     },
     {
       "question": "What is the full form of 'TDS' in accounting?",
@@ -662,4 +661,5 @@ const Question = ({ currentQuestion, onAnswerSubmit }) => {
 
 // Only export the 30 random questions and the component
 export { questions };
-export default Question;    
+export default Question;
+export const WE_14 = getRandomQuestions(questions, 10);    
