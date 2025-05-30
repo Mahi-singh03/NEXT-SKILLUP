@@ -84,7 +84,7 @@ export default function ExamList() {
 
   useEffect(() => {
     if (!loading && !isAuthenticated) {
-      router.push("/login");
+      router.push("/student-login");
     }
   }, [isAuthenticated, loading, router]);
 
