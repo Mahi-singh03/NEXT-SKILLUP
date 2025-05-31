@@ -15,7 +15,7 @@ const allQuestions = [
         "answer": "Counts cells based on a condition"
       },
       {
-        "question": "Which shortcut opens the 'Format Cells' dialog box?",
+        "question": "Which shortcut opens the &apos;Format Cells&apos; dialog box?",
         "options": [
           "Ctrl + 1",
           "Alt + F4",
@@ -45,7 +45,7 @@ const allQuestions = [
         "answer": "=AVERAGE(A1:A10)"
       },
       {
-        "question": "What does the 'Freeze Panes' feature do?",
+        "question": "What does the &apos;Freeze Panes&apos; feature do?",
         "options": [
           "Hides formulas",
           "Protects the workbook",
@@ -115,7 +115,7 @@ const allQuestions = [
         "answer": "Ctrl + N"
       },
       {
-        "question": "What is the purpose of the 'Bold' button in Word?",
+        "question": "What is the purpose of the &apos;Bold&apos; button in Word?",
         "options": [
           "Change font color",
           "Underline text",
@@ -135,7 +135,7 @@ const allQuestions = [
         "answer": "Home > Bullets"
       },
       {
-        "question": "What does 'Save As' allow you to do?",
+        "question": "What does &apos;Save As&apos; allow you to do?",
         "options": [
           "Print the document",
           "Save with a new name",
@@ -155,7 +155,7 @@ const allQuestions = [
         "answer": "Insert > Picture"
       },
       {
-        "question": "What does the 'Undo' button (Ctrl + Z) do?",
+        "question": "What does the &apos;Undo&apos; button (Ctrl + Z) do?",
         "options": [
           "Add a new page",
           "Delete text",
@@ -165,7 +165,7 @@ const allQuestions = [
         "answer": "Reverse the last action"
       },
       {
-        "question": "Which tab contains the 'Font Size' option?",
+        "question": "Which tab contains the &apos;Font Size&apos; option?",
         "options": [
           "Insert",
           "Home",
@@ -195,7 +195,7 @@ const allQuestions = [
         "answer": "Ctrl + P"
       },
       {
-        "question": "What does the 'Spell Check' tool do?",
+        "question": "What does the &apos;Spell Check&apos; tool do?",
         "options": [
           "Adds images",
           "Changes margins",
@@ -205,7 +205,7 @@ const allQuestions = [
         "answer": "Finds typing errors"
       },
       {
-        "question": "What does 'RAM' stand for?",
+        "question": "What does &apos;RAM&apos; stand for?",
         "options": [
           "Random Access Memory",
           "Read-Only Memory",
@@ -225,7 +225,7 @@ const allQuestions = [
         "answer": "To manage hardware/software resources"
       },
       {
-        "question": "What is a 'CPU'?",
+        "question": "What is a &apos;CPU&apos;?",
         "options": [
           "Central Processing Unit",
           "Computer Power Unit",
@@ -235,7 +235,7 @@ const allQuestions = [
         "answer": "Central Processing Unit"
       },
       {
-        "question": "What does 'URL' stand for?",
+        "question": "What does &apos;URL&apos; stand for?",
         "options": [
           "Universal Remote Link",
           "Uniform Resource Locator",
@@ -245,7 +245,7 @@ const allQuestions = [
         "answer": "Uniform Resource Locator"
       },
       {
-        "question": "What is 'phishing'?",
+        "question": "What is &apos;phishing&apos;?",
         "options": [
           "A type of video",
           "A font style",

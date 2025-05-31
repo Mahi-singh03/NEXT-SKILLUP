@@ -1,6 +1,6 @@
 const questions = [
     {
-      question: "What does 'URL' stand for?",
+      question: "What does &apos;URL&apos; stand for?",
       options: ["Uniform Resource Locator", "Universal Remote Link", "User Request Language", "Unified Response Layer"],
       answer: "Uniform Resource Locator"
     },
@@ -20,7 +20,7 @@ const questions = [
       answer: "@"
     },
     {
-      question: "What does 'PDF' stand for?",
+      question: "What does &apos;PDF&apos; stand for?",
       options: ["Printed Document File", "Portable Document Format", "Public Data Form", "Personal Digital Folder"],
       answer: "Portable Document Format"
     },
@@ -30,7 +30,7 @@ const questions = [
       answer: "Close (X)"
     },
     {
-      question: "What is the function of the 'Caps Lock' key?",
+      question: "What is the function of the &apos;Caps Lock&apos; key?",
       options: ["Delete text", "Type in uppercase", "Save document", "Open menu"],
       answer: "Type in uppercase"
     },
@@ -40,7 +40,7 @@ const questions = [
       answer: "Chrome"
     },
     {
-      question: "What does 'CC' mean in emails?",
+      question: "What does &apos;CC&apos; mean in emails?",
       options: ["Carbon Copy", "Computer Code", "Creative Commons", "Copy Content"],
       answer: "Carbon Copy"
     },
@@ -60,7 +60,7 @@ const questions = [
       answer: "Router"
     },
     {
-      question: "What does 'USB' stand for?",
+      question: "What does &apos;USB&apos; stand for?",
       options: ["Universal Serial Bus", "United Software Base", "User System Backup", "Ultra Speed Buffer"],
       answer: "Universal Serial Bus"
     },
@@ -90,7 +90,7 @@ const questions = [
       answer: "Calculator"
     },
     {
-      question: "What does 'www' stand for?",
+      question: "What does &apos;www&apos; stand for?",
       options: ["World Wide Web", "World Wireless Web", "Web World Wide", "Wide World Web"],
       answer: "World Wide Web"
     },
@@ -110,7 +110,7 @@ const questions = [
       answer: "Monitor"
     },
     {
-      question: "What does 'CPU' stand for?",
+      question: "What does &apos;CPU&apos; stand for?",
       options: ["Central Processing Unit", "Computer Power Unit", "Core Processing Utility", "Central Performance Unit"],
       answer: "Central Processing Unit"
     },
@@ -120,7 +120,7 @@ const questions = [
       answer: "Enter"
     },
     {
-      question: "What is the function of the 'Escape' (Esc) key?",
+      question: "What is the function of the &apos;Escape&apos; (Esc) key?",
       options: ["Start program", "Cancel operation", "Save file", "Open menu"],
       answer: "Cancel operation"
     },
@@ -130,7 +130,7 @@ const questions = [
       answer: "USB Drive"
     },
     {
-      question: "What does 'MP3' refer to?",
+      question: "What does &apos;MP3&apos; refer to?",
       options: ["Image format", "Audio format", "Document type", "Video format"],
       answer: "Audio format"
     },

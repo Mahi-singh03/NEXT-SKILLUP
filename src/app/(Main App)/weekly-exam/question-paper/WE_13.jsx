@@ -15,7 +15,7 @@ const allQuestions = [
       "answer": "Restrict Editing"
     },
     {
-      "question": "What does 'URL' stand for in computing?",
+      "question": "What does &apos;URL&apos; stand for in computing?",
       "options": [
         "Unique Resource Label",
         "Uniform Resource Locator",
@@ -25,7 +25,7 @@ const allQuestions = [
       "answer": "Uniform Resource Locator"
     },
     {
-      "question": "In MS Word, what is the purpose of the 'Developer' tab when enabled?",
+      "question": "In MS Word, what is the purpose of the &apos;Developer&apos; tab when enabled?",
       "options": [
         "To create and manage macros and form controls",
         "To insert multimedia",
@@ -35,7 +35,7 @@ const allQuestions = [
       "answer": "To create and manage macros and form controls"
     },
     {
-      "question": "What does 'HTML' stand for?",
+      "question": "What does &apos;HTML&apos; stand for?",
       "options": [
         "HyperText Markup Language",
         "High Text Manipulation Language",
@@ -55,7 +55,7 @@ const allQuestions = [
       "answer": "Insert Caption"
     },
     {
-      "question": "What does 'BIOS' stand for in computer systems?",
+      "question": "What does &apos;BIOS&apos; stand for in computer systems?",
       "options": [
         "Base Integrated Output System",
         "Basic Input/Output System",
@@ -65,7 +65,7 @@ const allQuestions = [
       "answer": "Basic Input/Output System"
     },
     {
-      "question": "In MS Word, what is the purpose of the 'Navigation Pane' when enabled?",
+      "question": "In MS Word, what is the purpose of the &apos;Navigation Pane&apos; when enabled?",
       "options": [
         "To browse headings and search content",
         "To insert footnotes",
@@ -75,7 +75,7 @@ const allQuestions = [
       "answer": "To browse headings and search content"
     },
     {
-      "question": "What does 'GUI' stand for in computing?",
+      "question": "What does &apos;GUI&apos; stand for in computing?",
       "options": [
         "Guided Update Interface",
         "Graphical User Interface",
@@ -95,7 +95,7 @@ const allQuestions = [
       "answer": "Save As Template"
     },
     {
-      "question": "What does 'HTTP' stand for?",
+      "question": "What does &apos;HTTP&apos; stand for?",
       "options": [
         "HyperText Transfer Protocol",
         "High Throughput Terminal Protocol",
@@ -115,7 +115,7 @@ const allQuestions = [
       "answer": ".docm"
     },
     {
-      "question": "What does 'LAN' stand for in networking?",
+      "question": "What does &apos;LAN&apos; stand for in networking?",
       "options": [
         "Linked Application Network",
         "Local Area Network",
@@ -125,7 +125,7 @@ const allQuestions = [
       "answer": "Local Area Network"
     },
     {
-      "question": "In MS Word, what is the purpose of the 'Document Inspector'?",
+      "question": "In MS Word, what is the purpose of the &apos;Document Inspector&apos;?",
       "options": [
         "To adjust text alignment",
         "To remove hidden data and personal information",
@@ -135,7 +135,7 @@ const allQuestions = [
       "answer": "To remove hidden data and personal information"
     },
     {
-      "question": "What does 'RAM' stand for in computing?",
+      "question": "What does &apos;RAM&apos; stand for in computing?",
       "options": [
         "Random Access Memory",
         "Reusable Active Memory",
@@ -155,7 +155,7 @@ const allQuestions = [
       "answer": "Content Controls"
     },
     {
-      "question": "What does 'CPU' stand for in computing?",
+      "question": "What does &apos;CPU&apos; stand for in computing?",
       "options": [
         "Core Processor Unit",
         "Control Program Utility",
@@ -165,7 +165,7 @@ const allQuestions = [
       "answer": "Central Processing Unit"
     },
     {
-      "question": "In MS Word, what is the purpose of the 'Building Blocks Organizer'?",
+      "question": "In MS Word, what is the purpose of the &apos;Building Blocks Organizer&apos;?",
       "options": [
         "To insert footnotes",
         "To manage reusable content like cover pages",
@@ -175,7 +175,7 @@ const allQuestions = [
       "answer": "To manage reusable content like cover pages"
     },
     {
-      "question": "What does 'USB' stand for in computing?",
+      "question": "What does &apos;USB&apos; stand for in computing?",
       "options": [
         "Unified System Buffer",
         "Universal Serial Bus",
@@ -185,7 +185,7 @@ const allQuestions = [
       "answer": "Universal Serial Bus"
     },
     {
-      "question": "In MS Word, what is the purpose of the 'Trust Center' settings?",
+      "question": "In MS Word, what is the purpose of the &apos;Trust Center&apos; settings?",
       "options": [
         "To create styles",
         "To manage macro and security settings",
@@ -195,7 +195,7 @@ const allQuestions = [
       "answer": "To manage macro and security settings"
     },
     {
-      "question": "What does 'ROM' stand for in computing?",
+      "question": "What does &apos;ROM&apos; stand for in computing?",
       "options": [
         "Read-Only Memory",
         "Random Output Module",
@@ -215,7 +215,7 @@ const allQuestions = [
       "answer": "Update Field"
     },
     {
-      "question": "What does 'WAN' stand for in networking?",
+      "question": "What does &apos;WAN&apos; stand for in networking?",
       "options": [
         "Wide Area Network",
         "Wireless Access Node",
@@ -225,7 +225,7 @@ const allQuestions = [
       "answer": "Wide Area Network"
     },
     {
-      "question": "In MS Word, what is the purpose of the 'Compare' feature?",
+      "question": "In MS Word, what is the purpose of the &apos;Compare&apos; feature?",
       "options": [
         "To highlight differences between two versions",
         "To merge two documents",
@@ -235,7 +235,7 @@ const allQuestions = [
       "answer": "To highlight differences between two versions"
     },
     {
-      "question": "What does 'DNS' stand for in networking?",
+      "question": "What does &apos;DNS&apos; stand for in networking?",
       "options": [
         "Digital Node Structure",
         "Dynamic Network Service",
@@ -255,7 +255,7 @@ const allQuestions = [
       "answer": "Signature Line"
     },
     {
-      "question": "What does 'FTP' stand for in networking?",
+      "question": "What does &apos;FTP&apos; stand for in networking?",
       "options": [
         "Fast Terminal Process",
         "Formatted Text Protocol",
@@ -265,7 +265,7 @@ const allQuestions = [
       "answer": "File Transfer Protocol"
     },
     {
-      "question": "In MS Word, what is the purpose of the 'Field' feature?",
+      "question": "In MS Word, what is the purpose of the &apos;Field&apos; feature?",
       "options": [
         "To adjust text alignment",
         "To insert dynamic content like dates or page numbers",
@@ -275,7 +275,7 @@ const allQuestions = [
       "answer": "To insert dynamic content like dates or page numbers"
     },
     {
-      "question": "What does 'IP' stand for in networking?",
+      "question": "What does &apos;IP&apos; stand for in networking?",
       "options": [
         "Information Packet",
         "Internet Protocol",
@@ -295,7 +295,7 @@ const allQuestions = [
       "answer": "Custom Dictionary"
     },
     {
-      "question": "What does 'VGA' stand for in computing?",
+      "question": "What does &apos;VGA&apos; stand for in computing?",
       "options": [
         "Virtual Graphic Algorithm",
         "Video Graphics Array",
@@ -305,7 +305,7 @@ const allQuestions = [
       "answer": "Video Graphics Array"
     },
     {
-      "question": "In MS Word, what is the purpose of the 'Combine Documents' feature?",
+      "question": "In MS Word, what is the purpose of the &apos;Combine Documents&apos; feature?",
       "options": [
         "To insert comments",
         "To merge revisions from multiple versions",
@@ -315,7 +315,7 @@ const allQuestions = [
       "answer": "To merge revisions from multiple versions"
     },
     {
-      "question": "What does 'OS' stand for in computing?",
+      "question": "What does &apos;OS&apos; stand for in computing?",
       "options": [
         "Operating System",
         "Output Service",
@@ -335,7 +335,7 @@ const allQuestions = [
       "answer": "Insert Cover Page"
     },
     {
-      "question": "What does 'SSD' stand for in computing?",
+      "question": "What does &apos;SSD&apos; stand for in computing?",
       "options": [
         "Secure Storage Disk",
         "System Storage Device",
@@ -345,7 +345,7 @@ const allQuestions = [
       "answer": "Solid State Drive"
     },
     {
-      "question": "In MS Word, what is the purpose of the 'Drop Cap' feature?",
+      "question": "In MS Word, what is the purpose of the &apos;Drop Cap&apos; feature?",
       "options": [
         "To enlarge the first letter of a paragraph",
         "To insert footnotes",
@@ -355,7 +355,7 @@ const allQuestions = [
       "answer": "To enlarge the first letter of a paragraph"
     },
     {
-      "question": "What does 'HDD' stand for in computing?",
+      "question": "What does &apos;HDD&apos; stand for in computing?",
       "options": [
         "Hard Disk Drive",
         "High Density Disk",
@@ -375,7 +375,7 @@ const allQuestions = [
       "answer": "Table of Authorities"
     },
     {
-      "question": "What does 'API' stand for in computing?",
+      "question": "What does &apos;API&apos; stand for in computing?",
       "options": [
         "Application Programming Interface",
         "Automated Process Integration",
@@ -385,7 +385,7 @@ const allQuestions = [
       "answer": "Application Programming Interface"
     },
     {
-      "question": "In MS Word, what is the purpose of the 'Text Box' feature?",
+      "question": "In MS Word, what is the purpose of the &apos;Text Box&apos; feature?",
       "options": [
         "To insert movable text containers",
         "To adjust line spacing",
@@ -395,7 +395,7 @@ const allQuestions = [
       "answer": "To insert movable text containers"
     },
     {
-      "question": "What does 'MAC' stand for in networking?",
+      "question": "What does &apos;MAC&apos; stand for in networking?",
       "options": [
         "Main Application Controller",
         "Media Access Control",
@@ -415,7 +415,7 @@ const allQuestions = [
       "answer": "Encrypt with Password"
     },
     {
-      "question": "What does 'GPU' stand for in computing?",
+      "question": "What does &apos;GPU&apos; stand for in computing?",
       "options": [
         "Global Performance Unit",
         "Grid Power Utility",
@@ -425,7 +425,7 @@ const allQuestions = [
       "answer": "Graphics Processing Unit"
     },
     {
-      "question": "In MS Word, what is the purpose of the 'SmartArt' feature?",
+      "question": "In MS Word, what is the purpose of the &apos;SmartArt&apos; feature?",
       "options": [
         "To create visual diagrams and graphics",
         "To insert tables",
@@ -435,7 +435,7 @@ const allQuestions = [
       "answer": "To create visual diagrams and graphics"
     },
     {
-      "question": "What does 'DVD' stand for in computing?",
+      "question": "What does &apos;DVD&apos; stand for in computing?",
       "options": [
         "Digital Versatile Disc",
         "Dynamic Video Drive",
@@ -445,7 +445,7 @@ const allQuestions = [
       "answer": "Digital Versatile Disc"
     },
     {
-      "question": "In MS Word, what is the shortcut to open the 'Find and Replace' dialog?",
+      "question": "In MS Word, what is the shortcut to open the &apos;Find and Replace&apos; dialog?",
       "options": [
         "Ctrl+R",
         "Ctrl+G",
@@ -455,7 +455,7 @@ const allQuestions = [
       "answer": "Ctrl+H"
     },
     {
-      "question": "What does 'SATA' stand for in computing?",
+      "question": "What does &apos;SATA&apos; stand for in computing?",
       "options": [
         "Systematic Array Transfer Architecture",
         "Serial Advanced Technology Attachment",
@@ -465,17 +465,7 @@ const allQuestions = [
       "answer": "Serial Advanced Technology Attachment"
     },
     {
-      "question": "In MS Word, which feature allows you to insert pre-formatted text or graphics?",
-      "options": [
-        "Quick Parts",
-        "Bookmarks",
-        "Hyperlinks",
-        "Comments"
-      ],
-      "answer": "Quick Parts"
-    },
-    {
-      "question": "What does 'PCI' stand for in computing?",
+      "question": "What does &apos;PCI&apos; stand for in computing?",
       "options": [
         "Programmable Circuit Interface",
         "Peripheral Component Interconnect",
@@ -485,7 +475,7 @@ const allQuestions = [
       "answer": "Peripheral Component Interconnect"
     },
     {
-      "question": "In MS Word, what is the purpose of the 'Watermark' feature?",
+      "question": "In MS Word, what is the purpose of the &apos;Watermark&apos; feature?",
       "options": [
         "To manage citations",
         "To add a faint background text or image",
@@ -495,7 +485,7 @@ const allQuestions = [
       "answer": "To add a faint background text or image"
     },
     {
-      "question": "What does 'TCP' stand for in networking?",
+      "question": "What does &apos;TCP&apos; stand for in networking?",
       "options": [
         "Terminal Control Protocol",
         "Transmission Control Protocol",
@@ -505,7 +495,7 @@ const allQuestions = [
       "answer": "Transmission Control Protocol"
     },
     {
-      "question": "In MS Word, which tab contains the 'WordArt' feature?",
+      "question": "In MS Word, which tab contains the &apos;WordArt&apos; feature?",
       "options": [
         "Home",
         "Design",
@@ -515,7 +505,7 @@ const allQuestions = [
       "answer": "Insert"
     },
     {
-      "question": "What does 'UPS' stand for in computing?",
+      "question": "What does &apos;UPS&apos; stand for in computing?",
       "options": [
         "Unified Power System",
         "Uninterruptible Power Supply",
@@ -525,7 +515,7 @@ const allQuestions = [
       "answer": "Uninterruptible Power Supply"
     },
     {
-      "question": "In MS Word, what is the purpose of the 'Ruler' feature?",
+      "question": "In MS Word, what is the purpose of the &apos;Ruler&apos; feature?",
       "options": [
         "To adjust margins and tabs",
         "To measure page size",
@@ -535,7 +525,7 @@ const allQuestions = [
       "answer": "To adjust margins and tabs"
     },
     {
-      "question": "What does 'NAT' stand for in networking?",
+      "question": "What does &apos;NAT&apos; stand for in networking?",
       "options": [
         "Network Address Translation",
         "Node Access Terminal",
@@ -555,7 +545,7 @@ const allQuestions = [
       "answer": "Macros"
     },
     {
-      "question": "What does 'DHCP' stand for in networking?",
+      "question": "What does &apos;DHCP&apos; stand for in networking?",
       "options": [
         "Dynamic Host Configuration Protocol",
         "Direct Host Control Process",
@@ -565,7 +555,7 @@ const allQuestions = [
       "answer": "Dynamic Host Configuration Protocol"
     },
     {
-      "question": "In MS Word, what is the purpose of the 'Line and Paragraph Spacing' feature?",
+      "question": "In MS Word, what is the purpose of the &apos;Line and Paragraph Spacing&apos; feature?",
       "options": [
         "To insert dynamic fields",
         "To adjust spacing between lines and paragraphs",
@@ -575,7 +565,7 @@ const allQuestions = [
       "answer": "To adjust spacing between lines and paragraphs"
     },
     {
-      "question": "What does 'RAID' stand for in computing?",
+      "question": "What does &apos;RAID&apos; stand for in computing?",
       "options": [
         "Redundant Array of Independent Disks",
         "Rapid Access Integrated Data",
@@ -595,7 +585,7 @@ const allQuestions = [
       "answer": "Citations & Bibliography"
     },
     {
-      "question": "What does 'VoIP' stand for in computing?",
+      "question": "What does &apos;VoIP&apos; stand for in computing?",
       "options": [
         "Virtual Office Integration Protocol",
         "Voice over Internet Protocol",

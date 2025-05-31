@@ -13,7 +13,7 @@ const allQuestions = [
         answer: "Ctrl + N"
       },
       {
-        question: "What is the purpose of the 'Bold' button in Word?",
+        question: "What is the purpose of the &apos;Bold&apos; button in Word?",
         options: ["Underline text", "Make text thicker", "Change font color", "Add bullet points"],
         answer: "Make text thicker"
       },

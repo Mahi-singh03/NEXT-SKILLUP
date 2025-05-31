@@ -5,7 +5,7 @@ const getRandomQuestions = (questions, count) => {
 
 const allQuestions = [
     {
-      "question": "What does 'CPU' stand for in computer terminology?",
+      "question": "What does &apos;CPU&apos; stand for in computer terminology?",
       "options": [
         "Control Program Utility",
         "Central Processing Unit",
@@ -25,7 +25,7 @@ const allQuestions = [
       "answer": "Styles"
     },
     {
-      "question": "What does 'ROM' stand for?",
+      "question": "What does &apos;ROM&apos; stand for?",
       "options": [
         "Random Output Module",
         "Read-Only Memory",
@@ -45,7 +45,7 @@ const allQuestions = [
       "answer": "AVERAGEA"
     },
     {
-      "question": "What does 'LAN' stand for in networking?",
+      "question": "What does &apos;LAN&apos; stand for in networking?",
       "options": [
         "Large Access Node",
         "Local Area Network",
@@ -65,7 +65,7 @@ const allQuestions = [
       "answer": "Mail Merge"
     },
     {
-      "question": "What does 'RAM' stand for?",
+      "question": "What does &apos;RAM&apos; stand for?",
       "options": [
         "Readily Available Module",
         "Random Access Memory",
@@ -85,7 +85,7 @@ const allQuestions = [
       "answer": "Looks up values in a table by row"
     },
     {
-      "question": "What does 'BIOS' stand for in computer systems?",
+      "question": "What does &apos;BIOS&apos; stand for in computer systems?",
       "options": [
         "Binary Internal Operating System",
         "Basic Input/Output System",
@@ -95,7 +95,7 @@ const allQuestions = [
       "answer": "Basic Input/Output System"
     },
     {
-      "question": "In MS Word, what is the purpose of the 'Track Changes' feature?",
+      "question": "In MS Word, what is the purpose of the &apos;Track Changes&apos; feature?",
       "options": [
         "To merge multiple documents",
         "To monitor document revisions",
@@ -115,7 +115,7 @@ const allQuestions = [
       "answer": "COUNTIFS"
     },
     {
-      "question": "What does 'URL' stand for?",
+      "question": "What does &apos;URL&apos; stand for?",
       "options": [
         "Uniform Resource Locator",
         "Universal Reference Link",
@@ -125,7 +125,7 @@ const allQuestions = [
       "answer": "Uniform Resource Locator"
     },
     {
-      "question": "In MS Word, which tab contains the 'Table of Contents' feature?",
+      "question": "In MS Word, which tab contains the &apos;Table of Contents&apos; feature?",
       "options": [
         "References",
         "Home",
@@ -135,7 +135,7 @@ const allQuestions = [
       "answer": "References"
     },
     {
-      "question": "What does 'GUI' stand for in computing?",
+      "question": "What does &apos;GUI&apos; stand for in computing?",
       "options": [
         "General Utility Input",
         "Global User Integration",
@@ -145,7 +145,7 @@ const allQuestions = [
       "answer": "Graphical User Interface"
     },
     {
-      "question": "In MS Excel, what is the purpose of the 'PivotTable' feature?",
+      "question": "In MS Excel, what is the purpose of the &apos;PivotTable&apos; feature?",
       "options": [
         "To create charts",
         "To merge worksheets",
@@ -155,7 +155,7 @@ const allQuestions = [
       "answer": "To summarize and analyze data"
     },
     {
-      "question": "What does 'HTTP' stand for?",
+      "question": "What does &apos;HTTP&apos; stand for?",
       "options": [
         "High Throughput Terminal Protocol",
         "HyperText Transfer Protocol",
@@ -185,7 +185,7 @@ const allQuestions = [
       "answer": "NOW"
     },
     {
-      "question": "What does 'USB' stand for?",
+      "question": "What does &apos;USB&apos; stand for?",
       "options": [
         "Universal Serial Bus",
         "Unified System Buffer",
@@ -205,7 +205,7 @@ const allQuestions = [
       "answer": "Macros"
     },
     {
-      "question": "In MS Excel, what does the 'IFERROR' function do?",
+      "question": "In MS Excel, what does the &apos;IFERROR&apos; function do?",
       "options": [
         "Formats cells with errors",
         "Checks for errors and returns a specified value",
@@ -215,7 +215,7 @@ const allQuestions = [
       "answer": "Checks for errors and returns a specified value"
     },
     {
-      "question": "What does 'WAN' stand for in networking?",
+      "question": "What does &apos;WAN&apos; stand for in networking?",
       "options": [
         "Wireless Access Node",
         "Wide Area Network",
@@ -225,7 +225,7 @@ const allQuestions = [
       "answer": "Wide Area Network"
     },
     {
-      "question": "In MS Word, what is the purpose of the 'Quick Access Toolbar'?",
+      "question": "In MS Word, what is the purpose of the &apos;Quick Access Toolbar&apos;?",
       "options": [
         "To display document properties",
         "To store frequently used commands",
@@ -245,7 +245,7 @@ const allQuestions = [
       "answer": "Line Chart"
     },
     {
-      "question": "What does 'DNS' stand for in networking?",
+      "question": "What does &apos;DNS&apos; stand for in networking?",
       "options": [
         "Digital Node Structure",
         "Domain Name System",
@@ -265,7 +265,7 @@ const allQuestions = [
       "answer": "Editor"
     },
     {
-      "question": "In MS Excel, what is the purpose of the 'Data Validation' feature?",
+      "question": "In MS Excel, what is the purpose of the &apos;Data Validation&apos; feature?",
       "options": [
         "To sort data automatically",
         "To restrict data entry to specific criteria",
@@ -275,7 +275,7 @@ const allQuestions = [
       "answer": "To restrict data entry to specific criteria"
     },
     {
-      "question": "What does 'IP' stand for in networking?",
+      "question": "What does &apos;IP&apos; stand for in networking?",
       "options": [
         "Integrated Platform",
         "Internet Protocol",
@@ -305,7 +305,7 @@ const allQuestions = [
       "answer": "ROUND"
     },
     {
-      "question": "What does 'VGA' stand for in display technology?",
+      "question": "What does &apos;VGA&apos; stand for in display technology?",
       "options": [
         "Video Graphics Array",
         "Visual Gateway Adapter",
@@ -325,7 +325,7 @@ const allQuestions = [
       "answer": "Encrypt with Password"
     },
     {
-      "question": "In MS Excel, what does the 'SUMIF' function do?",
+      "question": "In MS Excel, what does the &apos;SUMIF&apos; function do?",
       "options": [
         "Counts cells based on a condition",
         "Sums values based on a condition",
@@ -335,7 +335,7 @@ const allQuestions = [
       "answer": "Sums values based on a condition"
     },
     {
-      "question": "What does 'OS' stand for in computing?",
+      "question": "What does &apos;OS&apos; stand for in computing?",
       "options": [
         "Output Service",
         "Operating System",
@@ -365,7 +365,7 @@ const allQuestions = [
       "answer": "Conditional Formatting"
     },
     {
-      "question": "What does 'SSD' stand for in storage technology?",
+      "question": "What does &apos;SSD&apos; stand for in storage technology?",
       "options": [
         "System Storage Device",
         "Solid State Drive",
@@ -375,7 +375,7 @@ const allQuestions = [
       "answer": "Solid State Drive"
     },
     {
-      "question": "In MS Word, what is the purpose of the 'Ruler' feature?",
+      "question": "In MS Word, what is the purpose of the &apos;Ruler&apos; feature?",
       "options": [
         "To measure page size",
         "To adjust margins and tabs",
@@ -385,7 +385,7 @@ const allQuestions = [
       "answer": "To adjust margins and tabs"
     },
     {
-      "question": "In MS Excel, what is the purpose of the 'Goal Seek' feature?",
+      "question": "In MS Excel, what is the purpose of the &apos;Goal Seek&apos; feature?",
       "options": [
         "To find the input needed for a desired result",
         "To create charts",
@@ -395,7 +395,7 @@ const allQuestions = [
       "answer": "To find the input needed for a desired result"
     },
     {
-      "question": "What does 'HTML' stand for?",
+      "question": "What does &apos;HTML&apos; stand for?",
       "options": [
         "High Text Manipulation Language",
         "HyperText Markup Language",
@@ -405,7 +405,7 @@ const allQuestions = [
       "answer": "HyperText Markup Language"
     },
     {
-      "question": "In MS Word, which tab contains the 'WordArt' feature?",
+      "question": "In MS Word, which tab contains the &apos;WordArt&apos; feature?",
       "options": [
         "Insert",
         "Home",
@@ -425,7 +425,7 @@ const allQuestions = [
       "answer": "MAX"
     },
     {
-      "question": "What does 'FTP' stand for in networking?",
+      "question": "What does &apos;FTP&apos; stand for in networking?",
       "options": [
         "Fast Terminal Process",
         "File Transfer Protocol",
@@ -445,7 +445,7 @@ const allQuestions = [
       "answer": "Ctrl+Z"
     },
     {
-      "question": "In MS Excel, what does the 'INDEX' function do?",
+      "question": "In MS Excel, what does the &apos;INDEX&apos; function do?",
       "options": [
         "Sorts data in a range",
         "Returns a value from a specified range",
@@ -455,7 +455,7 @@ const allQuestions = [
       "answer": "Returns a value from a specified range"
     },
     {
-      "question": "What does 'MAC' stand for in networking?",
+      "question": "What does &apos;MAC&apos; stand for in networking?",
       "options": [
         "Media Access Control",
         "Main Application Controller",
@@ -475,7 +475,7 @@ const allQuestions = [
       "answer": "Bullets and Numbering"
     },
     {
-      "question": "In MS Excel, what is the purpose of the 'Freeze Panes' feature?",
+      "question": "In MS Excel, what is the purpose of the &apos;Freeze Panes&apos; feature?",
       "options": [
         "To lock cell values",
         "To keep rows or columns visible while scrolling",
@@ -485,7 +485,7 @@ const allQuestions = [
       "answer": "To keep rows or columns visible while scrolling"
     },
     {
-      "question": "What does 'API' stand for in programming?",
+      "question": "What does &apos;API&apos; stand for in programming?",
       "options": [
         "Automated Process Integration",
         "Application Programming Interface",
