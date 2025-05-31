@@ -195,8 +195,8 @@ const allQuestions = [
       },
       {
         question: "What is a strong password?",
-        options: ["'password123'", "'JohnDoe'", "'1985'", "'Tiger#2024!'"],
-        answer: "'Tiger#2024!'"
+        options: ["&apos;password123&apos;", "&apos;JohnDoe&apos;", "&apos;1985&apos;", "&apos;Tiger#2024!&apos;"],
+        answer: "&apos;Tiger#2024!&apos;"
       },
       {
         question: "What does 'https://' mean in a URL?",
