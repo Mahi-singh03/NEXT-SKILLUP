@@ -206,4 +206,4 @@ const getRandomQuestions = (questions, count) => {
   return shuffled.slice(0, count);
 };
 
-export const WE_5 = getRandomQuestions(questions, 10);
+export const WE_5 = getRandomQuestions(questions, 30);

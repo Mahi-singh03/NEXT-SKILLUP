@@ -83,8 +83,34 @@ export default function ExamList() {
   const router = useRouter();
 
   useEffect(() => {
-    if (!loading && !isAuthenticated) {
-      router.push("/student-login");
+    const verifyToken = async () => {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        router.push('/student-login');
+        return;
+      }
+
+      try {
+        const response = await fetch('/api/auth/verify', {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        if (response.status === 401) {
+          localStorage.removeItem('user');
+          localStorage.removeItem('token');
+          router.push('/student-login');
+        }
+      } catch (error) {
+        console.error('Token verification error:', error);
+      }
+    };
+
+    if (!loading) {
+      if (!isAuthenticated) {
+        router.push('/student-login');
+      } else {
+        verifyToken();
+      }
     }
   }, [isAuthenticated, loading, router]);
 

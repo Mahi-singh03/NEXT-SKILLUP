@@ -159,7 +159,7 @@ const Navbar = () => {
             </div>
           ))}
           <Link
-            href="/Profile"
+            href="/profile"
             className={`text-gray-700 hover:text-blue-400 transition ${
               isActivePath(pathname, "/Profile") ? "text-blue-500 font-bold" : ""
             }`}

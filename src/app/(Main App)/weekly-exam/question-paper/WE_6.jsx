@@ -298,4 +298,4 @@ const Question = ({ currentQuestion, onAnswerSubmit }) => {
 export { questions };
 export default Question;
 
-export const WE_6 = getRandomQuestions(questions, 10);
+export const WE_6 = getRandomQuestions(questions, 30);

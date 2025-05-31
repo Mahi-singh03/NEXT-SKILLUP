@@ -84,7 +84,7 @@ const userSchema = new mongoose.Schema({
   selectedCourse: {
     type: String,
     required: [true, 'Course selection is required'],
-    enum: ['HTML, CSS, JS', 'React', 'MERN FullStack', 'Autocad', 'CorelDRAW', 'Tally', 'Premier Pro', 'WordPress', 'Computer Course', 'MS Office', 'PTE'],
+    enum: ['HTML, CSS, JS','ChatGPT and AI tools','Industrial Training', 'React', 'MERN FullStack', 'Autocad', 'CorelDRAW', 'Tally', 'Premier Pro', 'WordPress', 'Computer Course', 'MS Office', 'PTE'],
   },
   courseDuration: {
     type: String,
