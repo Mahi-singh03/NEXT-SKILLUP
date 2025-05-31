@@ -6,6 +6,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { Menu, X, ChevronDown, User, ChevronRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { UserContext } from "./UserContext";
+import Image from 'next/image';
 
 const dropdowns = [
   {
@@ -94,14 +95,18 @@ const Navbar = () => {
     <nav className="fixed top-0 left-0 w-full bg-white shadow-md z-50">
       <div className="container mx-auto flex justify-between items-center p-4">
         <Link href="/">
-          <img
+          <Image
             src="/FINAL_lg_LOGO.svg"
             alt="Large Logo"
+            width={48}
+            height={48}
             className="hidden lg:block object-cover w-auto h-12"
           />
-          <img
+          <Image
             src="/FINAL_sm_LOGO.svg"
             alt="Small Logo"
+            width={48}
+            height={48}
             className="block lg:hidden object-cover w-auto h-12"
           />
         </Link>

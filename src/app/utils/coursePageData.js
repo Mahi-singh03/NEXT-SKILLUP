@@ -1,4 +1,4 @@
-export default [
+const courseData = [
     {
         id: 1,
         CourseName: "HTML, CSS, JS",
@@ -73,3 +73,5 @@ export default [
         CourseImaage : "https://res.cloudinary.com/dufxj1sau/image/upload/v1741855471/65e09abf952724557f01e3b7_Premier_eip8zp.png"
     }
   ];
+
+export default courseData;

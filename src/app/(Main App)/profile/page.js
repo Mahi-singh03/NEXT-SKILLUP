@@ -3,7 +3,8 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
-import defaultProfilePic from '../../../../public/tom.gif'; 
+import defaultProfilePic from '../../../../public/tom.gif';
+import Image from 'next/image';
 
 const Profile = () => {
     const [studentData, setStudentData] = useState({});
@@ -276,9 +277,11 @@ const Profile = () => {
                                 whileHover={{ scale: 1.05 }}
                                 className="relative mb-4 md:mb-0 md:mr-6"
                             >
-                                <img 
+                                <Image 
                                     src={profilePic.src} 
                                     alt="Profile" 
+                                    width={128}
+                                    height={128}
                                     className="w-32 h-32 rounded-full border-4 border-white shadow-lg object-cover"
                                     onError={handleImageError}
                                 />
