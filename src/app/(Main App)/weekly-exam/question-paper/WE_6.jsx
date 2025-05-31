@@ -23,7 +23,7 @@ const allQuestions = [
         answer: "Home > Bullets"
       },
       {
-        question: "What does 'Save As' allow you to do?",
+        question: "What does &apos;Save As&apos; allow you to do?",
         options: ["Delete the file", "Save with a new name", "Print the document", "Change page color"],
         answer: "Save with a new name"
       },
@@ -33,12 +33,12 @@ const allQuestions = [
         answer: "Insert > Picture"
       },
       {
-        question: "What does the 'Undo' button (Ctrl + Z) do?",
+        question: "What does the &apos;Undo&apos; button (Ctrl + Z) do?",
         options: ["Delete text", "Reverse the last action", "Save the file", "Add a new page"],
         answer: "Reverse the last action"
       },
       {
-        question: "Which tab contains the 'Font Size' option?",
+        question: "Which tab contains the &apos;Font Size&apos; option?",
         options: ["Insert", "Review", "Home", "View"],
         answer: "Home"
       },
@@ -53,7 +53,7 @@ const allQuestions = [
         answer: "Ctrl + P"
       },
       {
-        question: "What does the 'Spell Check' tool do?",
+        question: "What does the &apos;Spell Check&apos; tool do?",
         options: ["Adds images", "Finds typing errors", "Changes margins", "Inserts tables"],
         answer: "Finds typing errors"
       },
@@ -85,7 +85,7 @@ const allQuestions = [
         answer: "Home > Currency"
       },
       {
-        question: "What does 'Sort A to Z' do?",
+        question: "What does &apos;Sort A to Z&apos; do?",
         options: ["Deletes data", "Arranges text alphabetically", "Adds numbers", "Changes font color"],
         answer: "Arranges text alphabetically"
       },
@@ -100,7 +100,7 @@ const allQuestions = [
         answer: "Double-click the sheet tab"
       },
       {
-        question: "What does the 'AVERAGE' formula calculate?",
+        question: "What does the &apos;AVERAGE&apos; formula calculate?",
         options: ["Total sum", "Middle value", "Highest number", "Lowest number"],
         answer: "Middle value"
       },
@@ -132,7 +132,7 @@ const allQuestions = [
         answer: "F5"
       },
       {
-        question: "What does the 'Design' tab offer?",
+        question: "What does the &apos;Design&apos; tab offer?",
         options: ["Slide layouts", "Themes and templates", "Spell check", "Charts"],
         answer: "Themes and templates"
       },
@@ -152,7 +152,7 @@ const allQuestions = [
         answer: "Home > Font Color"
       },
       {
-        question: "What is the 'Notes' section in PowerPoint?",
+        question: "What is the &apos;Notes&apos; section in PowerPoint?",
         options: ["A slide type", "Space for speaker comments", "A transition effect", "A chart tool"],
         answer: "Space for speaker comments"
       },
@@ -169,7 +169,7 @@ const allQuestions = [
         answer: "A tool to access websites"
       },
       {
-        question: "What does 'URL' stand for?",
+        question: "What does &apos;URL&apos; stand for?",
         options: ["User Request Link", "Uniform Resource Locator", "Universal Remote Link", "Uploaded Resource List"],
         answer: "Uniform Resource Locator"
       },
@@ -199,7 +199,7 @@ const allQuestions = [
         answer: "&apos;Tiger#2024!&apos;"
       },
       {
-        question: "What does 'https://' mean in a URL?",
+        question: "What does &apos;https://&apos; mean in a URL?",
         options: ["HyperText Transfer Protocol Secure", "High-Tech Text Page", "Home Toolbar Page Setup", "Hyperlink Text Process"],
         answer: "HyperText Transfer Protocol Secure"
       },
@@ -221,7 +221,7 @@ const allQuestions = [
         answer: "Click the paperclip icon"
       },
       {
-        question: "What is 'CC' in an email?",
+        question: "What is &apos;CC&apos; in an email?",
         options: ["Carbon Copy (send a copy to others)", "Change Color", "Close Chat", "Create Contact"],
         answer: "Carbon Copy (send a copy to others)"
       },
