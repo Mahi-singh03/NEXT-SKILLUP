@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { Menu, X, ChevronDown, User, ChevronRight } from "lucide-react";
@@ -76,6 +76,10 @@ const Navbar = () => {
   const { isAuthenticated, logout, loading } = useContext(UserContext);
   const pathname = usePathname();
   const router = useRouter();
+
+  useEffect(() => {
+    setIsOpen(false);
+  }, [isAuthenticated]);
 
   if (loading) {
     return <div className="fixed top-0 left-0 w-full h-16 bg-white shadow-md z-50"></div>;
