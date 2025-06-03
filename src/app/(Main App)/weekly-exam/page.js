@@ -1,120 +1,72 @@
 "use client";
 
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { UserContext } from "../../components/UserContext.js";
 
 const exams = [
-  {
-    id: "WE_14",
-    title: "Weekly Exam 14 (16-05-2025) - Tally + Excel",
-    path: "/weekly-exam/WE_14",
-  },
-  {
-    id: "WE_13",
-    title: "Weekly Exam 13 (16-05-2025) - Word + Basic",
-    path: "/weekly-exam/WE_13",
-  },
-  {
-    id: "WE_12",
-    title: "Weekly Exam 12 (16-05-2025) - Word + Excel + Basic",
-    path: "/weekly-exam/WE_12",
-  },
-  {
-    id: "WE_11",
-    title: "Weekly Exam 11 (10-05-2025)",
-    path: "/weekly-exam/WE_11",
-  },
-  {
-    id: "WE_10",
-    title: "Weekly Exam 10 (02-05-2025)",
-    path: "/weekly-exam/WE_10",
-  },
-  {
-    id: "WE_9",
-    title: "Weekly Exam 09 (02-05-2025)",
-    path: "/weekly-exam/WE_9",
-  },
-  {
-    id: "WE_8",
-    title: "Weekly Exam 08 (19-04-2025)",
-    path: "/weekly-exam/WE_8",
-  },
-  {
-    id: "WE_7",
-    title: "Weekly Exam 07 (05-03-2025)",
-    path: "/weekly-exam/WE_7",
-  },
-  {
-    id: "WE_6",
-    title: "Weekly Exam 06 (29-03-2025)",
-    path: "/weekly-exam/WE_6",
-  },
-  {
-    id: "WE_5",
-    title: "Weekly Exam 05 (22-03-2025)",
-    path: "/weekly-exam/WE_5",
-  },
-  {
-    id: "WE_4",
-    title: "Weekly Exam 04 (15-03-2025)",
-    path: "/weekly-exam/WE_4",
-  },
-  {
-    id: "WE_3",
-    title: "Weekly Exam 03 (08-03-2025)",
-    path: "/weekly-exam/WE_3",
-  },
-  {
-    id: "WE_2",
-    title: "Weekly Exam 02 (01-03-2025)",
-    path: "/weekly-exam/WE_2",
-  },
-  {
-    id: "WE_1",
-    title: "Weekly Exam 01 (22-02-2025)",
-    path: "/weekly-exam/WE_1",
-  },
+  { id: "WE_14", title: "Weekly Exam 14 (16-05-2025) - Tally + Excel", path: "/weekly-exam/WE_14" },
+  { id: "WE_13", title: "Weekly Exam 13 (16-05-2025) - Word + Basic", path: "/weekly-exam/WE_13" },
+  { id: "WE_12", title: "Weekly Exam 12 (16-05-2025) - Word + Excel + Basic", path: "/weekly-exam/WE_12" },
+  { id: "WE_11", title: "Weekly Exam 11 (10-05-2025)", path: "/weekly-exam/WE_11" },
+  { id: "WE_10", title: "Weekly Exam 10 (02-05-2025)", path: "/weekly-exam/WE_10" },
+  { id: "WE_9", title: "Weekly Exam 09 (02-05-2025)", path: "/weekly-exam/WE_9" },
+  { id: "WE_8", title: "Weekly Exam 08 (19-04-2025)", path: "/weekly-exam/WE_8" },
+  { id: "WE_7", title: "Weekly Exam 07 (05-03-2025)", path: "/weekly-exam/WE_7" },
+  { id: "WE_6", title: "Weekly Exam 06 (29-03-2025)", path: "/weekly-exam/WE_6" },
+  { id: "WE_5", title: "Weekly Exam 05 (22-03-2025)", path: "/weekly-exam/WE_5" },
+  { id: "WE_4", title: "Weekly Exam 04 (15-03-2025)", path: "/weekly-exam/WE_4" },
+  { id: "WE_3", title: "Weekly Exam 03 (08-03-2025)", path: "/weekly-exam/WE_3" },
+  { id: "WE_2", title: "Weekly Exam 02 (01-03-2025)", path: "/weekly-exam/WE_2" },
+  { id: "WE_1", title: "Weekly Exam 01 (22-02-2025)", path: "/weekly-exam/WE_1" },
 ];
 
 export default function ExamList() {
   const { isAuthenticated, loading } = useContext(UserContext);
   const router = useRouter();
+  const [verified, setVerified] = useState(false);
 
   useEffect(() => {
-    const verifyToken = async () => {
-      const token = localStorage.getItem('token');
+    const checkToken = async () => {
+      const token = localStorage.getItem("token");
+
       if (!token) {
-        router.push('/student-login');
+        router.push("/student-login");
         return;
       }
 
       try {
-        const response = await fetch('/api/auth/verify', {
-          headers: { Authorization: `Bearer ${token}` },
+        const res = await fetch("/api/auth/verify", {
+          method: "GET",
+          headers: {
+            "Authorization": `Bearer ${token}`,
+          },
         });
 
-        if (response.status === 401) {
-          localStorage.removeItem('user');
-          localStorage.removeItem('token');
-          router.push('/student-login');
+        if (res.ok) {
+          setVerified(true);
+        } else {
+          const data = await res.json();
+          console.warn("Verification failed:", data?.message);
+          localStorage.removeItem("token");
+          localStorage.removeItem("user");
+          router.push("/student-login");
         }
       } catch (error) {
-        console.error('Token verification error:', error);
+        console.error("Error verifying token:", error);
+        router.push("/student-login");
       }
     };
 
-    if (!loading) {
-      if (!isAuthenticated) {
-        router.push('/student-login');
-      } else {
-        verifyToken();
-      }
+    if (!loading && isAuthenticated) {
+      checkToken();
+    } else if (!loading && !isAuthenticated) {
+      router.push("/student-login");
     }
-  }, [isAuthenticated, loading, router]);
+  }, [loading, isAuthenticated, router]);
 
-  if (loading) {
+  if (loading || !verified) {
     return (
       <div className="flex justify-center items-center min-h-screen bg-gray-50">
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
@@ -143,9 +95,7 @@ export default function ExamList() {
                   {exam.title}
                 </h3>
                 <div className="flex justify-between items-center">
-                  <span className="text-sm text-gray-500">
-                    Exam Number: {exam.id}
-                  </span>
+                  <span className="text-sm text-gray-500">Exam Number: {exam.id}</span>
                   <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
                     Start Exam
                   </span>
