@@ -70,7 +70,7 @@ export default function WeeklyExam() {
     } else if (state.timeLeft === 0 && !state.isSubmitted) {
       handleSubmit();
     }
-  }, [state.timeLeft, state.isSubmitted, questions.length, handleSubmit]);
+  }, [state.timeLeft, state.isSubmitted, questions.length]);
 
   const handleChange = (qIndex, option) => {
     setState((prev) => ({
@@ -119,11 +119,11 @@ export default function WeeklyExam() {
 
   if (!questions.length) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-[#e3f1f1] p-4">
-        <div className="bg-white p-8 rounded-lg shadow-md text-center max-w-md">
-          <h1 className="text-2xl font-bold text-red-500 mb-4">Invalid Exam ID</h1>
-          <p className="text-gray-600 mb-6">The exam you&apos;re trying to access doesn&apos;t exist.</p>
-          <Link href="/exams" className="inline-block px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition">
+      <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 p-4">
+        <div className="bg-white p-8 rounded-lg shadow-lg text-center max-w-md">
+          <h1 className="text-2xl font-bold text-red-600 mb-4">Invalid Exam ID</h1>
+          <p className="text-gray-700 mb-6">The exam you're trying to access doesn't exist.</p>
+          <Link href="/exams" className="inline-block px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition duration-200">
             Back to Exam List
           </Link>
         </div>
@@ -132,109 +132,148 @@ export default function WeeklyExam() {
   }
 
   return (
-    <div className="min-w-[1200px] mx-auto font-sans py-7 px-[10%]">
-      {/* Header Section */}
-      <div className="flex justify-between items-center mb-5">
-        <h1 className="text-[44px] font-bold text-[#1E90FF]">Weekly Exams</h1>
-        <div className="text-[28px] font-bold bg-[#FFE819] px-4 py-1 rounded-md">
-          ⏳ {formatTime(state.timeLeft)}
+    <div className="relative min-h-screen bg-gray-50 font-sans">
+      {/* Fixed Header with Timer */}
+      <div className="sticky top-0 z-10 bg-white shadow-md py-4 px-6 flex justify-between items-center">
+        <h1 className="text-2xl font-bold text-blue-600">Weekly Exam: {examId}</h1>
+        <div className="flex items-center space-x-4">
+          <div className="text-xl font-bold bg-yellow-200 px-4 py-2 rounded-lg shadow-sm">
+            ⏳ {formatTime(state.timeLeft)}
+          </div>
+          <div className="hidden md:block bg-blue-100 px-4 py-2 rounded-lg">
+            Progress: {Object.keys(state.answers).length}/{questions.length}
+          </div>
         </div>
       </div>
 
-      {/* Result Box */}
-      {state.score !== null && (
-        <div className="mt-5 p-5 bg-[#CEE6E7] rounded-md text-center text-[69px]">
-          <h2 className="text-[20px] font-bold">Exam Results</h2>
-          <p>Your Score: {state.score} out of {questions.length * 2}</p>
-          <p>Percentage: {Math.round((state.score / (questions.length * 2)) * 100)}%</p>
-        </div>
-      )}
-
-      {/* Progress Bar */}
-      <div className="w-full bg-white rounded-md h-5 mb-5 relative">
-        <div 
-          className="h-5 bg-[#51C90B] rounded-md transition-all duration-300" 
-          style={{ width: `${progress}%` }}
-        ></div>
-        <p className="text-[44px] pt-5 mb-[100px]">
-          Progress: {progress}% ({Object.keys(state.answers).length}/{questions.length})
-        </p>
-      </div>
-
-      {/* Error Message */}
-      {state.error && (
-        <div className="bg-[#FFDDDD] text-red-600 p-2.5 mb-3.5 rounded-md text-center">
-          {state.error}
-        </div>
-      )}
-
-      {/* Questions Grid */}
-      <div className="pt-[100px] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {questions.map((q, index) => {
-          const isCorrect = state.isSubmitted && state.answers[index] === q.answer;
-          const isWrong = state.isSubmitted && state.answers[index] && state.answers[index] !== q.answer;
-
-          return (
-            <div 
-              key={index}
-              className={`bg-white border border-gray-300 rounded-lg p-5 shadow-md transition-transform duration-200 hover:scale-[1.02] ${
-                isCorrect ? 'border-2 border-[#4CAF50] bg-[#E8F5E9]' : 
-                isWrong ? 'border-2 border-[#F44336] bg-[#FFEBEE]' : ''
-              }`}
-            >
-              <p className="text-base font-bold mb-2.5">
-                {index + 1}. {q.question}
-              </p>
-              <div className="flex flex-col gap-2.5">
-                {q.options.map((option, i) => {
-                  const isSelected = state.answers[index] === option;
-                  const showCorrect = state.isSubmitted && option === q.answer;
-                  const showWrong = state.isSubmitted && isSelected && !showCorrect;
-
-                  return (
-                    <label 
-                      key={i}
-                      className={`flex items-center gap-2.5 p-2.5 border border-gray-300 rounded-md cursor-pointer hover:bg-gray-100 ${
-                        showCorrect ? 'border-[#4CAF50] bg-[#E8F5E9] text-[#4CAF50] font-bold' :
-                        showWrong ? 'border-[#F44336] bg-[#FFEBEE] text-[#F44336] font-bold' : ''
-                      }`}
-                    >
-                      <input
-                        type="radio"
-                        name={`question-${index}`}
-                        value={option}
-                        onChange={() => handleChange(index, option)}
-                        checked={isSelected}
-                        disabled={state.isSubmitted}
-                        className="h-4 w-4 text-blue-600 focus:ring-blue-500"
-                      />
-                      <span className="text-sm">{option}</span>
-                    </label>
-                  );
-                })}
+      <div className="container mx-auto px-4 py-8 max-w-7xl">
+        {/* Result Box */}
+        {state.score !== null && (
+          <div className="mb-8 p-6 bg-green-50 border border-green-200 rounded-lg text-center">
+            <h2 className="text-6xl font-bold text-green-800 mb-2">Exam Results</h2>
+            <div className="flex justify-center space-x-8">
+              <div className="text-4xl">
+                <span className="font-semibold text-blue-600">Score:</span> {state.score}/{questions.length * 2}
+              </div>
+              <div className="text-4xl">
+                <span className="font-semibold text-blue-600">Percentage:</span> {Math.round((state.score / (questions.length * 2)) * 100)}%
               </div>
             </div>
-          );
-        })}
-      </div>
+          </div>
+        )}
 
-      {/* Submit Button */}
-      <button
-        onClick={handleSubmit}
-        disabled={state.isSubmitted}
-        className="w-full py-3 mt-5 text-base font-bold bg-[#007BFF] text-white rounded-md hover:bg-blue-800 disabled:bg-gray-400 disabled:cursor-not-allowed"
-      >
-        {state.isSubmitted ? "Submitted" : "Submit"}
-      </button>
+        {/* Progress Bar */}
+        <div className="mb-8">
+          <div className="flex justify-between items-center mb-2">
+            <span className="text-sm font-medium text-gray-700">
+              {progress}% Complete ({Object.keys(state.answers).length}/{questions.length} questions)
+            </span>
+            <span className="text-sm font-medium text-blue-600">
+              {state.isSubmitted ? "Submitted" : "In Progress"}
+            </span>
+          </div>
+          <div className="w-full bg-gray-200 rounded-full h-2.5">
+            <div 
+              className="bg-blue-600 h-2.5 rounded-full transition-all duration-300" 
+              style={{ width: `${progress}%` }}
+            ></div>
+          </div>
+        </div>
 
-      {/* Back Link */}
-      <div className="text-center mt-5">
-        <Link 
-          href="/exams" 
-          className="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
-        >
-          ← Back to Exam List
-        </Link>
+        {/* Error Message */}
+        {state.error && (
+          <div className="mb-6 bg-red-50 border-l-4 border-red-500 p-4">
+            <div className="flex">
+              <div className="flex-shrink-0">
+                <svg className="h-5 w-5 text-red-500" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                </svg>
+              </div>
+              <div className="ml-3">
+                <p className="text-sm text-red-700">{state.error}</p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Questions Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+          {questions.map((q, index) => {
+            const isCorrect = state.isSubmitted && state.answers[index] === q.answer;
+            const isWrong = state.isSubmitted && state.answers[index] && state.answers[index] !== q.answer;
+
+            return (
+              <div 
+                key={index}
+                className={`bg-white border rounded-lg p-6 shadow-sm transition-all duration-200 hover:shadow-md ${
+                  isCorrect ? 'border-green-300 bg-green-50' : 
+                  isWrong ? 'border-red-300 bg-red-50' : 'border-gray-200'
+                }`}
+              >
+                <p className="text-lg font-semibold mb-4 text-gray-800">
+                  <span className="text-blue-600">Q{index + 1}:</span> {q.question}
+                </p>
+                <div className="space-y-3">
+                  {q.options.map((option, i) => {
+                    const isSelected = state.answers[index] === option;
+                    const showCorrect = state.isSubmitted && option === q.answer;
+                    const showWrong = state.isSubmitted && isSelected && !showCorrect;
+
+                    return (
+                      <label 
+                        key={i}
+                        className={`flex items-start p-3 border rounded-md cursor-pointer transition-colors duration-200 ${
+                          showCorrect ? 'border-green-400 bg-green-100' :
+                          showWrong ? 'border-red-400 bg-red-100' :
+                          isSelected ? 'border-blue-400 bg-blue-50' : 'border-gray-200 hover:bg-gray-50'
+                        }`}
+                      >
+                        <input
+                          type="radio"
+                          name={`question-${index}`}
+                          value={option}
+                          onChange={() => handleChange(index, option)}
+                          checked={isSelected}
+                          disabled={state.isSubmitted}
+                          className="mt-1 h-4 w-4 text-blue-600 focus:ring-blue-500"
+                        />
+                        <span className="ml-3 text-gray-700">{option}</span>
+                      </label>
+                    );
+                  })}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Submit Button */}
+        <div className="flex justify-center mb-8">
+          <button
+            onClick={handleSubmit}
+            disabled={state.isSubmitted}
+            className={`px-8 py-3 rounded-lg font-semibold text-white shadow-md transition-colors duration-200 ${
+              state.isSubmitted 
+                ? 'bg-gray-400 cursor-not-allowed' 
+                : 'bg-blue-600 hover:bg-blue-700'
+            }`}
+          >
+            {state.isSubmitted ? "Exam Submitted" : "Submit Answers"}
+          </button>
+        </div>
+
+        {/* Back Link */}
+        <div className="text-center">
+          <Link 
+            href="/exams" 
+            className="inline-flex items-center px-5 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 transition-colors duration-200"
+          >
+            <svg className="-ml-1 mr-2 h-5 w-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+              <path fillRule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clipRule="evenodd" />
+            </svg>
+            Back to Exam List
+          </Link>
+        </div>
       </div>
     </div>
   );
