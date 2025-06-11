@@ -29,5 +29,5 @@ const createRateLimiter = (windowMs, max) => {
   };
 };
 
-export const loginLimiter = createRateLimiter(15 * 60 * 1000, 5); // 15 minutes, 5 attempts
+export const loginLimiter = createRateLimiter(15 * 60 * 1000, 18); // 15 minutes, 5 attempts
 export const registrationLimiter = createRateLimiter(60 * 60 * 1000, 3); // 1 hour, 3 attempts 

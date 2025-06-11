@@ -48,9 +48,13 @@ export function UserProvider({ children }) {
   const logout = () => {
     localStorage.removeItem("user");
     localStorage.removeItem("adminToken");
+    localStorage.removeItem("token")
     setUser(null);
     setIsAuthenticated(false);
     setIsAdmin(false);
+    // Force a state update
+    setLoading(true);
+    setTimeout(() => setLoading(false), 0);
   };
 
   return (

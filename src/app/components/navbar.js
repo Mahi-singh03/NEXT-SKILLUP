@@ -81,6 +81,14 @@ const Navbar = () => {
     setIsOpen(false);
   }, [isAuthenticated]);
 
+  useEffect(() => {
+    // Close mobile menu when authentication state changes
+    if (!isAuthenticated) {
+      setIsOpen(false);
+      setActiveDropdown(null);
+    }
+  }, [isAuthenticated]);
+
   if (loading) {
     return <div className="fixed top-0 left-0 w-full h-16 bg-white shadow-md z-50"></div>;
   }
@@ -88,6 +96,7 @@ const Navbar = () => {
   const handleLogout = () => {
     logout();
     router.push("/home");
+    router.refresh();
     setIsOpen(false);
   };
 
