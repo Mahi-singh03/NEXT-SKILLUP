@@ -73,6 +73,7 @@ const isActivePath = (currentPath, targetPath, exact = true) => {
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
+  const [hoveredDropdown, setHoveredDropdown] = useState(null);
   const { isAuthenticated, logout, loading, initializeAuth } = useContext(UserContext);
   const pathname = usePathname();
 
@@ -93,6 +94,10 @@ const Navbar = () => {
 
   const handleDropdownClick = (name) => {
     setActiveDropdown(activeDropdown === name ? null : name);
+  };
+
+  const isDropdownActive = (dropdown) => {
+    return dropdown.options.some(option => isActivePath(pathname, option.path, false));
   };
 
   return (
@@ -120,46 +125,63 @@ const Navbar = () => {
           {dropdowns.map((dropdown) => (
             <div
               key={dropdown.name}
-              className="relative group"
-              onMouseEnter={() => setActiveDropdown(dropdown.name)}
-              onMouseLeave={() => setActiveDropdown(null)}
+              className="relative"
+              onMouseEnter={() => {
+                setHoveredDropdown(dropdown.name);
+                setActiveDropdown(dropdown.name);
+              }}
+              onMouseLeave={() => {
+                setHoveredDropdown(null);
+                if (activeDropdown === dropdown.name && !isDropdownActive(dropdown)) {
+                  setActiveDropdown(null);
+                }
+              }}
             >
               <button
-                className={`flex items-center text-gray-700 hover:text-blue-400 transition ${
-                  dropdown.options.some((option) => isActivePath(pathname, option.path))
-                    ? "text-blue-500 font-bold"
-                    : ""
+                className={`flex items-center px-2 py-1 rounded-md transition-all duration-300 ${
+                  isDropdownActive(dropdown)
+                    ? "text-blue-600 bg-blue-50 font-semibold"
+                    : "text-gray-700 hover:text-blue-500 hover:bg-blue-50"
                 }`}
               >
                 {dropdown.name}
                 <ChevronDown
                   size={16}
-                  className={`ml-1 transition-transform group-hover:rotate-180 ${
-                    dropdown.options.some((option) => isActivePath(pathname, option.path))
-                      ? "text-blue-500"
-                      : ""
+                  className={`ml-1 transition-transform ${
+                    (activeDropdown === dropdown.name || isDropdownActive(dropdown))
+                      ? "rotate-180 text-blue-500"
+                      : "text-gray-500"
                   }`}
                 />
               </button>
+              
               <AnimatePresence>
-                {activeDropdown === dropdown.name && (
+                {(activeDropdown === dropdown.name) && (
                   <motion.div
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 10 }}
-                    className="absolute left-0 mt-2 bg-white shadow-md rounded-lg overflow-hidden"
+                    transition={{ duration: 0.2 }}
+                    className="absolute left-0 mt-2 w-56 bg-white shadow-lg rounded-lg overflow-hidden border border-gray-100"
                   >
                     {dropdown.options.map((option) => (
                       <Link
                         key={option.name}
                         href={option.path}
-                        className={`block px-4 py-2 text-gray-700 hover:bg-blue-50 transition ${
+                        className={`block px-4 py-3 transition-all duration-200 ${
                           isActivePath(pathname, option.path)
-                            ? "text-blue-500 font-bold bg-blue-50"
-                            : ""
+                            ? "text-blue-600 bg-blue-50 font-medium"
+                            : "text-gray-700 hover:bg-blue-50 hover:text-blue-500"
                         }`}
+                        onClick={() => setActiveDropdown(null)}
                       >
-                        {option.name}
+                        <motion.div
+                          whileHover={{ x: 5 }}
+                          className="flex items-center"
+                        >
+                          <ChevronRight size={14} className="mr-2" />
+                          {option.name}
+                        </motion.div>
                       </Link>
                     ))}
                   </motion.div>
@@ -167,44 +189,49 @@ const Navbar = () => {
               </AnimatePresence>
             </div>
           ))}
+          
           <Link
             href="/profile"
-            className={`text-gray-700 hover:text-blue-400 transition ${
-              isActivePath(pathname, "/Profile") ? "text-blue-500 font-bold" : ""
+            className={`p-2 rounded-full transition-colors duration-300 ${
+              isActivePath(pathname, "/profile")
+                ? "bg-blue-100 text-blue-600"
+                : "text-gray-700 hover:bg-blue-50 hover:text-blue-500"
             }`}
           >
-            <User size={28} />
+            <User size={24} />
           </Link>
         </div>
 
         {/* Mobile Menu Button */}
         <div className="lg:hidden flex items-center space-x-4">
           <Link
-            href="/Profile"
-            className={`text-gray-700 hover:text-blue-400 transition ${
-              isActivePath(pathname, "/Profile") ? "text-blue-500 font-bold" : ""
+            href="/profile"
+            className={`p-2 rounded-full ${
+              isActivePath(pathname, "/profile") ? "text-blue-600" : "text-gray-700"
             }`}
           >
-            <User size={28} />
+            <User size={24} />
           </Link>
           <button
             className="text-gray-700 focus:outline-none"
             onClick={() => setIsOpen(!isOpen)}
           >
-            {isOpen ? <X size={28} /> : <Menu size={28} />}
+            {isOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
       </div>
 
       {/* Secondary Navbar */}
-      <div className="hidden lg:flex bg-gray-100 p-2 justify-center shadow-md">
+      <div className="hidden lg:flex bg-gray-50 p-2 justify-center border-t border-gray-200">
         {secondaryMenuItems(isAuthenticated).map((item) =>
           item.name === "Logout" ? (
             <button
               key={item.name}
               onClick={handleLogout}
-              className={`mx-4 text-gray-700 hover:text-blue-400 transition ${
-                isActivePath(pathname, item.path) ? "text-blue-700 font-bold" : ""
+              className={`mx-3 px-3 py-1 rounded-md transition-all duration-300 ${
+                isActivePath(pathname, item.path)
+                  ? "text-blue-600 bg-blue-50 font-medium"
+                  : "text-gray-700 hover:text-blue-500 hover:bg-blue-50"
               }`}
             >
               {item.name}
@@ -213,8 +240,10 @@ const Navbar = () => {
             <Link
               key={item.name}
               href={item.path}
-              className={`mx-4 text-gray-700 hover:text-blue-400 transition ${
-                isActivePath(pathname, item.path) ? "text-blue-700 font-bold" : ""
+              className={`mx-3 px-3 py-1 rounded-md transition-all duration-300 ${
+                isActivePath(pathname, item.path)
+                  ? "text-blue-600 bg-blue-50 font-medium"
+                  : "text-gray-700 hover:text-blue-500 hover:bg-blue-50"
               }`}
             >
               {item.name}
@@ -231,13 +260,13 @@ const Navbar = () => {
             animate={{ x: "0%" }}
             exit={{ x: "-100%" }}
             transition={{ type: "tween", duration: 0.3 }}
-            className="lg:hidden fixed top-0 left-0 w-3/4 h-full bg-white shadow-lg flex flex-col items-start pt-20 overflow-y-auto"
+            className="lg:hidden fixed top-0 left-0 w-4/5 h-full bg-white shadow-xl flex flex-col items-start pt-20 overflow-y-auto z-50"
           >
             <button
-              className="absolute top-5 right-5 text-gray-700"
+              className="absolute top-5 right-5 text-gray-700 p-2 rounded-full hover:bg-gray-100"
               onClick={() => setIsOpen(false)}
             >
-              <X size={28} />
+              <X size={24} />
             </button>
 
             {secondaryMenuItems(isAuthenticated).map((item) =>
@@ -245,10 +274,10 @@ const Navbar = () => {
                 <button
                   key={item.name}
                   onClick={handleLogout}
-                  className={`w-full px-6 py-4 text-left border-b text-gray-700 hover:bg-blue-50 text-lg ${
+                  className={`w-full px-6 py-4 text-left border-b border-gray-100 flex items-center ${
                     isActivePath(pathname, item.path)
-                      ? "text-blue-500 font-bold bg-blue-50"
-                      : ""
+                      ? "text-blue-600 bg-blue-50 font-medium"
+                      : "text-gray-700 hover:bg-blue-50"
                   }`}
                 >
                   {item.name}
@@ -258,10 +287,10 @@ const Navbar = () => {
                   key={item.name}
                   href={item.path}
                   onClick={() => setIsOpen(false)}
-                  className={`w-full px-6 py-4 text-left border-b text-gray-700 hover:bg-blue-50 text-lg ${
+                  className={`w-full px-6 py-4 text-left border-b border-gray-100 flex items-center ${
                     isActivePath(pathname, item.path)
-                      ? "text-blue-500 font-bold bg-blue-50"
-                      : ""
+                      ? "text-blue-600 bg-blue-50 font-medium"
+                      : "text-gray-700 hover:bg-blue-50"
                   }`}
                 >
                   {item.name}
@@ -270,13 +299,13 @@ const Navbar = () => {
             )}
 
             {dropdowns.map((dropdown) => (
-              <div key={dropdown.name} className="w-full border-b">
+              <div key={dropdown.name} className="w-full border-b border-gray-100">
                 <button
                   onClick={() => handleDropdownClick(dropdown.name)}
-                  className={`w-full px-6 py-4 text-left flex justify-between items-center hover:bg-blue-50 text-lg ${
-                    dropdown.options.some((option) => isActivePath(pathname, option.path))
-                      ? "text-blue-500 font-bold bg-blue-50"
-                      : ""
+                  className={`w-full px-6 py-4 text-left flex justify-between items-center ${
+                    isDropdownActive(dropdown)
+                      ? "text-blue-600 bg-blue-50 font-medium"
+                      : "text-gray-700 hover:bg-blue-50"
                   }`}
                 >
                   <span>{dropdown.name}</span>
@@ -284,10 +313,6 @@ const Navbar = () => {
                     size={20}
                     className={`transform transition-transform ${
                       activeDropdown === dropdown.name ? "rotate-90" : ""
-                    } ${
-                      dropdown.options.some((option) => isActivePath(pathname, option.path))
-                        ? "text-blue-500"
-                        : ""
                     }`}
                   />
                 </button>
@@ -297,7 +322,8 @@ const Navbar = () => {
                       initial={{ opacity: 0, height: 0 }}
                       animate={{ opacity: 1, height: "auto" }}
                       exit={{ opacity: 0, height: 0 }}
-                      className="pl-8 bg-blue-50 w-full"
+                      transition={{ duration: 0.2 }}
+                      className="overflow-hidden"
                     >
                       {dropdown.options.map((option) => (
                         <Link
@@ -307,12 +333,13 @@ const Navbar = () => {
                             setIsOpen(false);
                             setActiveDropdown(null);
                           }}
-                          className={`block px-4 py-3 text-gray-600 hover:bg-blue-100 border-t text-base ${
+                          className={`block px-8 py-3 text-gray-600 hover:bg-blue-50 border-t border-gray-100 flex items-center ${
                             isActivePath(pathname, option.path)
-                              ? "text-blue-500 font-bold bg-blue-100"
+                              ? "text-blue-600 bg-blue-100 font-medium"
                               : ""
                           }`}
                         >
+                          <ChevronRight size={14} className="mr-2" />
                           {option.name}
                         </Link>
                       ))}
