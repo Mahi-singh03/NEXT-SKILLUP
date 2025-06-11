@@ -1,5 +1,5 @@
 "use client";
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect, useCallback } from "react";
 
 export const UserContext = createContext();
 
@@ -9,56 +9,72 @@ export function UserProvider({ children }) {
   const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const initializeAuth = () => {
-      const storedUser = localStorage.getItem("user");
-      const adminToken = localStorage.getItem("adminToken");
+  // Initialize auth state from storage
+  const initializeAuth = useCallback(() => {
+    const storedUser = localStorage.getItem("user");
+    const adminToken = localStorage.getItem("adminToken");
+    const userToken = localStorage.getItem("token"); // Add regular user token
 
-      if (storedUser) {
-        const parsedUser = JSON.parse(storedUser);
-        setUser(parsedUser);
-        setIsAuthenticated(true);
+    if (storedUser) {
+      const parsedUser = JSON.parse(storedUser);
+      setUser(parsedUser);
+      setIsAuthenticated(true);
+    }
+    
+    if (adminToken) {
+      setIsAdmin(true);
+      setIsAuthenticated(true);
+      if (!storedUser) {
+        setUser({ isAdmin: true });
       }
-      if (adminToken) {
-        setIsAdmin(true);
-        setIsAuthenticated(true);
-        if (!storedUser) {
-          setUser({ isAdmin: true });
-        }
-      }
-      setLoading(false);
-    };
-
-    initializeAuth();
+    }
+    
+    // Check regular user token
+    if (userToken && !storedUser) {
+      setIsAuthenticated(true);
+    }
+    
+    setLoading(false);
   }, []);
 
-  const login = (userData, isAdminLogin = false, token = null) => {
+  useEffect(() => {
+    initializeAuth();
+  }, [initializeAuth]);
+
+  const login = useCallback((userData, isAdminLogin = false, token = null) => {
     if (isAdminLogin && token) {
       localStorage.setItem("adminToken", token);
       setIsAdmin(true);
-      setUser(userData || { isAdmin: true, email: userData?.email || "admin" });
-      setIsAuthenticated(true);
+      setUser(userData || { isAdmin: true });
     } else {
       localStorage.setItem("user", JSON.stringify(userData));
+      if (token) localStorage.setItem("token", token);
       setUser(userData);
-      setIsAuthenticated(true);
     }
-  };
+    setIsAuthenticated(true);
+    setLoading(false);
+  }, []);
 
-  const logout = () => {
+  const logout = useCallback(() => {
     localStorage.removeItem("user");
     localStorage.removeItem("adminToken");
-    localStorage.removeItem("token")
+    localStorage.removeItem("token");
     setUser(null);
     setIsAuthenticated(false);
     setIsAdmin(false);
-    // Force a state update
-    setLoading(true);
-    setTimeout(() => setLoading(false), 0);
-  };
+    setLoading(false);
+  }, []);
 
   return (
-    <UserContext.Provider value={{ user, isAuthenticated, isAdmin, login, logout, loading }}>
+    <UserContext.Provider value={{ 
+      user, 
+      isAuthenticated, 
+      isAdmin, 
+      login, 
+      logout, 
+      loading,
+      initializeAuth 
+    }}>
       {children}
     </UserContext.Provider>
   );

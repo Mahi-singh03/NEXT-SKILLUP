@@ -2,7 +2,7 @@
 
 import { useState, useContext, useEffect } from "react";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { Menu, X, ChevronDown, User, ChevronRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { UserContext } from "./UserContext";
@@ -58,7 +58,7 @@ const secondaryMenuItems = (isAuthenticated) => [
   { name: "About", path: "/about" },
   { name: "Gallery", path: "/gallery" },
   { name: "Achievements", path: "/achievements" },
-  ...(isAuthenticated ? [{ name: "Logout", path: "/home" }] : []),
+  ...(isAuthenticated ? [{ name: "Logout", path: "#" }] : []),
 ];
 
 const isActivePath = (currentPath, targetPath, exact = true) => {
@@ -73,21 +73,14 @@ const isActivePath = (currentPath, targetPath, exact = true) => {
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
-  const { isAuthenticated, logout, loading } = useContext(UserContext);
+  const { isAuthenticated, logout, loading, initializeAuth } = useContext(UserContext);
   const pathname = usePathname();
-  const router = useRouter();
 
   useEffect(() => {
+    initializeAuth();
     setIsOpen(false);
-  }, [isAuthenticated]);
-
-  useEffect(() => {
-    // Close mobile menu when authentication state changes
-    if (!isAuthenticated) {
-      setIsOpen(false);
-      setActiveDropdown(null);
-    }
-  }, [isAuthenticated]);
+    setActiveDropdown(null);
+  }, [pathname, initializeAuth]);
 
   if (loading) {
     return <div className="fixed top-0 left-0 w-full h-16 bg-white shadow-md z-50"></div>;
@@ -95,8 +88,6 @@ const Navbar = () => {
 
   const handleLogout = () => {
     logout();
-    router.push("/home");
-    router.refresh();
     setIsOpen(false);
   };
 
@@ -213,7 +204,7 @@ const Navbar = () => {
               key={item.name}
               onClick={handleLogout}
               className={`mx-4 text-gray-700 hover:text-blue-400 transition ${
-                isActivePath(pathname, item.path) ? "text-blue-700  font-bold " : ""
+                isActivePath(pathname, item.path) ? "text-blue-700 font-bold" : ""
               }`}
             >
               {item.name}
@@ -223,7 +214,7 @@ const Navbar = () => {
               key={item.name}
               href={item.path}
               className={`mx-4 text-gray-700 hover:text-blue-400 transition ${
-                isActivePath(pathname, item.path) ? "text-blue-700 font-bold " : ""
+                isActivePath(pathname, item.path) ? "text-blue-700 font-bold" : ""
               }`}
             >
               {item.name}
