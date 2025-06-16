@@ -70,7 +70,7 @@ export default function WeeklyExam() {
     } else if (state.timeLeft === 0 && !state.isSubmitted) {
       handleSubmit();
     }
-  }, [state.timeLeft, state.isSubmitted, questions.length]);
+  }, [state.timeLeft, state.isSubmitted, questions.length, handleSubmit]);
 
   const handleChange = (qIndex, option) => {
     setState((prev) => ({

@@ -165,7 +165,7 @@ export default function StudentVerification() {
                       <p className="mt-1 text-sm font-medium">{student.fullName}</p>
                     </div>
                     <div>
-                      <p className="text-sm text-gray-500">Father's Name</p>
+                      <p className="text-sm text-gray-500">Father&apos;s Name</p>
                       <p className="mt-1 text-sm font-medium">{student.fatherName}</p>
                     </div>
                   </div>
