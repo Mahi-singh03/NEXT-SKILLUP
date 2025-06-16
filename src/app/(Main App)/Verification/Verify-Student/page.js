@@ -215,7 +215,7 @@ export default function StudentVerification() {
       </div>
 
       <footer className="mt-12 text-center text-sm text-gray-500">
-        <p>© {new Date().getFullYear()} Educational Institution. All rights reserved.</p>
+        <p>© {new Date().getFullYear()} Educational Institution&apos;s. All rights reserved.</p>
       </footer>
     </div>
   );
