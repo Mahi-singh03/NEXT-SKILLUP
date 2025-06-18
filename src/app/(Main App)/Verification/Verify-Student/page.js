@@ -190,7 +190,7 @@ export default function StudentVerification() {
                     <div>
                       <p className="text-sm text-gray-500">Certificate Status</p>
                       <p className="mt-1 text-sm font-medium text-green-600">
-                        {student.cretificate === 'issued' ? 'Certificate Issued' : 'Certificate Pending'}
+                        {student.cretificate === 'true' ? 'Certificate Issued' : 'Certificate Pending'}
                       </p>
                     </div>
                   )}
