@@ -103,20 +103,26 @@ const Navbar = () => {
   return (
     <nav className="fixed top-0 left-0 w-full bg-white shadow-md z-50">
       <div className="container mx-auto flex justify-between items-center p-4">
-        <Link href="/">
+        <Link href="/" className="flex items-center">
           <Image
             src="/FINAL_lg_LOGO.svg"
             alt="Large Logo"
             width={48}
             height={48}
-            className="hidden lg:block object-cover w-auto h-12"
+            className="hidden lg:block object-contain w-auto h-12"
+            priority
           />
           <Image
-            src="/FINAL_sm_LOGO.svg"
+            src="/FINAL_sm_logo.svg"
             alt="Small Logo"
             width={48}
             height={48}
-            className="block lg:hidden object-cover w-auto h-12"
+            className="block lg:hidden object-contain w-auto h-12"
+            priority
+            onError={(e) => {
+              console.error('Small logo failed to load');
+              e.target.style.display = 'none';
+            }}
           />
         </Link>
 
