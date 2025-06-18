@@ -23,7 +23,7 @@ const Gallery = () => {
       setLoading(true);
       setError(null);
 
-      const response = await fetch('/api/cloudinary', {
+      const response = await fetch('/api/cloudinaryi', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
