@@ -1,6 +1,6 @@
 const StudentRegistrationForm = () => {
     return(
-        <h1>mahi </h1>
+        <h1 className="pt-22">login</h1>
     )
 }
 export default StudentRegistrationForm

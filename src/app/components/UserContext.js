@@ -4,37 +4,61 @@ import { createContext, useState, useEffect, useCallback } from "react";
 export const UserContext = createContext();
 
 export function UserProvider({ children }) {
-  const [user, setUser] = useState(null);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [authState, setAuthState] = useState({
+    user: null,
+    isAuthenticated: false,
+    isAdmin: false,
+    loading: true
+  });
 
   // Initialize auth state from storage
   const initializeAuth = useCallback(() => {
-    const storedUser = localStorage.getItem("user");
-    const adminToken = localStorage.getItem("adminToken");
-    const userToken = localStorage.getItem("token"); // Add regular user token
+    setAuthState(prev => ({ ...prev, loading: true }));
+    
+    try {
+      const storedUser = localStorage.getItem("user");
+      const adminToken = localStorage.getItem("adminToken");
+      const userToken = localStorage.getItem("token");
 
-    if (storedUser) {
-      const parsedUser = JSON.parse(storedUser);
-      setUser(parsedUser);
-      setIsAuthenticated(true);
-    }
-    
-    if (adminToken) {
-      setIsAdmin(true);
-      setIsAuthenticated(true);
-      if (!storedUser) {
-        setUser({ isAdmin: true });
+      if (adminToken) {
+        // Admin authentication takes precedence
+        setAuthState({
+          user: storedUser ? JSON.parse(storedUser) : { isAdmin: true },
+          isAuthenticated: true,
+          isAdmin: true,
+          loading: false
+        });
+      } else if (userToken) {
+        // Regular user authentication
+        const userData = storedUser ? JSON.parse(storedUser) : null;
+        setAuthState({
+          user: userData,
+          isAuthenticated: true,
+          isAdmin: false,
+          loading: false
+        });
+      } else {
+        // No authentication found
+        setAuthState({
+          user: null,
+          isAuthenticated: false,
+          isAdmin: false,
+          loading: false
+        });
       }
+    } catch (error) {
+      console.error("Auth initialization error:", error);
+      // Clear invalid auth data
+      localStorage.removeItem("user");
+      localStorage.removeItem("adminToken");
+      localStorage.removeItem("token");
+      setAuthState({
+        user: null,
+        isAuthenticated: false,
+        isAdmin: false,
+        loading: false
+      });
     }
-    
-    // Check regular user token
-    if (userToken && !storedUser) {
-      setIsAuthenticated(true);
-    }
-    
-    setLoading(false);
   }, []);
 
   useEffect(() => {
@@ -42,38 +66,48 @@ export function UserProvider({ children }) {
   }, [initializeAuth]);
 
   const login = useCallback((userData, isAdminLogin = false, token = null) => {
-    if (isAdminLogin && token) {
-      localStorage.setItem("adminToken", token);
-      setIsAdmin(true);
-      setUser(userData || { isAdmin: true });
-    } else {
-      localStorage.setItem("user", JSON.stringify(userData));
-      if (token) localStorage.setItem("token", token);
-      setUser(userData);
+    try {
+      if (isAdminLogin) {
+        if (!token) throw new Error("Admin token is required");
+        localStorage.setItem("adminToken", token);
+        localStorage.removeItem("token"); // Clear regular user token if exists
+      } else {
+        if (!userData) throw new Error("User data is required");
+        localStorage.setItem("user", JSON.stringify(userData));
+        if (token) localStorage.setItem("token", token);
+        localStorage.removeItem("adminToken"); // Clear admin token if exists
+      }
+
+      setAuthState({
+        user: userData || { isAdmin: true },
+        isAuthenticated: true,
+        isAdmin: isAdminLogin,
+        loading: false
+      });
+    } catch (error) {
+      console.error("Login error:", error);
+      setAuthState(prev => ({ ...prev, loading: false }));
     }
-    setIsAuthenticated(true);
-    setLoading(false);
   }, []);
 
   const logout = useCallback(() => {
     localStorage.removeItem("user");
     localStorage.removeItem("adminToken");
     localStorage.removeItem("token");
-    setUser(null);
-    setIsAuthenticated(false);
-    setIsAdmin(false);
-    setLoading(false);
+    setAuthState({
+      user: null,
+      isAuthenticated: false,
+      isAdmin: false,
+      loading: false
+    });
   }, []);
 
   return (
     <UserContext.Provider value={{ 
-      user, 
-      isAuthenticated, 
-      isAdmin, 
+      ...authState,
       login, 
-      logout, 
-      loading,
-      initializeAuth 
+      logout,
+      initializeAuth
     }}>
       {children}
     </UserContext.Provider>
