@@ -94,6 +94,7 @@ export function UserProvider({ children }) {
     localStorage.removeItem("user");
     localStorage.removeItem("adminToken");
     localStorage.removeItem("token");
+    localStorage.removeItem("nextauth.message")
     setAuthState({
       user: null,
       isAuthenticated: false,

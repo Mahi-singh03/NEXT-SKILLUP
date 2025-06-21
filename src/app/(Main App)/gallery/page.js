@@ -23,7 +23,7 @@ const Gallery = () => {
       setLoading(true);
       setError(null);
 
-      const response = await fetch('/api/cloudinaryi', {
+      const response = await fetch('/api/cloudinary', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -214,16 +214,18 @@ const Gallery = () => {
               </button>
 
               <div className="relative max-w-full max-h-[90vh]">
-                <Image
-                  src={`${images[lightbox.index].url}?f_auto&q_auto&w=1200`}
-                  alt={images[lightbox.index].alt}
-                  width={1200}
-                  height={800}
-                  className="max-w-full max-h-[90vh] object-contain p-4"
-                  priority
-                />
+                {images && images[lightbox.index] && images[lightbox.index].url ? (
+                  <Image
+                    src={`${images[lightbox.index].url}?f_auto&q_auto&w=1200`}
+                    alt={images[lightbox.index].alt || 'Gallery image'}
+                    width={1200}
+                    height={800}
+                    className="max-w-full max-h-[90vh] object-contain p-4"
+                    priority
+                  />
+                ) : null}
                 <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-white text-sm bg-black/50 px-3 py-1 rounded">
-                  {images[lightbox.index].alt} ({lightbox.index + 1} / {images.length})
+                  {images[lightbox.index]?.alt || 'Gallery image'} ({lightbox.index + 1} / {images.length})
                 </div>
               </div>
 
