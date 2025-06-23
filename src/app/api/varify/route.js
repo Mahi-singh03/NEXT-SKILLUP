@@ -1,5 +1,5 @@
-import dbConnect from '../../../../lib/DBconnection.js';
-import Staff from '../../../../models/staff.js';
+import dbConnect from '../../../lib/DBconnection.js';
+import Staff from '../../../models/staff.js';
 
 
 export default async function handler(req, res) {

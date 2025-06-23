@@ -2,13 +2,19 @@ import { protect } from '../../../middleware/adminMiddleware.js';
 
 export async function GET(req) {
   try {
-    const admin = await protect(req);
+    const adminResult = await protect(req);
+    
+    // Check if the middleware returned an error response
+    if (adminResult instanceof Response) {
+      return adminResult;
+    }
+    
     return new Response(
       JSON.stringify({
-        _id: admin._id,
-        name: admin.name,
-        email: admin.email,
-        role: admin.role,
+        _id: adminResult._id,
+        name: adminResult.name,
+        email: adminResult.email,
+        role: adminResult.role,
       }),
       {
         status: 200,
@@ -17,7 +23,7 @@ export async function GET(req) {
     );
   } catch (error) {
     return new Response(JSON.stringify({ message: error.message }), {
-      status: 401,
+      status: 500,
       headers: { 'Content-Type': 'application/json' },
     });
   }

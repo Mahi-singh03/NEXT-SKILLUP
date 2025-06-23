@@ -339,7 +339,7 @@ const Navbar = () => {
                             setIsOpen(false);
                             setActiveDropdown(null);
                           }}
-                          className={`block px-8 py-3 text-gray-600 hover:bg-blue-50 border-t border-gray-100 flex items-center ${
+                          className={` px-8 py-3 text-gray-600 hover:bg-blue-50 border-t border-gray-100 flex items-center ${
                             isActivePath(pathname, option.path)
                               ? "text-blue-600 bg-blue-100 font-medium"
                               : ""

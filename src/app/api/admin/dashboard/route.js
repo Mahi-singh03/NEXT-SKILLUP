@@ -4,7 +4,19 @@ import { protect } from '../../../middleware/adminMiddleware.js';
 
 export async function GET(req) {
   try {
-    const admin = await protect(req);
+    console.log('Dashboard route called');
+    console.log('Headers:', Object.fromEntries(req.headers.entries()));
+    console.log('Authorization header:', req.headers.get('authorization'));
+    
+    const adminResult = await protect(req);
+    
+    // Check if the middleware returned an error response
+    if (adminResult instanceof Response) {
+      return adminResult;
+    }
+    
+    console.log('Admin found:', adminResult);
+    
     await connectDB();
 
     const totalAdmins = await Admin.countDocuments({});
@@ -15,8 +27,8 @@ export async function GET(req) {
 
     const stats = {
       totalAdmins,
-      lastLogin: admin.updatedAt,
-      adminName: admin.name,
+      lastLogin: adminResult.updatedAt,
+      adminName: adminResult.name,
       recentAdmins,
     };
 
@@ -25,8 +37,9 @@ export async function GET(req) {
       headers: { 'Content-Type': 'application/json' },
     });
   } catch (error) {
+    console.error('Dashboard error:', error);
     return new Response(JSON.stringify({ message: error.message }), {
-      status: 401,
+      status: 500,
       headers: { 'Content-Type': 'application/json' },
     });
   }

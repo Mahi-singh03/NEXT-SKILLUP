@@ -4,7 +4,13 @@ import { protect } from '../../../../middleware/adminMiddleware.js';
 
 export async function PUT(req, { params }) {
   try {
-    await protect(req);
+    const adminResult = await protect(req);
+    
+    // Check if the middleware returned an error response
+    if (adminResult instanceof Response) {
+      return adminResult;
+    }
+    
     await connectDB();
     const { id } = params;
     const { name, email, password } = await req.json();
@@ -47,7 +53,13 @@ export async function PUT(req, { params }) {
 
 export async function DELETE(req, { params }) {
   try {
-    await protect(req);
+    const adminResult = await protect(req);
+    
+    // Check if the middleware returned an error response
+    if (adminResult instanceof Response) {
+      return adminResult;
+    }
+    
     await connectDB();
     const { id } = params;
 

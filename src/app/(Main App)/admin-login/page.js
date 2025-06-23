@@ -34,7 +34,7 @@ export default function AdminLogin() {
 
       // Store token and redirect
       localStorage.setItem('adminToken', data.token)
-      router.push('/admin/dashboard')
+      router.push('/skillup')
     } catch (err) {
       setError(err.message || 'An error occurred. Please try again.')
     } finally {
@@ -43,7 +43,7 @@ export default function AdminLogin() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-gray-100 flex  justify-center pt-18">
+    <div className="min-h-screen bg-green-100 flex  justify-center pt-18">
       <div className="w-full max-w-md">
         <div className="bg-white rounded-xl shadow-lg p-8">
           <div className="text-center mb-8">

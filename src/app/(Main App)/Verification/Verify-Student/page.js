@@ -1,6 +1,5 @@
 "use client"
 import { useState } from 'react';
-import Head from 'next/head';
 
 export default function StudentVerification() {
   const [formData, setFormData] = useState({
@@ -55,11 +54,6 @@ export default function StudentVerification() {
 
   return (
     <div className="min-h-screen bg-[#e3f1f1] py-12 px-4 sm:px-6 lg:px-8">
-      <Head>
-        <title>Student Verification Portal</title>
-        <meta name="description" content="Verify student credentials" />
-      </Head>
-
       <div className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl">
         <div className="bg-blue-600 p-6 text-white">
           <h1 className="text-2xl font-bold text-center">Student Verification Portal</h1>
