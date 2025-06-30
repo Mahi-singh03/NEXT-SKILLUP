@@ -30,7 +30,7 @@ export async function POST(request) {
     }
 
     await connectDB();
-    console.log('Registration request received');
+    
 
     // Parse JSON body
     const {
@@ -51,12 +51,6 @@ export async function POST(request) {
       joiningDate,
     } = await request.json();
 
-    console.log('Request body:', {
-      fullName,
-      emailAddress,
-      phoneNumber,
-      aadharNumber,
-    });
 
     // Validate required fields
     if (!emailAddress || !password) {

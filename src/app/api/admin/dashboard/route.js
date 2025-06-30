@@ -4,9 +4,7 @@ import { protect } from '../../../middleware/adminMiddleware.js';
 
 export async function GET(req) {
   try {
-    console.log('Dashboard route called');
-    console.log('Headers:', Object.fromEntries(req.headers.entries()));
-    console.log('Authorization header:', req.headers.get('authorization'));
+    
     
     const adminResult = await protect(req);
     
@@ -15,7 +13,7 @@ export async function GET(req) {
       return adminResult;
     }
     
-    console.log('Admin found:', adminResult);
+    
     
     await connectDB();
 

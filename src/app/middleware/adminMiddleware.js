@@ -6,7 +6,6 @@ import { NextResponse } from 'next/server';
 export const protect = async (req) => {
   let token;
 
-  console.log('Protect middleware called');
   
   // Use the correct method to get headers in Next.js App Router
   const authHeader = req.headers.get('authorization');
