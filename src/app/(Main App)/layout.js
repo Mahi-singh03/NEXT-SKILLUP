@@ -26,7 +26,7 @@ export default function RootLayout({ children }) {
       >
         <UserProvider>
           <Navbar />
-          <main className="pt-20 md:pt-[120px]">{children}</main>
+          <main className="pt-10 md:pt-[120px]">{children}</main>
         </UserProvider>
       </body>
     </html>
