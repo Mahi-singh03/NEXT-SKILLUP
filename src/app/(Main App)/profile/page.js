@@ -278,7 +278,7 @@ const Profile = () => {
                                 className="relative mb-4 md:mb-0 md:mr-6"
                             >
                                 <Image 
-                                    src={profilePic.src} 
+                                    src={typeof profilePic === 'string' ? profilePic : profilePic.src}
                                     alt="Profile" 
                                     width={128}
                                     height={128}

@@ -40,6 +40,27 @@ export default function WeeklyExam() {
   // Ensure exactly 30 questions
   const questions = questionsMap[examId]?.slice(0, 30) || [];
 
+  const handleSubmit = () => {
+    if (Object.keys(state.answers).length < questions.length) {
+      setState((prev) => ({ 
+        ...prev, 
+        error: "Please answer all questions before submitting." 
+      }));
+      return;
+    }
+
+    const totalScore = questions.reduce(
+      (acc, q, index) => (state.answers[index] === q.answer ? acc + 2 : acc),
+      0
+    );
+
+    setState((prev) => ({
+      ...prev,
+      score: totalScore,
+      isSubmitted: true,
+    }));
+  };
+
   // Redirect to login if not authenticated
   useEffect(() => {
     if (!loading && !isAuthenticated) {
@@ -77,27 +98,6 @@ export default function WeeklyExam() {
       ...prev,
       answers: { ...prev.answers, [qIndex]: option },
       error: "",
-    }));
-  };
-
-  const handleSubmit = () => {
-    if (Object.keys(state.answers).length < questions.length) {
-      setState((prev) => ({ 
-        ...prev, 
-        error: "Please answer all questions before submitting." 
-      }));
-      return;
-    }
-
-    const totalScore = questions.reduce(
-      (acc, q, index) => (state.answers[index] === q.answer ? acc + 2 : acc),
-      0
-    );
-
-    setState((prev) => ({
-      ...prev,
-      score: totalScore,
-      isSubmitted: true,
     }));
   };
 
@@ -265,7 +265,7 @@ export default function WeeklyExam() {
         {/* Back Link */}
         <div className="text-center">
           <Link 
-            href="/exams" 
+            href="/weekly-exam" 
             className="inline-flex items-center px-5 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 transition-colors duration-200"
           >
             <svg className="-ml-1 mr-2 h-5 w-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
