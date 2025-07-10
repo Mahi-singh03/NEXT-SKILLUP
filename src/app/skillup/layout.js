@@ -30,7 +30,6 @@ export default function RootLayout({ children }) {
             <ScrollToTop />
             <Navbar />
                   <main className="pt-20 md:pt-[120px]">{children}</main>
-            {children}
           </ProtectedAdminRoute>
         </UserProvider>
       </body>
