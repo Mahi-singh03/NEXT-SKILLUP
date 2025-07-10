@@ -24,7 +24,7 @@ const Gallery = () => {
       setError(null);
 
       const response = await fetch('/api/cloudinary', {
-        method: 'POST',
+        method: 'GET',
         headers: {
           'Content-Type': 'application/json',
         },
