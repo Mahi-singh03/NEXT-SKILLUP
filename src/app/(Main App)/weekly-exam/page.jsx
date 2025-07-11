@@ -4,8 +4,10 @@ import { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { UserContext } from "../../components/UserContext.js";
+import { time } from "framer-motion";
 
 const exams = [
+  { id: "WE_15", title: "Weekly Exam 15 (12-07-2025) - Word + Tally + Excel + Basic ",path:"/weekly-exam/WE_15"},
   { id: "WE_14", title: "Weekly Exam 14 (16-05-2025) - Tally + Excel", path: "/weekly-exam/WE_14" },
   { id: "WE_13", title: "Weekly Exam 13 (16-05-2025) - Word + Basic", path: "/weekly-exam/WE_13" },
   { id: "WE_12", title: "Weekly Exam 12 (16-05-2025) - Word + Excel + Basic", path: "/weekly-exam/WE_12" },

@@ -18,6 +18,7 @@ import { WE_11 } from "../question-paper/WE_11.jsx";
 import { WE_12 } from "../question-paper/WE_12.jsx";
 import { WE_13 } from "../question-paper/WE_13.jsx";
 import { WE_14 } from "../question-paper/WE_14.jsx";
+import { WE_15 } from "../question-paper/WE_15.jsx";
 
 export default function WeeklyExam() {
   const { examId } = useParams();
@@ -34,7 +35,7 @@ export default function WeeklyExam() {
 
   const questionsMap = {
     WE_1, WE_2, WE_3, WE_4, WE_5, WE_6, WE_7, WE_8,
-    WE_9, WE_10, WE_11, WE_12, WE_13, WE_14
+    WE_9, WE_10, WE_11, WE_12, WE_13, WE_14,WE_15
   };
 
   // Ensure exactly 30 questions
