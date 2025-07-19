@@ -63,46 +63,34 @@
   .marks-content {
     padding: 1.5rem;
   }
-  
-  .institute-name {
-    font-size: 2.25rem;
-    font-weight: 700;
-    text-align: center;
-    margin-bottom: 0.5rem;
-  }
-  
-  .iso-text {
-    text-align: center;
-    font-size: 0.875rem;
-    margin-bottom: 0.5rem;
-  }
-  
-  .document-title {
-    font-size: 1.5rem;
-    font-weight: 700;
-    text-align: center;
-    margin-bottom: 1rem;
-  }
+.date{
+      padding-left: 75px;
+      padding-top: 10px;
+}
   
   .student-info-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.5rem;
+    grid-template-columns: 0.85fr 1fr;
+    gap: 0.3rem;
+    padding-top: 232px;
     margin-bottom: 1rem;
+    padding-left: 270px;
   }
   
   .info-label {
     font-weight: 700;
   }
   
-  .marks-table {
+  .Marks-header-grid {
     width: 100%;
     margin-bottom: 1rem;
     border-collapse: collapse;
   }
-  
-  .table-header-row {
-    border-bottom: 1px solid #000;
+   
+  .Marks-header {
+    display: grid;
+    grid-template-columns: 0.85fr 1fr;
+    gap: 0.3rem;
   }
   
   .table-header {

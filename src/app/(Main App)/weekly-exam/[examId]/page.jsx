@@ -19,10 +19,12 @@ import { WE_12 } from "../question-paper/WE_12.jsx";
 import { WE_13 } from "../question-paper/WE_13.jsx";
 import { WE_14 } from "../question-paper/WE_14.jsx";
 import { WE_15 } from "../question-paper/WE_15.jsx";
+import { WE_16 } from "../question-paper/WE_16.jsx";
+import { WE_17 } from "../question-paper/WE_17.jsx";
 
 export default function WeeklyExam() {
   const { examId } = useParams();
-  const { isAuthenticated, loading } = useContext(UserContext);
+  const { isAuthenticated, loading } =useContext(UserContext);
   const router = useRouter();
 
   const [state, setState] = useState({
@@ -35,7 +37,7 @@ export default function WeeklyExam() {
 
   const questionsMap = {
     WE_1, WE_2, WE_3, WE_4, WE_5, WE_6, WE_7, WE_8,
-    WE_9, WE_10, WE_11, WE_12, WE_13, WE_14,WE_15
+    WE_9, WE_10, WE_11, WE_12, WE_13, WE_14,WE_15,WE_16,WE_17
   };
 
   // Ensure exactly 30 questions

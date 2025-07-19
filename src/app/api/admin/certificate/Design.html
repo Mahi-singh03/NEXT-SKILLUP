@@ -18,25 +18,26 @@
         <div class="certificate-page" id="marks-page">
           <img src="./TEMPLETS/MARKSHEET.jpg" alt="Marks Background" class="background-image">
           <div class="content marks-content">
+            <div class="date text-sm">
+              <spam>17-10-2025</spam>
+            </div>
             <div class="student-info-grid">
               <div><span class="info-label"></span> ${student.fullName || '-'}</div>
               <div><span class="info-label"></span> ${student.fatherName || '-'}</div>
               <div><span class="info-label"></span> ${student.motherName || '-'}</div>
               <div><span class="info-label"></span> ${student.rollNo || '-'}</div>
-              <div><span class="info-label">Roll No:</span> ${student.rollNo}</div>
-              <div><span class="info-label">Course:</span> ${student.selectedCourse || '-'}</div>
-              <div><span class="info-label">Duration:</span> ${student.courseDuration || '-'}</div>
-              <div><span class="info-label">Session:</span> ${student.joiningDate ? new Date(student.joiningDate).getFullYear().toString() : '-'}</div>
+              <div><span class="info-label"></span> ${student.rollNo}</div>
+              <div><span class="info-label"></span> ${student.selectedCourse || '-'}</div>
+              <div><span class="info-label"></span> ${student.courseDuration || '-'}</div>
+              <div><span class="info-label"></span> ${student.joiningDate ? new Date(student.joiningDate)}</div>
             </div>
-            <table class="marks-table">
-              <thead>
-                <tr class="table-header-row">
-                  <th class="table-header">Subject Code</th>
-                  <th class="table-header">Subject Name</th>
-                  <th class="table-header text-right">Marks Obtained</th>
-                </tr>
-              </thead>
-              <tbody>
+
+                <div class="Marks-header">
+                  <div class="Marks-header"><spam>Thery     Practical<spam></div>
+                  <div class="Marks-header"><spam>Thery     Practica><spam></div>
+                  <div class="Marks-header"><spam>Thery  +  Practica><spam></div>
+                </div>
+              <!-- <tbody>
                 ${((student.examResults || []).map(result => `
                   <tr class="table-row">
                     <td class="table-cell">${result.subjectCode || '-'}</td>
@@ -44,21 +45,21 @@
                     <td class="table-cell text-right">${result.totalMarks?.toString() || '-'}</td>
                   </tr>
                 `)).join('')}
-              </tbody>
-            </table>
+              </tbody> -->
+
             <div class="marks-summary">
-              <p><span class="info-label">Total:</span> ${((student.examResults || []).reduce((sum, r) => sum + (r.totalMarks || 0), 0)).toString()}</p>
+              <!-- <p><span class="info-label">Total:</span> ${((student.examResults || []).reduce((sum, r) => sum + (r.totalMarks || 0), 0)).toString()}</p>
               <p><span class="info-label">Total Marks Obtained in Words:</span> ${((student.examResults || []).reduce((sum, r) => sum + (r.totalMarks || 0), 0))} (Rs.)</p>
               <p><span class="info-label">Percentage:</span> ${(((student.examResults || []).reduce((sum, r) => sum + (r.totalMarks || 0), 0) / ((student.examResults || []).length * 100)) * 100).toFixed(2)}%</p>
               <p><span class="info-label">Grade:</span> ${student.finalGrade || '-'}</p>
             </div>
             <p class="disclaimer-text">This is a computer generated document and does not require signature.</p>
-            <p class="disclaimer-text">You may also visit to verify your result www.skillupinstitute.co.in</p>
+            <p class="disclaimer-text">You may also visit to verify your result www.skillupinstitute.co.in</p> -->
           </div>
         </div>
 
         <!-- CERTIFICATE OF COMPLETION PAGE -->
-        <div class="certificate-page" id="certificate-page" style="page-break-before: always;">
+        <!-- <div class="certificate-page" id="certificate-page" style="page-break-before: always;">
           <img src="./TEMPLETS/CERTIFICATE.jpg" alt="Certificate Background" class="background-image">
           <div class="content certificate-content">
             <h1 class="institute-name">SKILL UP INSTITUTE OF LEARNING</h1>
@@ -85,6 +86,6 @@
             </div>
             <p class="certificate-id">Certificate ID: ${Math.random().toString(36).substring(2, 10).toUpperCase()}</p>
           </div>
-        </div>
+        </div> -->
       </body>
 </html>
