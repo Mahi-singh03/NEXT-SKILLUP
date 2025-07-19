@@ -309,4 +309,4 @@ const Question = ({ currentQuestion, onAnswerSubmit }) => {
 // Only export the 30 random questions and the component
 export { questions };
 export default Question;
-export const WE_15 = getRandomQuestions(questions, 30);    
+export const WE_17 = getRandomQuestions(questions, 30);    
