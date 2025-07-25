@@ -56,7 +56,7 @@ const AdminDashboard = () => {
       bgColor: 'bg-blue-100',
       hoverBgColor: 'bg-blue-200',
       textColor: 'text-blue-800',
-      path: '/admin/staff/add'
+      path: '/skillup/add-staff'
     },
     { 
       id: 'edit-student', 
@@ -65,7 +65,7 @@ const AdminDashboard = () => {
       bgColor: 'bg-green-100',
       hoverBgColor: 'bg-green-200',
       textColor: 'text-green-800',
-      path: '/admin/students/edit'
+      path: '/skillup/edit-student'
     },
     { 
       id: 'edit-staff', 
@@ -74,7 +74,7 @@ const AdminDashboard = () => {
       bgColor: 'bg-yellow-100',
       hoverBgColor: 'bg-yellow-200',
       textColor: 'text-yellow-800',
-      path: '/admin/staff/edit'
+      path: '/skillup/edit-staff'
     },
     { 
       id: 'add-fees', 
@@ -110,7 +110,7 @@ const AdminDashboard = () => {
       bgColor: 'bg-pink-100',
       hoverBgColor: 'bg-pink-200',
       textColor: 'text-pink-800',
-      path: '/admin/certificates'
+      path: '/skillup/certificate'
     }
   ];
 
