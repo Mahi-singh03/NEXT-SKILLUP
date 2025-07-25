@@ -1,5 +1,5 @@
-import dbConnect from '../../../../lib/DBconnection.js';
-import Staff from '../../../../models/staff.js';
+import dbConnect from '../../../../../lib/DBconnection';
+import Staff from '../../../../../models/staff';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
