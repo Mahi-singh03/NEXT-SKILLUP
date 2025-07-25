@@ -16,10 +16,7 @@ export async function POST(req) {
 
       return new Response(
         JSON.stringify({
-          _id: admin._id,
           name: admin.name,
-          email: admin.email,
-          role: admin.role,
           token,
         }),
         {

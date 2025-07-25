@@ -1,4 +1,5 @@
 'use client'
+
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Eye, EyeOff, Loader2 } from 'lucide-react'
@@ -32,8 +33,19 @@ export default function AdminLogin() {
         throw new Error(data.message || 'Login failed')
       }
 
-      // Store token and redirect
+      // Store all admin data in localStorage
       localStorage.setItem('adminToken', data.token)
+      localStorage.setItem('adminData', JSON.stringify({
+        name: data.name,
+    
+      }))
+
+      // Store admin data in sessionStorage for immediate use
+      sessionStorage.setItem('adminData', JSON.stringify({
+        name: data.name,
+      }))
+
+      // Redirect to admin dashboard
       router.push('/skillup')
     } catch (err) {
       setError(err.message || 'An error occurred. Please try again.')
