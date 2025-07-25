@@ -1,5 +1,5 @@
-import  connectToDatabase  from '../../../../../lib/DBconnection';
-import registered_students from '../../../../../models/students'; 
+import  connectToDatabase  from '../../../../../../lib/DBconnection';
+import registered_students from '../../../../../../models/students'; 
 import { NextResponse } from 'next/server';
 import { query, validationResult } from 'express-validator';
 

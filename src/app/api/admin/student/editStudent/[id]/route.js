@@ -1,5 +1,5 @@
-import  connectToDatabase  from '../../../../../lib/DBconnection';
-import registered_students from '../../../../../models/students'; 
+import  connectToDatabase  from '../../../../../../lib/DBconnection';
+import registered_students from '../../../../../../models/students'; 
 import { body, validationResult } from 'express-validator';
 import bcrypt from 'bcryptjs';
 import { v2 as cloudinary } from 'cloudinary';

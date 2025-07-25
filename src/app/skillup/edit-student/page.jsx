@@ -79,7 +79,7 @@ export default function StudentManager() {
     setSuccess(null);
     
     try {
-      const response = await axios.get(`/api/admin/editStudent/getStudent?identifier=${searchInput.trim()}`);
+      const response = await axios.get(`/api/admin/student/editStudent/getStudent?identifier=${searchInput.trim()}`);
       setStudent(response.data.student);
       setFormData(response.data.student);
       if (response.data.student.photo?.url) {

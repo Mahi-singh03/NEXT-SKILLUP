@@ -5,15 +5,12 @@ import { protect } from '../../../middleware/adminMiddleware.js';
 export async function GET(req) {
   try {
     
-    
     const adminResult = await protect(req);
     
     // Check if the middleware returned an error response
     if (adminResult instanceof Response) {
       return adminResult;
     }
-    
-    
     
     await connectDB();
 
