@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
@@ -23,20 +23,62 @@ const AdminDashboard = () => {
   const [isHovering, setIsHovering] = useState(null);
   const router = useRouter();
   const [currentDate, setCurrentDate] = useState(new Date());
+  const [stats, setStats] = useState({
+    totalStudents: 0,
+    activeStudents: 0,
+    certifiedStudents: 0,
+    totalstaff: 0,
+  });
+  const [statsError, setStatsError] = useState(null);
 
   useEffect(() => {
-    const adminData = localStorage.getItem('adminData');
-    if (adminData) {
-      const parsedData = JSON.parse(adminData);
-      setAdminName(parsedData.name || 'Admin');
-    }
-    
-    // Simulate loading data
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 1500);
-    
-    return () => clearTimeout(timer);
+    const fetchData = async () => {
+      try {
+        // Load admin data from localStorage
+        const adminData = localStorage.getItem('adminData');
+        if (adminData) {
+          const parsedData = JSON.parse(adminData);
+          setAdminName(parsedData.name || 'Admin');
+        }
+
+        // Fetch student and staff stats from API
+        const [totalRes, activeRes, certifiedRes, staffRes] = await Promise.all([
+          fetch('/api/admin/stats?type=total', { method: 'GET' }),
+          fetch('/api/admin/stats?type=active', { method: 'GET' }),
+          fetch('/api/admin/stats?type=certified', { method: 'GET' }),
+          fetch('/api/admin/stats?type=staff', { method: 'GET' }),
+        ]);
+
+        // Check response status
+        const errors = [];
+        if (!totalRes.ok) errors.push(`Total: ${totalRes.status}`);
+        if (!activeRes.ok) errors.push(`Active: ${activeRes.status}`);
+        if (!certifiedRes.ok) errors.push(`Certified: ${certifiedRes.status}`);
+        if (!staffRes.ok) errors.push(`Staff: ${staffRes.status}`);
+        if (errors.length > 0) {
+          throw new Error(`Failed to fetch data: ${errors.join(', ')}`);
+        }
+
+        const totalData = await totalRes.json();
+        const activeData = await activeRes.json();
+        const certifiedData = await certifiedRes.json();
+        const staffData = await staffRes.json();
+
+        setStats({
+          totalStudents: totalData.data?.totalStudents || 0,
+          activeStudents: activeData.data?.activeStudents || 0,
+          certifiedStudents: certifiedData.data?.certifiedStudents || 0,
+          totalStaff: staffData.data?.certifiedStaff || staffData.data?.totalStaff || 0,
+        });
+      } catch (error) {
+        console.error('Error fetching stats:', error);
+        setStatsError(error.message || 'Failed to load data');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
   }, []);
 
   const actionCards = [
@@ -47,7 +89,7 @@ const AdminDashboard = () => {
       bgColor: 'bg-purple-100',
       hoverBgColor: 'bg-purple-200',
       textColor: 'text-purple-800',
-      path: '/admin/students/add'
+      path: '/skillup/students/add'
     },
     { 
       id: 'add-staff', 
@@ -83,7 +125,7 @@ const AdminDashboard = () => {
       bgColor: 'bg-red-100',
       hoverBgColor: 'bg-red-200',
       textColor: 'text-red-800',
-      path: '/admin/fees'
+      path: '/skillup/fees'
     },
     { 
       id: 'view-students', 
@@ -92,7 +134,7 @@ const AdminDashboard = () => {
       bgColor: 'bg-indigo-100',
       hoverBgColor: 'bg-indigo-200',
       textColor: 'text-indigo-800',
-      path: '/admin/students'
+      path: '/skillup/students'
     },
     { 
       id: 'add-photo', 
@@ -101,7 +143,7 @@ const AdminDashboard = () => {
       bgColor: 'bg-teal-100',
       hoverBgColor: 'bg-teal-200',
       textColor: 'text-teal-800',
-      path: '/admin/photos'
+      path: '/skillup/photos'
     },
     { 
       id: 'certificates', 
@@ -171,7 +213,7 @@ const AdminDashboard = () => {
         className="bg-white shadow-sm py-4 px-6 flex justify-between items-center sticky top-0 z-30"
       >
         <div className="flex items-center space-x-4">
-          <Link href="/admin" className="flex items-center">
+          <Link href="/skillup" className="flex items-center">
             <motion.div 
               whileHover={{ rotate: 10 }}
               className="bg-blue-600 p-2 rounded-lg"
@@ -207,7 +249,6 @@ const AdminDashboard = () => {
 
       {/* Sidebar and Main Content */}
       <div className="flex">
-     
         {/* Main Content */}
         <main className="flex-1 container mx-auto px-4 py-8">
           {/* Welcome Section */}
@@ -221,24 +262,36 @@ const AdminDashboard = () => {
               Welcome back, <span className="text-blue-600">{adminName}</span>!
             </h2>
             <p className="text-gray-600">
-              You are the Admin now , You have the Power !!!
+              You are the Admin now, You have the Power!!!
             </p>
             
-            <motion.div 
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ delay: 0.5 }}
-              className="mt-4 grid grid-cols-2 md:grid-cols-2 gap-4"
-            >
-              <div className="bg-blue-50 p-4 rounded-lg border border-blue-100">
-                <p className="text-sm text-blue-600">Students</p>
-                <p className="text-2xl font-bold">1,245</p>
-              </div>
-              <div className="bg-green-50 p-4 rounded-lg border border-green-100">
-                <p className="text-sm text-green-600">Staff</p>
-                <p className="text-2xl font-bold">48</p>
-              </div>
-            </motion.div>
+            {statsError ? (
+              <div className="text-red-600 text-center mt-4">Error: {statsError}</div>
+            ) : (
+              <motion.div 
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ delay: 0.5 }}
+                className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-4"
+              >
+                <div className="bg-yellow-50 p-4 rounded-lg border border-yellow-100">
+                  <p className="text-sm text-yellow-600">Active Students</p>
+                  <p className="text-2xl font-bold">{stats.activeStudents}</p>
+                </div>
+                <div className="bg-red-50 p-4 rounded-lg border border-red-100">
+                  <p className="text-sm text-red-600">Certificate Issued</p>
+                  <p className="text-2xl font-bold">{stats.certifiedStudents}</p>
+                </div>
+                <div className="bg-blue-50 p-4 rounded-lg border border-blue-100">
+                  <p className="text-sm text-blue-600">Total Students</p>
+                  <p className="text-2xl font-bold">{stats.totalStudents}</p>
+                </div>
+                <div className="bg-green-50 p-4 rounded-lg border border-green-100">
+                  <p className="text-sm text-green-600">Staff</p>
+                  <p className="text-2xl font-bold">{stats.totalStaff}</p>
+                </div>
+              </motion.div>
+            )}
           </motion.div>
 
           {/* Action Cards Grid */}
@@ -298,7 +351,7 @@ const AdminDashboard = () => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setCalendarOpen(false)}
-              className="fixed inset-0 bg-black bg-opacity-30 z-40 backdrop-blur-sm "
+              className="fixed inset-0 bg-black bg-opacity-30 z-40 backdrop-blur-sm"
             />
             
             <motion.aside
