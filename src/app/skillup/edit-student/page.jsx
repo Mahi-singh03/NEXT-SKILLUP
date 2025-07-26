@@ -226,7 +226,7 @@ export default function StudentManager() {
         className="max-w-4xl mx-auto"
       >
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+          <h1 className="text-3xl font-extrabold text-blue-500 sm:text-4xl">
             Student Management System
           </h1>
           <p className="mt-3 text-xl text-gray-500">

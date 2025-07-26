@@ -351,7 +351,7 @@ const AdminDashboard = () => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setCalendarOpen(false)}
-              className="fixed inset-0 bg-black bg-opacity-30 z-40 backdrop-blur-sm"
+              className="fixed inset-0 bg-blur bg-opacity-30 z-40 backdrop-blur-sm"
             />
             
             <motion.aside
