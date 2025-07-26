@@ -60,9 +60,13 @@
   }
   
   /* Marks Page Styles */
-  .marks-content {
+
+
+
+
+.marks-content {
     padding: 1.5rem;
-  }
+}
 .date{
       padding-left: 75px;
       padding-top: 10px;

@@ -52,7 +52,7 @@ export default function CertificateDownloadPage() {
     <main className="min-h-screen bg-gradient-to-b from-blue-50 to-white py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-2xl mx-auto">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+          <h1 className="text-3xl font-extrabold text-blue-600 sm:text-4xl">
             Download Your Certificates
           </h1>
           <p className="mt-3 text-xl text-gray-500">
@@ -132,18 +132,12 @@ export default function CertificateDownloadPage() {
                 </svg>
                 <span className="ml-3 text-gray-600">Course Completion Certificate</span>
               </li>
-              <li className="flex items-start">
-                <svg className="flex-shrink-0 h-6 w-6 text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                </svg>
-                <span className="ml-3 text-gray-600">Professional PDF Format</span>
-              </li>
             </ul>
           </div>
         </div>
 
         <div className="mt-8 text-center text-sm text-gray-500">
-          <p>Having trouble? Contact support@skillupinstitute.edu</p>
+          <p>Having trouble? Contact Mahi Singh </p>
         </div>
       </div>
     </main>

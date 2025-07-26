@@ -29,13 +29,192 @@ export async function GET(request) {
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Certificate</title>
-        <link href="${baseUrl}/styles/certificates.css" rel="stylesheet">
+        <link href="/styles/certificates.css" rel="stylesheet">
         <style>
           @page { size: landscape; margin: 0; }
           body { margin: 0; }
           .certificate-page { width: 297mm; height: 210mm; position: relative; overflow: hidden; }
           .background-image { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; object-fit: cover; }
           .content { position: relative; z-index: 1; color: #000; }
+          /* General Styles */
+          .content {
+            padding: 1.5rem;
+          }
+          
+          .text-center {
+            text-align: center;
+          }
+          
+          .text-right {
+            text-align: right;
+          }
+          
+          .text-sm {
+            font-size: 0.875rem;
+          }
+          
+          .text-lg {
+            font-size: 1.125rem;
+          }
+          
+          .text-xl {
+            font-size: 1.25rem;
+          }
+          
+          .text-2xl {
+            font-size: 1.5rem;
+          }
+          
+          .text-3xl {
+            font-size: 1.875rem;
+          }
+          
+          .text-4xl {
+            font-size: 2.25rem;
+          }
+          
+          .font-bold {
+            font-weight: 700;
+          }
+          
+          .italic {
+            font-style: italic;
+          }
+          
+          .mb-2 {
+            margin-bottom: 0.5rem;
+          }
+          
+          .mb-4 {
+            margin-bottom: 1rem;
+          }
+          
+          .mt-4 {
+            margin-top: 1rem;
+          }
+          
+          .mt-8 {
+            margin-top: 2rem;
+          }
+          
+          /* Marks Page Styles */
+
+
+
+
+        .marks-content {
+            padding: 1.5rem;
+        }
+        .date{
+              padding-left: 75px;
+              padding-top: 10px;
+        }
+          
+          .student-info-grid {
+            display: grid;
+            grid-template-columns: 0.85fr 1fr;
+            gap: 0.3rem;
+            padding-top: 232px;
+            margin-bottom: 1rem;
+            padding-left: 270px;
+          }
+          
+          .info-label {
+            font-weight: 700;
+          }
+          
+          .Marks-header-grid {
+            width: 100%;
+            margin-bottom: 1rem;
+            border-collapse: collapse;
+          }
+          
+          .Marks-header {
+            display: grid;
+            grid-template-columns: 0.85fr 1fr;
+            gap: 0.3rem;
+          }
+          
+          .table-header {
+            font-weight: 700;
+            padding: 0.5rem;
+            text-align: left;
+          }
+          
+          .table-row {
+            border-bottom: 1px solid #000;
+          }
+          
+          .table-cell {
+            padding: 0.5rem;
+          }
+          
+          .marks-summary {
+            margin-bottom: 1rem;
+          }
+          
+          .disclaimer-text {
+            text-align: center;
+            font-size: 0.875rem;
+            font-style: italic;
+          }
+          
+          /* Certificate Page Styles */
+          .certificate-content {
+            padding: 1.5rem;
+          }
+          
+          .certificate-text {
+            text-align: center;
+            font-size: 1.125rem;
+            margin-bottom: 0.5rem;
+          }
+          
+          .student-name {
+            font-size: 1.875rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 0.5rem;
+          }
+          
+          .course-name {
+            font-size: 1.25rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 0.5rem;
+          }
+          
+          .course-info {
+            text-align: center;
+            font-size: 0.875rem;
+          }
+          
+          .signature-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+          }
+          
+          .signature-box {
+            text-align: center;
+          }
+          
+          .signature-line {
+            border-top: 1px solid #000;
+            width: 150px;
+            margin: 0 auto;
+          }
+          
+          .signature-label {
+            font-size: 0.875rem;
+          }
+          
+          .certificate-id {
+            text-align: center;
+            font-size: 0.875rem;
+            font-style: italic;
+            margin-top: 1rem;
+          }
         </style>
       </head>
       <body>
