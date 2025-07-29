@@ -143,7 +143,7 @@ const AdminDashboard = () => {
       bgColor: 'bg-teal-100',
       hoverBgColor: 'bg-teal-200',
       textColor: 'text-teal-800',
-      path: '/skillup/photos'
+      path: '/skillup/add-photo'
     },
     { 
       id: 'certificates', 
