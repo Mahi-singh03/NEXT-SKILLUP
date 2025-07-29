@@ -114,7 +114,7 @@ export async function GET(request) {
             display: grid;
             grid-template-columns: 0.85fr 1fr;
             gap: 0.3rem;
-            padding-top: 232px;
+            padding-top: 252px;
             margin-bottom: 1rem;
             padding-left: 270px;
           }
@@ -160,60 +160,35 @@ export async function GET(request) {
           }
           
           /* Certificate Page Styles */
+          .certificate{
+            margin-top: 275px;
+            line-height: 10px;
+          }
+
           .certificate-content {
             padding: 1.5rem;
           }
-          
-          .certificate-text {
+
+          .certificate-title {
             text-align: center;
-            font-size: 1.125rem;
+            font-size: 35px;
             margin-bottom: 0.5rem;
+            color: #2191ff;
           }
-          
+
           .student-name {
-            font-size: 1.875rem;
+            font-size: 1.5rem;
             font-weight: 700;
             text-align: center;
             margin-bottom: 0.5rem;
           }
-          
-          .course-name {
-            font-size: 1.25rem;
-            font-weight: 700;
-            text-align: center;
-            margin-bottom: 0.5rem;
-          }
-          
+
           .course-info {
             text-align: center;
-            font-size: 0.875rem;
+            font-size: 22px;
           }
-          
-          .signature-container {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 2rem;
-          }
-          
-          .signature-box {
-            text-align: center;
-          }
-          
-          .signature-line {
-            border-top: 1px solid #000;
-            width: 150px;
-            margin: 0 auto;
-          }
-          
-          .signature-label {
-            font-size: 0.875rem;
-          }
-          
-          .certificate-id {
-            text-align: center;
-            font-size: 0.875rem;
-            font-style: italic;
-            margin-top: 1rem;
+          .result-div{
+            padding-top: 135px;
           }
         </style>
       </head>
@@ -224,13 +199,13 @@ export async function GET(request) {
           <div class="content marks-content">
             <div class="student-info-grid">
               <div><span class="info-label"></span> ${student.fullName || '-'}</div>
-              <div><span class="info-label"></span> ${student.fatherName || '-'}</div>
-              <div><span class="info-label"></span> ${student.motherName || '-'}</div>
               <div><span class="info-label"></span> ${student.rollNo || '-'}</div>
-              <div><span class="info-label">Roll No:</span> ${student.rollNo}</div>
-              <div><span class="info-label">Course:</span> ${student.selectedCourse || '-'}</div>
-              <div><span class="info-label">Duration:</span> ${student.courseDuration || '-'}</div>
-              <div><span class="info-label">Session:</span> ${student.joiningDate ? new Date(student.joiningDate).getFullYear().toString() : '-'}</div>
+              <div><span class="info-label"></span> ${student.fatherName || '-'}</div>  
+              <div><span class="info-label"></span> ${student.selectedCourse || '-'}</div>
+              <div><span class="info-label"></span> ${student.motherName || '-'}</div>
+              <div><span class="info-label"></span> ${student.courseDuration || '-'}</div>
+              <div><span class="info-label"></span> ${student.gender}</div>
+              <div><span class="info-label"></span> ${student.joiningDate ? new Date(student.joiningDate).getFullYear().toString() : '-'}</div>
             </div>
             <table class="marks-table">
               <thead>
@@ -262,33 +237,20 @@ export async function GET(request) {
         </div>
 
         <!-- CERTIFICATE OF COMPLETION PAGE -->
-        <div class="certificate-page" id="certificate-page" style="page-break-before: always;">
-          <img src="${baseUrl}/CERTIFICATE.jpg" alt="Certificate Background" class="background-image">
-          <div class="content certificate-content">
-            <h1 class="institute-name">SKILL UP INSTITUTE OF LEARNING</h1>
-            <p class="iso-text">Assessed by RAPL and found to comply with the requirements of</p>
-            <p class="iso-text">ISO 9001: 2015 Quality Management Systems</p>
-            <h2 class="document-title">CERTIFICATE OF COMPLETION</h2>
-            <p class="certificate-text">This is to certify that</p>
-            <h3 class="student-name">${(student.fullName || '-').toUpperCase()}</h3>
-            <p class="certificate-text">has successfully completed the</p>
-            <h4 class="course-name">${student.selectedCourse || '-'}</h4>
-            <p class="course-info"><span class="info-label">Course Duration:</span> ${student.courseDuration || '-'}</p>
-            <p class="course-info"><span class="info-label">Session:</span> ${student.joiningDate && student.farewellDate
-              ? `${new Date(student.joiningDate).getFullYear()} - ${new Date(student.farewellDate).getFullYear()}`
-              : '-'}</p>
-            <div class="signature-container">
-              <div class="signature-box">
-                <div class="signature-line"></div>
-                <p class="signature-label">Director</p>
+          <div class="certificate-page" id="certificate-page" style="page-break-before: always;">
+            <img src="${baseUrl}/CERTIFICATE.jpg" alt="Certificate Background" class="background-image">
+               <div class="content certificate-content certificate">
+                <p class="student-name"><b>${(student.fullName || '-').toUpperCase()}</b> Son/Daughter of <b>${(student. fatherName || '-').toUpperCase()}</b></p>
+                <p class="student-name"> Roll No. <b>${(student.password || '-')}</b> has successfully completed his/her course</p>
+                <p class="certificate-title">${student.courseDuration || '-'}</p>
+
+                <div class="result-div">
+                  <p class="course-info">duration <b>${student.courseDuration || '-'}</b> from <b>Mar. 2025 . Jun. 2025</b></p>
+                  <p class="course-info">and he/she secured <b>222 Marks</b> Awarded with <b>A Grade</b></p>
+                </div>
+                
               </div>
-              <div class="signature-box">
-                <div class="signature-line"></div>
-                <p class="signature-label">01:53 PM IST, July 11, 2025</p>
-              </div>
-            </div>
-            <p class="certificate-id">Certificate ID: ${Math.random().toString(36).substring(2, 10).toUpperCase()}</p>
-          </div>
+
         </div>
       </body>
 </html>`;
@@ -300,7 +262,7 @@ export async function GET(request) {
     });
     const page = await browser.newPage();
     // Set the content and wait for network idle to ensure Tailwind loads
-    await page.setContent(htmlContent, { waitUntil: 'networkidle0' });
+    await page.setContent(htmlContent, { waitUntil: 'networkidle0', timeout: 60000 }); // Increase to 60 seconds
     // Wait for images to load
     await page.evaluate(async () => {
       const selectors = Array.from(document.images).map(img => {
