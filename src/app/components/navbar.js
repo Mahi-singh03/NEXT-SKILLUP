@@ -25,7 +25,7 @@ const dropdowns = [
   {
     name: "Verification",
     options: [
-      { name: "Verify Student", path: "Verification/Verify-Student" },
+      { name: "Verify Student", path: "/Verification/Verify-Student" },
       { name: "Verify Staff", path: "/verification/staff" },
     ],
   },

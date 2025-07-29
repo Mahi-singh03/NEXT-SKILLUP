@@ -180,14 +180,16 @@ export default function StudentVerification() {
                     </div>
                   </div>
 
-                  {student.cretificate && (
-                    <div>
-                      <p className="text-sm text-gray-500">Certificate Status</p>
-                      <p className="mt-1 text-sm font-medium text-green-600">
-                        {student.cretificate === 'true' ? 'Certificate Issued' : 'Certificate Pending'}
-                      </p>
-                    </div>
-                  )}
+                 
+                    {student.cretificate && (
+                      <div>
+                        <p className="text-sm text-gray-500">Certificate Status</p>
+                        <p className="mt-1 text-sm font-medium text-green-600">
+                          {student.cretificate ? 'Certificate Issued' : 'Certificate Pending'}
+                        </p>
+                      </div>
+                    )}
+                
                 </div>
 
                 <div className="mt-6">

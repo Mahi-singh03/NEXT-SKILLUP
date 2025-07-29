@@ -118,7 +118,7 @@ export default function StudentManager() {
         formDataToSend.append('photo', file);
       }
 
-      const response = await axios.put(`/api//admin/editStudent/${student._id}`, formDataToSend, {
+      const response = await axios.put(`/api/admin/student/editStudent/${student._id}`, formDataToSend, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
