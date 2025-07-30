@@ -183,7 +183,7 @@ const StudentProfile = () => {
         transition={{ duration: 0.5 }}
         className="max-w-6xl mx-auto"
       >
-        <h1 className="text-3xl font-bold text-center text-indigo-800 mb-8">Student Profile</h1>
+        <h1 className="text-3xl font-bold text-center text-blue-500 mb-8">Student Profile</h1>
         
         {/* Search Form */}
         <motion.div 

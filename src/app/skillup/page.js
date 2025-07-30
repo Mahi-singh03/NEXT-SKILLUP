@@ -83,6 +83,15 @@ const AdminDashboard = () => {
 
   const actionCards = [
     { 
+      id: 'view-students', 
+      title: 'View Students', 
+      icon: <FaUsers className="text-4xl" />,
+      bgColor: 'bg-indigo-100',
+      hoverBgColor: 'bg-indigo-200',
+      textColor: 'text-indigo-800',
+      path: '/skillup/all-students'
+    },
+    { 
       id: 'add-student', 
       title: 'Add Student', 
       icon: <FaUserGraduate className="text-4xl" />,
@@ -126,15 +135,6 @@ const AdminDashboard = () => {
       hoverBgColor: 'bg-red-200',
       textColor: 'text-red-800',
       path: '/skillup/fees'
-    },
-    { 
-      id: 'view-students', 
-      title: 'View Students', 
-      icon: <FaUsers className="text-4xl" />,
-      bgColor: 'bg-indigo-100',
-      hoverBgColor: 'bg-indigo-200',
-      textColor: 'text-indigo-800',
-      path: '/skillup/students'
     },
     { 
       id: 'add-photo', 
