@@ -438,7 +438,7 @@ const StudentRegistrationForm = () => {
                   'HTML, CSS, JS',
                   'React',
                   'MERN FullStack',
-                  'Autocad',
+                  'AutoCAD',
                   'CorelDRAW',
                   'Tally',
                   'Premier Pro',

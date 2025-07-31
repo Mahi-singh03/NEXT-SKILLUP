@@ -4,6 +4,94 @@ import axios from 'axios';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiSearch, FiEdit, FiSave, FiX, FiUser, FiPhone, FiMail, FiCalendar, FiBook, FiDollarSign, FiAward } from 'react-icons/fi';
 
+const COURSE_SUBJECTS = {
+  "CERTIFICATION IN COMPUTER APPLICATION": {
+    "CS-01": "Basic Computer",
+    "CS-02": "Windows Application: MS Office",
+    "CS-03": "Operating System",
+    "CS-04": "Web Publisher: Internet Browsing"
+  },
+  "DIPLOMA IN COMPUTER APPLICATION": {
+    "CS-01": "Basic Computer",
+    "CS-02": "Windows Application: MS Office",
+    "CS-03": "Operating System",
+    "CS-04": "Web Publisher: Internet Browsing",
+    "CS-05": "Computer Accountency: Tally"
+  },
+  "ADVANCE DIPLOMA IN COMPUTER APPLICATION": {
+    "CS-01": "Basic Computer",
+    "CS-02": "Windows Application: MS Office",
+    "CS-03": "Operaing System",
+    "CS-05": "Computer Accountency: Tally",
+    "CS-06": "Desktop Publishing: Photoshop"
+  },
+  "CERTIFICATION IN COMPUTER ACCOUNTANCY": {
+    "CS-01": "Basic Computer",
+    "CS-02": "Windows Application: MS Office",
+    "CS-07": "Computerized Accounting With Tally",
+    "CS-08": "Manual Accounting"
+  },
+  "DIPLOMA IN COMPUTER ACCOUNTANCY": {
+    "CS-01": "Basic Computer",
+    "CS-02": "Windows Application: MS Office",
+    "CS-07": "Computerized Accounting With Tally",
+    "CS-08": "Manual Accounting",
+    "CS-09": "Tally ERP 9 & Tally Prime"
+  }
+};
+
+const SUBJECT_DETAILS = {
+  "CS-01": {
+    "subjectName": "Basic Computer",
+    "maxTheoryMarks": 100,
+    "maxPracticalMarks": 0
+  },
+  "CS-02": {
+    "subjectName": "Windows Application: MS Office",
+    "maxTheoryMarks": 40,
+    "maxPracticalMarks": 60
+  },
+  "CS-03": {
+    "subjectName": "Operaing System",
+    "maxTheoryMarks": 40,
+    "maxPracticalMarks": 60
+  },
+  "CS-04": {
+    "subjectName": "Web Publisher: Internet Browsing",
+    "maxTheoryMarks": 40,
+    "maxPracticalMarks": 60
+  },
+  "CS-05": {
+    "subjectName": "COMPUTER ACCOUTENCY: TALLY",
+    "maxTheoryMarks": 40,
+    "maxPracticalMarks": 60
+  },
+  "CS-06": {
+    "subjectName": "DESKTOP PUBLISHING: PHOTOSHOP",
+    "maxTheoryMarks": 40,
+    "maxPracticalMarks": 60
+  },
+  "CS-07": {
+    "subjectName": "Computerized Accounting With Tally",
+    "maxTheoryMarks": 40,
+    "maxPracticalMarks": 60
+  },
+  "CS-08": {
+    "subjectName": "Manual Accounting",
+    "maxTheoryMarks": 40,
+    "maxPracticalMarks": 60
+  },
+  "CS-09": {
+    "subjectName": "Basic Computer",
+    "maxTheoryMarks": 40,
+    "maxPracticalMarks": 0
+  },
+  "CS-10": {
+    "subjectName": "Tally ERP 9 & Tally Prime",
+    "maxTheoryMarks": 40,
+    "maxPracticalMarks": 60
+  }
+};
 export default function StudentManager() {
   // State management
   const [searchInput, setSearchInput] = useState('');
@@ -105,19 +193,32 @@ export default function StudentManager() {
       // Append all form data
       for (const key in formData) {
         if (formData[key] !== null && formData[key] !== undefined) {
+          if (key === 'photo') continue; // Skip photo as we handle it separately
+          
           if (typeof formData[key] === 'object') {
-            formDataToSend.append(key, JSON.stringify(formData[key]));
+            // Handle nested objects like feeDetails and examResults
+            if (key === 'feeDetails' || key === 'examResults') {
+              formDataToSend.append(key, JSON.stringify(formData[key]));
+            }
           } else {
             formDataToSend.append(key, formData[key]);
           }
         }
       }
       
+      // Handle date fields
+      const dateFields = ['dateOfBirth', 'joiningDate', 'farewellDate'];
+      dateFields.forEach(field => {
+        if (formData[field]) {
+          formDataToSend.append(field, new Date(formData[field]).toISOString());
+        }
+      });
+      
       // Append file if exists
       if (file) {
         formDataToSend.append('photo', file);
       }
-
+  
       const response = await axios.put(`/api/admin/student/editStudent/${student._id}`, formDataToSend, {
         headers: {
           'Content-Type': 'multipart/form-data'
@@ -190,18 +291,41 @@ export default function StudentManager() {
 
   // Add exam result
   const addExamResult = () => {
+    if (!formData.selectedCourse) {
+      setError('Please select a course first');
+      return;
+    }
+  
+    const courseSubjects = COURSE_SUBJECTS[formData.selectedCourse.toUpperCase()] || {};
+    const subjectCodes = Object.keys(courseSubjects);
+  
+    if (subjectCodes.length === 0) {
+      setError('No subjects found for the selected course');
+      return;
+    }
+  
+    // Add all subjects for the course that aren't already in examResults
+    const newSubjects = subjectCodes
+      .filter(code => !formData.examResults.some(result => result.subjectCode === code))
+      .map(code => ({
+        subjectCode: code,
+        subjectName: courseSubjects[code],
+        theoryMarks: 0,
+        practicalMarks: 0,
+        totalMarks: 0,
+        examDate: new Date().toISOString().split('T')[0]
+      }));
+  
+    if (newSubjects.length === 0) {
+      setError('All subjects for this course are already added');
+      return;
+    }
+  
     setFormData(prev => ({
       ...prev,
       examResults: [
         ...prev.examResults,
-        {
-          subjectCode: '',
-          subjectName: '',
-          theoryMarks: 0,
-          practicalMarks: 0,
-          totalMarks: 0,
-          examDate: new Date().toISOString().split('T')[0]
-        }
+        ...newSubjects
       ]
     }));
   };
@@ -393,6 +517,7 @@ export default function StudentManager() {
                 {activeTab === 'basic' && (
                   <div className="px-4 py-5 sm:p-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
                     {/* Photo Upload */}
+                    // In the file upload section
                     <div className="sm:col-span-6">
                       <div className="flex items-center">
                         <div className="mr-4">
@@ -619,7 +744,7 @@ export default function StudentManager() {
                         <option value="Industrial Training">Industrial Training</option>
                         <option value="React">React</option>
                         <option value="MERN FullStack">MERN FullStack</option>
-                        <option value="Autocad">Autocad</option>
+                        <option value="AutoCAD">AutoCAD</option>
                         <option value="CorelDRAW">CorelDRAW</option>
                         <option value="Tally">Tally</option>
                         <option value="Premier Pro">Premier Pro</option>
@@ -627,6 +752,22 @@ export default function StudentManager() {
                         <option value="Computer Course">Computer Course</option>
                         <option value="MS Office">MS Office</option>
                         <option value="PTE">PTE</option>
+
+                      </select>
+
+                      // Update the duration options
+                      <select
+                        id="courseDuration"
+                        name="courseDuration"
+                        value={formData.courseDuration}
+                        onChange={handleChange}
+                        className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
+                        required
+                      >
+                        <option value="">Select Duration</option>
+                        <option value="3 months">3 months</option>
+                        <option value="6 months">6 months</option>
+                        <option value="1 year">1 year</option>
                       </select>
                     </div>
 
@@ -930,6 +1071,7 @@ export default function StudentManager() {
 
                 {/* Exam Results Tab */}
                 {activeTab === 'exams' && (
+                 
                   <div className="px-4 py-5 sm:p-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
                     <div className="sm:col-span-6">
                       <div className="flex justify-between items-center mb-2">
