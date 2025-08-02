@@ -66,7 +66,7 @@ const validate = [
       'Industrial Training',
       'React',
       'MERN FullStack',
-      'Autocad',
+      'AutoCAD',
       'CorelDRAW',
       'Tally',
       'Premier Pro',

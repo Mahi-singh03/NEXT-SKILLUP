@@ -296,7 +296,17 @@ export default function StudentManager() {
       return;
     }
   
-    const courseSubjects = COURSE_SUBJECTS[formData.selectedCourse.toUpperCase()] || {};
+    // Find the course in our COURSE_SUBJECTS (case insensitive)
+    const courseKey = Object.keys(COURSE_SUBJECTS).find(
+      key => key.toLowerCase() === formData.selectedCourse.toLowerCase()
+    );
+  
+    if (!courseKey) {
+      setError('No subjects defined for the selected course');
+      return;
+    }
+  
+    const courseSubjects = COURSE_SUBJECTS[courseKey];
     const subjectCodes = Object.keys(courseSubjects);
   
     if (subjectCodes.length === 0) {
@@ -307,14 +317,24 @@ export default function StudentManager() {
     // Add all subjects for the course that aren't already in examResults
     const newSubjects = subjectCodes
       .filter(code => !formData.examResults.some(result => result.subjectCode === code))
-      .map(code => ({
-        subjectCode: code,
-        subjectName: courseSubjects[code],
-        theoryMarks: 0,
-        practicalMarks: 0,
-        totalMarks: 0,
-        examDate: new Date().toISOString().split('T')[0]
-      }));
+      .map(code => {
+        const subjectDetails = SUBJECT_DETAILS[code] || {
+          subjectName: courseSubjects[code],
+          maxTheoryMarks: 0,
+          maxPracticalMarks: 0
+        };
+        
+        return {
+          subjectCode: code,
+          subjectName: subjectDetails.subjectName,
+          theoryMarks: 0,
+          practicalMarks: 0,
+          totalMarks: 0,
+          examDate: new Date().toISOString().split('T')[0],
+          maxTheoryMarks: subjectDetails.maxTheoryMarks,
+          maxPracticalMarks: subjectDetails.maxPracticalMarks
+        };
+      });
   
     if (newSubjects.length === 0) {
       setError('All subjects for this course are already added');
@@ -517,7 +537,6 @@ export default function StudentManager() {
                 {activeTab === 'basic' && (
                   <div className="px-4 py-5 sm:p-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
                     {/* Photo Upload */}
-                    // In the file upload section
                     <div className="sm:col-span-6">
                       <div className="flex items-center">
                         <div className="mr-4">
@@ -753,21 +772,6 @@ export default function StudentManager() {
                         <option value="MS Office">MS Office</option>
                         <option value="PTE">PTE</option>
 
-                      </select>
-
-                      // Update the duration options
-                      <select
-                        id="courseDuration"
-                        name="courseDuration"
-                        value={formData.courseDuration}
-                        onChange={handleChange}
-                        className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
-                        required
-                      >
-                        <option value="">Select Duration</option>
-                        <option value="3 months">3 months</option>
-                        <option value="6 months">6 months</option>
-                        <option value="1 year">1 year</option>
                       </select>
                     </div>
 
@@ -1071,20 +1075,46 @@ export default function StudentManager() {
 
                 {/* Exam Results Tab */}
                 {activeTab === 'exams' && (
-                 
                   <div className="px-4 py-5 sm:p-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
                     <div className="sm:col-span-6">
                       <div className="flex justify-between items-center mb-2">
                         <h4 className="text-sm font-medium text-gray-700">
                           Exam Results
                         </h4>
-                        <button
-                          type="button"
-                          onClick={addExamResult}
-                          className="inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded text-blue-700 bg-blue-100 hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                        >
-                          Add Exam Result
-                        </button>
+                        <div className="flex gap-2">
+                          <button
+                            type="button"
+                            onClick={() => {
+                              // Add empty result for manual entry
+                              setFormData(prev => ({
+                                ...prev,
+                                examResults: [
+                                  ...prev.examResults,
+                                  {
+                                    subjectCode: '',
+                                    subjectName: '',
+                                    theoryMarks: 0,
+                                    practicalMarks: 0,
+                                    totalMarks: 0,
+                                    examDate: new Date().toISOString().split('T')[0],
+                                    maxTheoryMarks: 0,
+                                    maxPracticalMarks: 0
+                                  }
+                                ]
+                              }));
+                            }}
+                            className="inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded text-gray-700 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+                          >
+                            Add Manual Entry
+                          </button>
+                          <button
+                            type="button"
+                            onClick={addExamResult}
+                            className="inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded text-blue-700 bg-blue-100 hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                          >
+                            Add Course Subjects
+                          </button>
+                        </div>
                       </div>
 
                       {formData.examResults.length === 0 ? (
@@ -1092,8 +1122,8 @@ export default function StudentManager() {
                       ) : (
                         <div className="space-y-4">
                           {formData.examResults.map((result, index) => (
-                            <div key={index} className="grid grid-cols-1 sm:grid-cols-6 gap-4 bg-gray-50 p-3 rounded">
-                              <div className="sm:col-span-2">
+                            <div key={index} className="grid grid-cols-1 sm:grid-cols-7 gap-4 bg-gray-50 p-3 rounded">
+                              <div>
                                 <label htmlFor={`exam-${index}-subjectCode`} className="block text-xs font-medium text-gray-700">
                                   Subject Code
                                 </label>
@@ -1121,7 +1151,7 @@ export default function StudentManager() {
                               </div>
                               <div>
                                 <label htmlFor={`exam-${index}-theoryMarks`} className="block text-xs font-medium text-gray-700">
-                                  Theory Marks
+                                  Theory ({result.maxTheoryMarks})
                                 </label>
                                 <input
                                   type="number"
@@ -1130,12 +1160,13 @@ export default function StudentManager() {
                                   value={result.theoryMarks}
                                   onChange={handleChange}
                                   min="0"
+                                  max={result.maxTheoryMarks || 100}
                                   className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                                 />
                               </div>
                               <div>
                                 <label htmlFor={`exam-${index}-practicalMarks`} className="block text-xs font-medium text-gray-700">
-                                  Practical Marks
+                                  Practical ({result.maxPracticalMarks})
                                 </label>
                                 <input
                                   type="number"
@@ -1144,21 +1175,21 @@ export default function StudentManager() {
                                   value={result.practicalMarks}
                                   onChange={handleChange}
                                   min="0"
+                                  max={result.maxPracticalMarks || 100}
                                   className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                                 />
                               </div>
                               <div>
                                 <label htmlFor={`exam-${index}-totalMarks`} className="block text-xs font-medium text-gray-700">
-                                  Total Marks
+                                  Total
                                 </label>
                                 <input
                                   type="number"
                                   id={`exam-${index}-totalMarks`}
                                   name={`examResults[${index}].totalMarks`}
-                                  value={result.totalMarks}
-                                  onChange={handleChange}
-                                  min="0"
-                                  className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                                  value={result.theoryMarks + result.practicalMarks}
+                                  readOnly
+                                  className="mt-1 bg-gray-100 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                                 />
                               </div>
                               <div>
@@ -1174,7 +1205,7 @@ export default function StudentManager() {
                                   className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                                 />
                               </div>
-                              <div className="sm:col-span-6 flex justify-end">
+                              <div className="flex items-end">
                                 <button
                                   type="button"
                                   onClick={() => removeExamResult(index)}
@@ -1190,8 +1221,8 @@ export default function StudentManager() {
                     </div>
                   </div>
                 )}
-              </form>
-            ) : (
+                              </form>
+                ) : (
               <div className="px-4 py-5 sm:p-6">
                 {/* View Mode */}
                 <div className="flex flex-col sm:flex-row gap-6">
