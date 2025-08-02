@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { FiBook, FiUser, FiCalendar, FiCheck, FiX, FiSearch } from 'react-icons/fi';
 import { toast } from 'react-toastify';
