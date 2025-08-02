@@ -609,9 +609,9 @@ export default function StudentManager() {
 
                     {/* Father's Name */}
                     <div className="sm:col-span-3">
-                      <label htmlFor="fatherName" className="block text-sm font-medium text-gray-700">
-                        Father's Name <span className="text-red-500">*</span>
-                      </label>
+                                              <label htmlFor="fatherName" className="block text-sm font-medium text-gray-700">
+                          Father&#39;s Name <span className="text-red-500">*</span>
+                        </label>
                       <input
                         type="text"
                         name="fatherName"
@@ -625,9 +625,9 @@ export default function StudentManager() {
 
                     {/* Mother's Name */}
                     <div className="sm:col-span-3">
-                      <label htmlFor="motherName" className="block text-sm font-medium text-gray-700">
-                        Mother's Name <span className="text-red-500">*</span>
-                      </label>
+                                              <label htmlFor="motherName" className="block text-sm font-medium text-gray-700">
+                          Mother&#39;s Name <span className="text-red-500">*</span>
+                        </label>
                       <input
                         type="text"
                         name="motherName"
