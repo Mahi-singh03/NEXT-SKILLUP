@@ -13,17 +13,6 @@ async function connectToDatabase() {
   }
 }
 
-// Helper to format date as DD_MM_YYYY
-function formatDate(date) {
-  if (!date) return null;
-  const d = new Date(date);
-  if (isNaN(d.getTime())) return null; // Invalid date
-  const day = String(d.getDate()).padStart(2, '0');
-  const month = String(d.getMonth() + 1).padStart(2, '0');
-  const year = d.getFullYear();
-  return `${day}_${month}_${year}`;
-}
-
 // GET request handler for fetching students with pagination and search
 export async function GET(request) {
   try {
@@ -64,12 +53,7 @@ export async function GET(request) {
       .limit(limit)
       .lean();
 
-    // Format dates
-    const formattedStudents = students.map(student => ({
-      ...student,
-      joiningDate: student.joiningDate ? formatDate(student.joiningDate) : null,
-      farewellDate: student.farewellDate ? formatDate(student.farewellDate) : null,
-    }));
+  
 
     // Get total count for pagination
     const totalStudents = await registered_students.countDocuments(query);
@@ -79,7 +63,7 @@ export async function GET(request) {
 
     return NextResponse.json({
       success: true,
-      data: formattedStudents,
+      data:students,
       pagination: {
         currentPage: page,
         totalPages,

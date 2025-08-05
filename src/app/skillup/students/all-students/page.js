@@ -352,8 +352,9 @@ const StudentManagement = () => {
                           <div className="flex items-center text-gray-600">
                             <FiCalendar className="mr-2 text-blue-500" />
                             <span className="text-sm">
-                              {student.joiningDate ? student.joiningDate : '--'} -{' '}
-                              {student.farewellDate ? student.farewellDate : 'Present'}
+                            {new Date(student.joiningDate).toLocaleDateString()} -{' '}
+                              {student.farewellDate ? new Date(student.farewellDate).toLocaleDateString() : 'Present'}
+
                             </span>
                           </div>
                         </div>
