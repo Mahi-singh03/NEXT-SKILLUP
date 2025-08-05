@@ -4,6 +4,21 @@ import axios from 'axios';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiSearch, FiEdit, FiSave, FiX, FiUser, FiPhone, FiMail, FiCalendar, FiBook, FiDollarSign, FiAward } from 'react-icons/fi';
 
+// Define all possible subjects with their details
+const ALL_SUBJECTS = {
+  "CS-01": { subjectName: "Basic Computer", maxTheoryMarks: 100, maxPracticalMarks: 0 },
+  "CS-02": { subjectName: "Windows Application: MS Office", maxTheoryMarks: 40, maxPracticalMarks: 60 },
+  "CS-03": { subjectName: "Operating System", maxTheoryMarks: 40, maxPracticalMarks: 60 },
+  "CS-04": { subjectName: "Web Publisher: Internet Browsing", maxTheoryMarks: 40, maxPracticalMarks: 60 },
+  "CS-05": { subjectName: "Computer Accountancy: Tally", maxTheoryMarks: 40, maxPracticalMarks: 60 },
+  "CS-06": { subjectName: "Desktop Publishing: Photoshop", maxTheoryMarks: 40, maxPracticalMarks: 60 },
+  "CS-07": { subjectName: "Computerized Accounting With Tally", maxTheoryMarks: 40, maxPracticalMarks: 60 },
+  "CS-08": { subjectName: "Manual Accounting", maxTheoryMarks: 40, maxPracticalMarks: 60 },
+  "CS-09": { subjectName: "Basic Computer", maxTheoryMarks: 40, maxPracticalMarks: 0 },
+  "CS-10": { subjectName: "Tally ERP 9 & Tally Prime", maxTheoryMarks: 40, maxPracticalMarks: 60 }
+};
+
+// Define course to subject mapping based on certification titles
 const COURSE_SUBJECTS = {
   "CERTIFICATION IN COMPUTER APPLICATION": {
     "CS-01": "Basic Computer",
@@ -16,13 +31,13 @@ const COURSE_SUBJECTS = {
     "CS-02": "Windows Application: MS Office",
     "CS-03": "Operating System",
     "CS-04": "Web Publisher: Internet Browsing",
-    "CS-05": "Computer Accountency: Tally"
+    "CS-05": "Computer Accountancy: Tally"
   },
   "ADVANCE DIPLOMA IN COMPUTER APPLICATION": {
     "CS-01": "Basic Computer",
     "CS-02": "Windows Application: MS Office",
-    "CS-03": "Operaing System",
-    "CS-05": "Computer Accountency: Tally",
+    "CS-03": "Operating System",
+    "CS-05": "Computer Accountancy: Tally",
     "CS-06": "Desktop Publishing: Photoshop"
   },
   "CERTIFICATION IN COMPUTER ACCOUNTANCY": {
@@ -40,58 +55,23 @@ const COURSE_SUBJECTS = {
   }
 };
 
-const SUBJECT_DETAILS = {
-  "CS-01": {
-    "subjectName": "Basic Computer",
-    "maxTheoryMarks": 100,
-    "maxPracticalMarks": 0
-  },
-  "CS-02": {
-    "subjectName": "Windows Application: MS Office",
-    "maxTheoryMarks": 40,
-    "maxPracticalMarks": 60
-  },
-  "CS-03": {
-    "subjectName": "Operaing System",
-    "maxTheoryMarks": 40,
-    "maxPracticalMarks": 60
-  },
-  "CS-04": {
-    "subjectName": "Web Publisher: Internet Browsing",
-    "maxTheoryMarks": 40,
-    "maxPracticalMarks": 60
-  },
-  "CS-05": {
-    "subjectName": "COMPUTER ACCOUTENCY: TALLY",
-    "maxTheoryMarks": 40,
-    "maxPracticalMarks": 60
-  },
-  "CS-06": {
-    "subjectName": "DESKTOP PUBLISHING: PHOTOSHOP",
-    "maxTheoryMarks": 40,
-    "maxPracticalMarks": 60
-  },
-  "CS-07": {
-    "subjectName": "Computerized Accounting With Tally",
-    "maxTheoryMarks": 40,
-    "maxPracticalMarks": 60
-  },
-  "CS-08": {
-    "subjectName": "Manual Accounting",
-    "maxTheoryMarks": 40,
-    "maxPracticalMarks": 60
-  },
-  "CS-09": {
-    "subjectName": "Basic Computer",
-    "maxTheoryMarks": 40,
-    "maxPracticalMarks": 0
-  },
-  "CS-10": {
-    "subjectName": "Tally ERP 9 & Tally Prime",
-    "maxTheoryMarks": 40,
-    "maxPracticalMarks": 60
-  }
-};
+// Available course options
+const COURSE_OPTIONS = [
+  "Computer Course",
+  "Tally",
+  "HTML, CSS, JS",
+  "ChatGPT and AI tools",
+  "Industrial Training",
+  "React",
+  "MERN FullStack",
+  "AutoCAD",
+  "CorelDRAW",
+  "Premier Pro",
+  "WordPress",
+  "MS Office",
+  "PTE"
+];
+
 export default function StudentManager() {
   // State management
   const [searchInput, setSearchInput] = useState('');
@@ -103,6 +83,9 @@ export default function StudentManager() {
   const [activeTab, setActiveTab] = useState('basic');
   const [file, setFile] = useState(null);
   const [previewUrl, setPreviewUrl] = useState('');
+  const [showSubjectDropdown, setShowSubjectDropdown] = useState(false);
+  const [manualSubjectCode, setManualSubjectCode] = useState('');
+  const [manualSubjectName, setManualSubjectName] = useState('');
 
   // Form data structure
   const [formData, setFormData] = useState({
@@ -119,6 +102,7 @@ export default function StudentManager() {
     aadharNumber: '',
     selectedCourse: '',
     courseDuration: '',
+    certificationTitle: '',
     address: '',
     qualification: '',
     password: '',
@@ -249,11 +233,52 @@ export default function StudentManager() {
         }
       }));
     } else {
-      setFormData(prev => ({
-        ...prev,
+      const newFormData = {
+        ...formData,
         [name]: type === 'checkbox' ? checked : value
-      }));
+      };
+
+      // If course or duration changes, update certification title
+      if (name === 'selectedCourse' || name === 'courseDuration' || name === 'joiningDate') {
+        newFormData.certificationTitle = calculateCertificationTitle(
+          newFormData.selectedCourse,
+          newFormData.courseDuration
+        );
+
+        // Calculate farewell date if joining date and duration are set
+        if (newFormData.joiningDate && newFormData.courseDuration) {
+          const joining = new Date(newFormData.joiningDate);
+          let monthsToAdd = 0;
+          switch (newFormData.courseDuration) {
+            case '3 months': monthsToAdd = 3; break;
+            case '6 months': monthsToAdd = 6; break;
+            case '1 year': monthsToAdd = 12; break;
+          }
+          newFormData.farewellDate = new Date(joining.setMonth(joining.getMonth() + monthsToAdd)).toISOString().split('T')[0];
+        }
+      }
+
+      setFormData(newFormData);
     }
+  };
+
+  // Calculate certification title based on course and duration
+  const calculateCertificationTitle = (course, duration) => {
+    if (course === 'Computer Course') {
+      switch (duration) {
+        case '3 months': return 'CERTIFICATION IN COMPUTER APPLICATION';
+        case '6 months': return 'DIPLOMA IN COMPUTER APPLICATION';
+        case '1 year': return 'ADVANCE DIPLOMA IN COMPUTER APPLICATION';
+        default: return course;
+      }
+    } else if (course === 'Tally') {
+      switch (duration) {
+        case '3 months': return 'CERTIFICATION IN COMPUTER ACCOUNTANCY';
+        case '6 months': return 'DIPLOMA IN COMPUTER ACCOUNTANCY';
+        default: return course;
+      }
+    }
+    return course;
   };
 
   // Add new installment
@@ -295,59 +320,71 @@ export default function StudentManager() {
       setError('Please select a course first');
       return;
     }
-  
-    // Find the course in our COURSE_SUBJECTS (case insensitive)
-    const courseKey = Object.keys(COURSE_SUBJECTS).find(
-      key => key.toLowerCase() === formData.selectedCourse.toLowerCase()
-    );
-  
-    if (!courseKey) {
-      setError('No subjects defined for the selected course');
-      return;
-    }
-  
-    const courseSubjects = COURSE_SUBJECTS[courseKey];
-    const subjectCodes = Object.keys(courseSubjects);
-  
-    if (subjectCodes.length === 0) {
-      setError('No subjects found for the selected course');
-      return;
-    }
-  
-    // Add all subjects for the course that aren't already in examResults
-    const newSubjects = subjectCodes
-      .filter(code => !formData.examResults.some(result => result.subjectCode === code))
-      .map(code => {
-        const subjectDetails = SUBJECT_DETAILS[code] || {
-          subjectName: courseSubjects[code],
-          maxTheoryMarks: 0,
-          maxPracticalMarks: 0
-        };
-        
-        return {
+
+    // Check if we have predefined subjects for this certification title
+    if (COURSE_SUBJECTS[formData.certificationTitle]) {
+      const courseSubjects = COURSE_SUBJECTS[formData.certificationTitle];
+      const subjectCodes = Object.keys(courseSubjects);
+
+      // Add all subjects for the course that aren't already in examResults
+      const newSubjects = subjectCodes
+        .filter(code => !formData.examResults.some(result => result.subjectCode === code))
+        .map(code => ({
           subjectCode: code,
-          subjectName: subjectDetails.subjectName,
+          subjectName: courseSubjects[code],
           theoryMarks: 0,
           practicalMarks: 0,
           totalMarks: 0,
           examDate: new Date().toISOString().split('T')[0],
-          maxTheoryMarks: subjectDetails.maxTheoryMarks,
-          maxPracticalMarks: subjectDetails.maxPracticalMarks
-        };
-      });
-  
-    if (newSubjects.length === 0) {
-      setError('All subjects for this course are already added');
+          maxTheoryMarks: ALL_SUBJECTS[code]?.maxTheoryMarks || 0,
+          maxPracticalMarks: ALL_SUBJECTS[code]?.maxPracticalMarks || 0
+        }));
+
+      if (newSubjects.length === 0) {
+        setError('All subjects for this course are already added');
+        return;
+      }
+
+      setFormData(prev => ({
+        ...prev,
+        examResults: [
+          ...prev.examResults,
+          ...newSubjects
+        ]
+      }));
+    } else {
+      // No predefined subjects - show manual subject selection
+      setShowSubjectDropdown(true);
+    }
+  };
+
+  // Add manual subject
+  const addManualSubject = () => {
+    if (!manualSubjectCode || !manualSubjectName) {
+      setError('Please enter both subject code and name');
       return;
     }
-  
+
     setFormData(prev => ({
       ...prev,
       examResults: [
         ...prev.examResults,
-        ...newSubjects
+        {
+          subjectCode: manualSubjectCode,
+          subjectName: manualSubjectName,
+          theoryMarks: 0,
+          practicalMarks: 0,
+          totalMarks: 0,
+          examDate: new Date().toISOString().split('T')[0],
+          maxTheoryMarks: ALL_SUBJECTS[manualSubjectCode]?.maxTheoryMarks || 0,
+          maxPracticalMarks: ALL_SUBJECTS[manualSubjectCode]?.maxPracticalMarks || 0
+        }
       ]
     }));
+
+    setManualSubjectCode('');
+    setManualSubjectName('');
+    setShowSubjectDropdown(false);
   };
 
   // Remove exam result
@@ -1073,154 +1110,145 @@ export default function StudentManager() {
                   </div>
                 )}
 
-                {/* Exam Results Tab */}
-                {activeTab === 'exams' && (
-                  <div className="px-4 py-5 sm:p-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
-                    <div className="sm:col-span-6">
-                      <div className="flex justify-between items-center mb-2">
-                        <h4 className="text-sm font-medium text-gray-700">
-                          Exam Results
-                        </h4>
-                        <div className="flex gap-2">
-                          <button
-                            type="button"
-                            onClick={() => {
-                              // Add empty result for manual entry
-                              setFormData(prev => ({
-                                ...prev,
-                                examResults: [
-                                  ...prev.examResults,
-                                  {
-                                    subjectCode: '',
-                                    subjectName: '',
-                                    theoryMarks: 0,
-                                    practicalMarks: 0,
-                                    totalMarks: 0,
-                                    examDate: new Date().toISOString().split('T')[0],
-                                    maxTheoryMarks: 0,
-                                    maxPracticalMarks: 0
-                                  }
-                                ]
-                              }));
-                            }}
-                            className="inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded text-gray-700 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
-                          >
-                            Add Manual Entry
-                          </button>
-                          <button
-                            type="button"
-                            onClick={addExamResult}
-                            className="inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded text-blue-700 bg-blue-100 hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                          >
-                            Add Course Subjects
-                          </button>
-                        </div>
-                      </div>
+              
+ {/* Exam Results Tab */}
+ {activeTab === 'exams' && (
+  <div className="px-4 py-5 sm:p-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
+    <div className="sm:col-span-6">
+      <div className="flex justify-between items-center mb-2">
+        <h4 className="text-sm font-medium text-gray-700">
+          Exam Results
+        </h4>
+        <div className="flex gap-2">
+          <button
+            type="button"
+            onClick={() => {
+              setFormData(prev => ({
+                ...prev,
+                examResults: [
+                  ...prev.examResults,
+                  {
+                    subjectCode: '',
+                    subjectName: '',
+                    theoryMarks: 0,
+                    practicalMarks: 0,
+                    totalMarks: 0,
+                    examDate: new Date().toISOString().split('T')[0],
+                    maxTheoryMarks: 100,
+                    maxPracticalMarks: 100
+                  }
+                ]
+              }));
+            }}
+            className="inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded text-gray-700 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+          >
+            Add Manual Entry
+          </button>
+          <button
+            type="button"
+            onClick={addExamResult}
+            className="inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded text-blue-700 bg-blue-100 hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+          >
+            Add Course Subjects
+          </button>
+        </div>
+      </div>
 
-                      {formData.examResults.length === 0 ? (
-                        <p className="text-sm text-gray-500">No exam results added yet</p>
-                      ) : (
-                        <div className="space-y-4">
-                          {formData.examResults.map((result, index) => (
-                            <div key={index} className="grid grid-cols-1 sm:grid-cols-7 gap-4 bg-gray-50 p-3 rounded">
-                              <div>
-                                <label htmlFor={`exam-${index}-subjectCode`} className="block text-xs font-medium text-gray-700">
-                                  Subject Code
-                                </label>
-                                <input
-                                  type="text"
-                                  id={`exam-${index}-subjectCode`}
-                                  name={`examResults[${index}].subjectCode`}
-                                  value={result.subjectCode}
-                                  onChange={handleChange}
-                                  className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                                />
-                              </div>
-                              <div className="sm:col-span-2">
-                                <label htmlFor={`exam-${index}-subjectName`} className="block text-xs font-medium text-gray-700">
-                                  Subject Name
-                                </label>
-                                <input
-                                  type="text"
-                                  id={`exam-${index}-subjectName`}
-                                  name={`examResults[${index}].subjectName`}
-                                  value={result.subjectName}
-                                  onChange={handleChange}
-                                  className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                                />
-                              </div>
-                              <div>
-                                <label htmlFor={`exam-${index}-theoryMarks`} className="block text-xs font-medium text-gray-700">
-                                  Theory ({result.maxTheoryMarks})
-                                </label>
-                                <input
-                                  type="number"
-                                  id={`exam-${index}-theoryMarks`}
-                                  name={`examResults[${index}].theoryMarks`}
-                                  value={result.theoryMarks}
-                                  onChange={handleChange}
-                                  min="0"
-                                  max={result.maxTheoryMarks || 100}
-                                  className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                                />
-                              </div>
-                              <div>
-                                <label htmlFor={`exam-${index}-practicalMarks`} className="block text-xs font-medium text-gray-700">
-                                  Practical ({result.maxPracticalMarks})
-                                </label>
-                                <input
-                                  type="number"
-                                  id={`exam-${index}-practicalMarks`}
-                                  name={`examResults[${index}].practicalMarks`}
-                                  value={result.practicalMarks}
-                                  onChange={handleChange}
-                                  min="0"
-                                  max={result.maxPracticalMarks || 100}
-                                  className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                                />
-                              </div>
-                              <div>
-                                <label htmlFor={`exam-${index}-totalMarks`} className="block text-xs font-medium text-gray-700">
-                                  Total
-                                </label>
-                                <input
-                                  type="number"
-                                  id={`exam-${index}-totalMarks`}
-                                  name={`examResults[${index}].totalMarks`}
-                                  value={result.theoryMarks + result.practicalMarks}
-                                  readOnly
-                                  className="mt-1 bg-gray-100 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                                />
-                              </div>
-                              <div>
-                                <label htmlFor={`exam-${index}-examDate`} className="block text-xs font-medium text-gray-700">
-                                  Exam Date
-                                </label>
-                                <input
-                                  type="date"
-                                  id={`exam-${index}-examDate`}
-                                  name={`examResults[${index}].examDate`}
-                                  value={result.examDate?.split('T')[0] || ''}
-                                  onChange={handleChange}
-                                  className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                                />
-                              </div>
-                              <div className="flex items-end">
-                                <button
-                                  type="button"
-                                  onClick={() => removeExamResult(index)}
-                                  className="inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded text-red-700 bg-red-100 hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
-                                >
-                                  Remove
-                                </button>
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      )}
+      {formData.examResults.length === 0 ? (
+        <p className="text-sm text-gray-500">No exam results added yet</p>
+      ) : (
+        <div className="overflow-x-auto">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-gray-50">
+              <tr>
+                <th scope="col" className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Subject Code</th>
+                <th scope="col" className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Subject Name</th>
+                <th scope="col" className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Theory Marks</th>
+                <th scope="col" className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Practical Marks</th>
+                <th scope="col" className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
+                <th scope="col" className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Exam Date</th>
+                <th scope="col" className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              {formData.examResults.map((result, index) => (
+                <tr key={index}>
+                  <td className="px-3 py-2 whitespace-nowrap">
+                    <input
+                      type="text"
+                      name={`examResults[${index}].subjectCode`}
+                      value={result.subjectCode}
+                      onChange={handleChange}
+                      className="focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                    />
+                  </td>
+                  <td className="px-3 py-2 whitespace-nowrap">
+                    <input
+                      type="text"
+                      name={`examResults[${index}].subjectName`}
+                      value={result.subjectName}
+                      onChange={handleChange}
+                      className="focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                    />
+                  </td>
+                  <td className="px-3 py-2 whitespace-nowrap">
+                    <div className="flex items-center">
+                      <input
+                        type="number"
+                        name={`examResults[${index}].theoryMarks`}
+                        value={result.theoryMarks}
+                        onChange={handleChange}
+                        min="0"
+                        max={result.maxTheoryMarks || 100}
+                        className="focus:ring-blue-500 focus:border-blue-500 block w-20 sm:text-sm border-gray-300 rounded-md"
+                      />
+                      <span className="ml-1 text-xs text-gray-500">/ {result.maxTheoryMarks || 100}</span>
                     </div>
-                  </div>
-                )}
+                  </td>
+                  <td className="px-3 py-2 whitespace-nowrap">
+                    <div className="flex items-center">
+                      <input
+                        type="number"
+                        name={`examResults[${index}].practicalMarks`}
+                        value={result.practicalMarks}
+                        onChange={handleChange}
+                        min="0"
+                        max={result.maxPracticalMarks || 100}
+                        className="focus:ring-blue-500 focus:border-blue-500 block w-20 sm:text-sm border-gray-300 rounded-md"
+                      />
+                      <span className="ml-1 text-xs text-gray-500">/ {result.maxPracticalMarks || 100}</span>
+                    </div>
+                  </td>
+                  <td className="px-3 py-2 whitespace-nowrap text-sm font-medium">
+                    {result.theoryMarks + result.practicalMarks}
+                  </td>
+                  <td className="px-3 py-2 whitespace-nowrap">
+                    <input
+                      type="date"
+                      name={`examResults[${index}].examDate`}
+                      value={result.examDate?.split('T')[0] || ''}
+                      onChange={handleChange}
+                      className="focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                    />
+                  </td>
+                  <td className="px-3 py-2 whitespace-nowrap text-sm font-medium">
+                    <button
+                      type="button"
+                      onClick={() => removeExamResult(index)}
+                      className="text-red-600 hover:text-red-900"
+                    >
+                      Remove
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </div>
+  </div>
+)}
                               </form>
                 ) : (
               <div className="px-4 py-5 sm:p-6">
