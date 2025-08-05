@@ -4,6 +4,11 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import dayjs from 'dayjs';
 
+// Helper to format date as DD-MM-YYYY
+const formatDate = (dateStr) => {
+  return dayjs(dateStr).isValid() ? dayjs(dateStr).format('DD-MM-YYYY') : '';
+};
+
 const StudentRegistrationForm = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
