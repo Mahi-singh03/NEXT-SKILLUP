@@ -13,7 +13,8 @@ import {
   FiPlus,
   FiRefreshCw,
   FiChevronsLeft,
-  FiChevronsRight
+  FiChevronsRight,
+  FiClock
 } from 'react-icons/fi';
 import { useDebounce } from 'use-debounce';
 import Link from 'next/link';
@@ -347,6 +348,11 @@ const StudentManagement = () => {
                           <div className="flex items-center text-gray-600">
                             <FiBook className="mr-2 text-blue-500" />
                             <span className="text-sm">{student.selectedCourse}</span>
+                          </div>
+
+                          <div className="flex items-center text-gray-600">
+                            <FiClock className="mr-2 text-green-500" />
+                            <span className="text-sm">{student.courseDuration}</span>
                           </div>
                           
                           <div className="flex items-center text-gray-600">

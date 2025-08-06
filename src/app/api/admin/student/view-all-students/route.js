@@ -47,7 +47,7 @@ export async function GET(request) {
     // Fetch students with pagination, search, and sorting
     const students = await registered_students
       .find(query)
-      .select('fullName rollNo phoneNumber parentsPhoneNumber selectedCourse joiningDate farewellDate photo')
+      .select('fullName rollNo phoneNumber parentsPhoneNumber selectedCourse courseDuration joiningDate farewellDate photo')
       .sort(sortObject)
       .skip(skip)
       .limit(limit)
