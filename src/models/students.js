@@ -89,7 +89,7 @@ const userSchema = new mongoose.Schema({
   courseDuration: {
     type: String,
     required: [true, 'Course duration is required'],
-    enum: ['3 months', '6 months', '1 year'],
+    enum: ['3 Months', '6 Months', '1 Year'],
   },
   certificationTitle: {
     type: String,
@@ -177,6 +177,17 @@ const userSchema = new mongoose.Schema({
     type: String,
     enum: ['A', 'B', 'C', 'D', 'F', 'Pending'],
     default: 'Pending',
+  },
+  session: {
+    type: String,
+    required: [false, 'Session is required'],
+    trim: true,
+  },
+  percentage: {
+    type: Number,
+    default: 0,
+    min: 0,
+    max: 100,
   },
 }, { 
   timestamps: true,
