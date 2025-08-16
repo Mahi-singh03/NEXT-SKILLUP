@@ -21,10 +21,9 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Gender is required'],
     enum: {
-      values: ['male', 'female', 'other'],
-      message: 'Gender must be either male, female, or other',
+      values: ['Male', 'Female', 'Other'],
+      message: 'Gender must be either Male, Fmale, or Other',
     },
-    lowercase: true,
     trim: true,
   },
   fatherName: {
@@ -201,48 +200,170 @@ userSchema.pre('save', async function (next) {
     // Set certification title
     if (this.selectedCourse === 'Computer Course') {
       switch (this.courseDuration) {
-        case '3 months':
+        case '3 Months':
           this.certificationTitle = 'CERTIFICATION IN COMPUTER APPLICATION';
           break;
-        case '6 months':
+        case '6 Months':
           this.certificationTitle = 'DIPLOMA IN COMPUTER APPLICATION';
           break;
-        case '1 year':
+        case '1 Year':
           this.certificationTitle = 'ADVANCE DIPLOMA IN COMPUTER APPLICATION';
           break;
         default:
           this.certificationTitle = this.selectedCourse;
       }
-    } else if (this.selectedCourse === 'Tally') {
+    } 
+    else if (this.selectedCourse === 'HTML, CSS, JS') {
       switch (this.courseDuration) {
-        case '3 months':
-          this.certificationTitle = 'CERTIFICATION IN COMPUTER ACCOUNTANCY';
+        case '3 Months':
+          this.certificationTitle = 'CERTIFICATION IN WEB DEVELOPMENT FUNDAMENTALS';
           break;
-        case '6 months':
-          this.certificationTitle = 'DIPLOMA IN COMPUTER ACCOUNTANCY';
+        case '6 Months':
+          this.certificationTitle = 'DIPLOMA IN FRONT-END DEVELOPMENT';
+          break;
+        case '1 Year':
+          this.certificationTitle = 'ADVANCE DIPLOMA IN FRONT-END DEVELOPMENT';
+        break;
+        default:
+          this.certificationTitle = this.selectedCourse;
+      }
+    }
+    else if (this.selectedCourse === 'ChatGPT and AI tools') {
+      switch (this.courseDuration) {
+        case '3 Months':
+          this.certificationTitle = 'CERTIFICATION IN AI TOOLS';
+          break;
+        case '6 Months':
+          this.certificationTitle = 'DIPLOMA IN GENERATIVE AI APPLICATIONS';
+          break;
+        case '1 Year':
+          this.certificationTitle = 'ADVANCE DIPLOMA IN GENERATIVE AI APPLICATIONS';
+        break;
+        default:
+          this.certificationTitle = this.selectedCourse;
+      }
+    }
+    else if (this.selectedCourse === 'Industrial Training') {
+      this.certificationTitle = 'INDUSTRIAL TRAINING CERTIFICATION';
+    }
+    else if (this.selectedCourse === 'React') {
+      switch (this.courseDuration) {
+        case '3 Months':
+          this.certificationTitle = 'CERTIFICATION IN REACT JS';
+          break;
+        case '6 Months':
+          this.certificationTitle = 'ADVANCED CERTIFICATION IN REACT JS';
           break;
         default:
           this.certificationTitle = this.selectedCourse;
       }
-    } else {
+    }
+    else if (this.selectedCourse === 'MERN FullStack') {
+      switch (this.courseDuration) {
+        case '6 Months':
+          this.certificationTitle = 'CERTIFICATION IN MERN STACK DEVELOPMENT';
+          break;
+        case '1 Year':
+          this.certificationTitle = 'DIPLOMA IN FULL STACK DEVELOPMENT';
+          break;
+        default:
+          this.certificationTitle = this.selectedCourse;
+      }
+    }
+    else if (this.selectedCourse === 'CorelDRAW') {
+      switch (this.courseDuration) {
+        case '3 Months':
+          this.certificationTitle = 'CERTIFICATION IN GRAPHIC DESIGN';
+          break;
+        case '6 Months':
+          this.certificationTitle = 'DIPLOMA IN GRAPHIC DESIGN';
+          break;
+        default:
+          this.certificationTitle = this.selectedCourse;
+      }
+    }
+    else if (this.selectedCourse === 'Tally') {
+      switch (this.courseDuration) {
+        case '3 Months':
+          this.certificationTitle = 'CERTIFICATION IN TALLY';
+          break;
+        case '6 Months':
+          this.certificationTitle = 'DIPLOMA IN ACCOUNTING SOFTWARE';
+          break;
+        default:
+          this.certificationTitle = this.selectedCourse;
+      }
+    }
+    else if (this.selectedCourse === 'Premier Pro') {
+      switch (this.courseDuration) {
+        case '3 Months':
+          this.certificationTitle = 'CERTIFICATION IN VIDEO EDITING';
+          break;
+        case '6 Months':
+          this.certificationTitle = 'DIPLOMA IN VIDEO PRODUCTION';
+          break;
+        default:
+          this.certificationTitle = this.selectedCourse;
+      }
+    }
+    else if (this.selectedCourse === 'WordPress') {
+      switch (this.courseDuration) {
+        case '3 Months':
+          this.certificationTitle = 'CERTIFICATION IN WORDPRESS';
+          break;
+        case '6 Months':
+          this.certificationTitle = 'DIPLOMA IN CMS DEVELOPMENT';
+          break;
+        default:
+          this.certificationTitle = this.selectedCourse;
+      }
+    }
+    else if (this.selectedCourse === 'MS Office') {
+      switch (this.courseDuration) {
+        case '3 Months':
+          this.certificationTitle = 'CERTIFICATION IN OFFICE PRODUCTIVITY';
+          break;
+        case '6 Months':
+          this.certificationTitle = 'DIPLOMA IN OFFICE AUTOMATION';
+          break;
+        default:
+          this.certificationTitle = this.selectedCourse;
+      }
+    }
+    else if (this.selectedCourse === 'PTE') {
+      this.certificationTitle = 'PTE TRAINING CERTIFICATION';
+    }
+    else if (this.selectedCourse === 'AutoCAD') {
+      switch (this.courseDuration) {
+        case '3 Months':
+          this.certificationTitle = 'CERTIFICATION IN AUTOCAD';
+          break;
+        case '6 Months':
+          this.certificationTitle = 'DIPLOMA IN COMPUTER-AIDED DESIGN';
+          break;
+        default:
+          this.certificationTitle = this.selectedCourse;
+      }
+    }
+    else {
       this.certificationTitle = this.selectedCourse;
     }
 
     // Calculate farewell date based on course duration
     const joining = new Date(this.joiningDate);
-    let monthsToAdd = 0;
+    let MonthsToAdd = 0;
     switch (this.courseDuration) {
-      case '3 months':
-        monthsToAdd = 3;
+      case '3 Months':
+        MonthsToAdd = 3;
         break;
-      case '6 months':
-        monthsToAdd = 6;
+      case '6 Months':
+        MonthsToAdd = 6;
         break;
-      case '1 year':
-        monthsToAdd = 12;
+      case '1 Year':
+        MonthsToAdd = 12;
         break;
     }
-    this.farewellDate = new Date(joining.setMonth(joining.getMonth() + monthsToAdd));
+    this.farewellDate = new Date(joining.setMonth(joining.getMonth() + MonthsToAdd));
   }
   next();
 });
