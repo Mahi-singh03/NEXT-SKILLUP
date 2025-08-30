@@ -7,7 +7,7 @@ import { UserContext } from "../../components/UserContext.js";
 import { time } from "framer-motion";
 
 const exams = [
-  { id: "WE_20", title: "Weekly Exam 20 (30-08-2025) ",path:"/weekly-exam/WE_19"},
+  { id: "WE_20", title: "Weekly Exam 20 (30-08-2025) ",path:"/weekly-exam/WE_20"},
   { id: "WE_19", title: "Weekly Exam 19  ",path:"/weekly-exam/WE_19"},
   { id: "WE_18", title: "Weekly Exam 18  ",path:"/weekly-exam/WE_18"},
   { id: "WE_17", title: "Weekly Exam 17  ",path:"/weekly-exam/WE_17"},

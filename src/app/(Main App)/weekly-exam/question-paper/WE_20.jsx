@@ -3,7 +3,6 @@ const getRandomQuestions = (questions, count) => {
     return shuffled.slice(0, count);
   };
   const allQuestions =[
-    [
         {
             "question": "What does CPU stand for?",
             "options": ["Central Processing Unit", "Computer Personal Unit", "Central Program Utility", "Control Processing Unit"],
@@ -385,7 +384,7 @@ const getRandomQuestions = (questions, count) => {
             "answer": "To delete unnecessary files to free up disk space"
         }
     ]
-  ]
+  
 
   
   const questions = getRandomQuestions(allQuestions, 30);
