@@ -3,7 +3,7 @@
 import { useState, useEffect, useContext } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { UserContext } from '../../../components/userContext';
+import { UserContext } from '@/app/components/userContext';
 import dayjs from 'dayjs';
 
 // Helper to format date as DD-MM-YYYY
@@ -515,7 +515,7 @@ const StudentRegistrationForm = () => {
               onChange={handleChange}
               onBlur={handleBlur}
               spellCheck="false"
-              rows自    rows={3}
+              rows={3}
               className={`mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border ${
                 errors.address ? 'border-red-500' : ''
               }`}
