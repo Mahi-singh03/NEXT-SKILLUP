@@ -6,7 +6,7 @@ import Review from "../components/home/review";
 const Home = () => {
   return (
     <div className=" bg-[#e3f1f1]">
-      {/* Hero Video Section */}
+      {/* Hero Video Section /*/}
       <section className="relative">
         <div className="absolute inset-0 overflow-hidden " />
         <video
