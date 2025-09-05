@@ -2,18 +2,19 @@
 
 import { useState, useContext, useEffect } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Menu, X, ChevronDown, User, ChevronRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { UserContext } from "./UserContext";
+import { UserContext } from "./userContext";
 import Image from 'next/image';
 
 const dropdowns = [
   {
     name: "Online Courses",
     options: [
-      { name: "Register", path: "/OnlineCourse/Register" },
-      { name: "Course Videos", path: "/OnlineCourse/Course-Videos" },
+      { name: "Register", path: "/onlineCourse/register" },
+      { name: "Login", path: "/onlineCourse/login" },
+      { name: "Course Videos", path: "/onlineCourse/videos" },
     ],
   },
   {
@@ -25,22 +26,21 @@ const dropdowns = [
   {
     name: "Verification",
     options: [
-      { name: "Verify Student", path: "/Verification/Verify-Student" },
+      { name: "Verify Student", path: "/verification/student" },
       { name: "Verify Staff", path: "/verification/staff" },
     ],
   },
   {
     name: "Resources",
     options: [
-      { name: "Syllabus", path: "/Resources/Syllabus" },
-      { name: "Study Material", path: "/Resources/Study-Material" },
+      { name: "Study Material", path: "/resources" },
     ],
   },
   {
     name: "Job",
     options: [
-      { name: "Career Guidance", path: "/Job/Career-Guidance" },
-      { name: "Job Apply", path: "/Job/Job-Apply" },
+      
+      { name: "Job Apply", path: "/job/jobApply" },
     ],
   },
 ];
@@ -52,12 +52,12 @@ const secondaryMenuItems = (isAuthenticated) => [
     ? []
     : [
         { name: "Register", path: "/register" },
-        { name: "Login", path: "/student-login" },
+        { name: "Login", path: "/login" },
       ]),
   { name: "About", path: "/about" },
   { name: "Gallery", path: "/gallery" },
   { name: "Achievements", path: "/achievements" },
-  ...(isAuthenticated ? [{ name: "Logout", path: "#" }] : []),
+  ...(isAuthenticated ? [{ name: "Logout", path: "/home" }] : []),
 ];
 
 const isActivePath = (currentPath, targetPath, exact = true) => {
@@ -73,14 +73,30 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [hoveredDropdown, setHoveredDropdown] = useState(null);
-  const { isAuthenticated, logout, loading, initializeAuth } = useContext(UserContext);
+  const [forceUpdate, setForceUpdate] = useState(0);
+  const { isAuthenticated, logout, loading, initializeAuth, user, refreshKey } = useContext(UserContext);
   const pathname = usePathname();
+  const router = useRouter();
 
   useEffect(() => {
-    initializeAuth();
     setIsOpen(false);
     setActiveDropdown(null);
-  }, [pathname, initializeAuth]);
+  }, [pathname]);
+
+  // Force re-render when authentication state changes
+  useEffect(() => {
+    setForceUpdate(prev => prev + 1);
+  }, [isAuthenticated, user, refreshKey]);
+
+  // Listen for custom auth events
+  useEffect(() => {
+    const handleAuthChange = () => {
+      setForceUpdate(prev => prev + 1);
+    };
+
+    window.addEventListener('authStateChanged', handleAuthChange);
+    return () => window.removeEventListener('authStateChanged', handleAuthChange);
+  }, []);
 
   if (loading) {
     return <div className="fixed top-0 left-0 w-full h-16 bg-white shadow-md z-50"></div>;
@@ -89,6 +105,9 @@ const Navbar = () => {
   const handleLogout = () => {
     logout();
     setIsOpen(false);
+    // Force immediate re-render
+    setForceUpdate(prev => prev + 1);
+    router.push('/login');
   };
 
   const handleDropdownClick = (name) => {
@@ -108,7 +127,7 @@ const Navbar = () => {
             alt="Large Logo"
             width={48}
             height={48}
-            className="hidden lg:block object-contain w-auto h-12"
+            className="hidden lg:block object-contain w-auto h-14 "
             priority
           />
           <Image
@@ -167,7 +186,7 @@ const Navbar = () => {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 10 }}
                     transition={{ duration: 0.2 }}
-                    className="absolute left-0 mt-2 w-56 bg-white shadow-lg rounded-lg overflow-hidden border border-gray-100"
+                    className="absolute left-0 mt-2 w-43 bg-white shadow-lg rounded-lg overflow-hidden border border-gray-100"
                   >
                     {dropdown.options.map((option) => (
                       <Link

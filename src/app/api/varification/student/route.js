@@ -1,38 +1,68 @@
+import  connectToDatabase  from '@/lib/DBconnection'; 
+import registered_students from '@/models/students'; 
 import { NextResponse } from 'next/server';
-import RegisteredStudents from '@/models/students';
-import connectDB from '@/lib/DBconnection';
 
 export async function POST(request) {
   try {
-    // Ensure database connection is established
-    await connectDB();
-    
-    const { rollNo, dateOfBirth } = await request.json();
+    // Connect to MongoDB
+    await connectToDatabase();
 
-    // Find student by rollNo and dateOfBirth
-    const student = await RegisteredStudents.findOne({ rollNo, dateOfBirth });
+    // Parse request body
+    const { rollNo, dob } = await request.json();
 
+    // Validate input
+    if (!rollNo || !dob) {
+      return NextResponse.json(
+        { error: 'RollNo and DOB are required' },
+        { status: 400 }
+      );
+    }
+
+    // Find student by RollNo and DOB
+    const student = await registered_students.findOne({
+      rollNo: rollNo,
+      dateOfBirth: new Date(dob),
+    });
+
+    // Check if student exists
     if (!student) {
       return NextResponse.json(
-        { message: 'Student not found' },
+        { error: 'Invalid RollNo or DOB' },
         { status: 404 }
       );
     }
 
-    // Return student details
-    return NextResponse.json({
-      fullName: student.fullName,
-      fatherName: student.fatherName,
-      address: student.address,
-      course: student.selectedCourse,
-      courseDuration: student.courseDuration,
-      cretificate: student.certificate
-    });
-  } catch (error) {
-    console.error('Verification error:', error);
+    // Return requested student data
     return NextResponse.json(
-      { message: 'Server error', error: error.message },
+      {
+        message: 'Student verified successfully',
+        data: {
+          name: student.fullName,
+          parentsName: {
+            fatherName: student.fatherName,
+            motherName: student.motherName,
+          },
+          photo: {
+            public_id: student.photo.public_id,
+            url: student.photo.url,
+          },
+          courseDuration: student.courseDuration,
+          startDate: student.joiningDate,
+          endDate: student.farewellDate,
+          aadharNumber: student.aadharNumber,
+          percentage: student.percentage,
+          phoneNumber: student.phoneNumber,
+          finalGrade: student.finalGrade,
+          certificate: student.certificate,
+        },
+      },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error('Error verifying student:', error);
+    return NextResponse.json(
+      { error: 'Internal server error' },
       { status: 500 }
     );
   }
-} 
+}

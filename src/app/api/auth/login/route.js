@@ -1,9 +1,9 @@
 import { NextResponse } from 'next/server';
-import registered_students from '../../../../models/students';
+import registered_students from '@/models/students';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import connectDB from '../../../../lib/DBconnection';
-import { loginLimiter } from '../../../middleware/rateLimiter';
+import connectDB from '@/lib/DBconnection';
+import { loginLimiter } from '@/app/middleware/rateLimiter';
 
 export async function POST(request) {
   try {

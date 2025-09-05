@@ -1,24 +1,21 @@
-import dbConnect from '../../../../../lib/DBconnection';
-import Staff from '../../../../../models/staff';
+import dbConnect from '@/lib/DBconnection';
+import Staff from '@/models/staff';
 
-export default async function handler(req, res) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ message: 'Method not allowed' });
-  }
-
+export async function POST(request) {
   await dbConnect();
 
   try {
-    const newStaff = new Staff(req.body);
+    const body = await request.json();
+    const newStaff = new Staff(body);
     await newStaff.save();
-    res.status(201).json(newStaff);
+    return Response.json(newStaff, { status: 201 });
   } catch (error) {
     if (error.name === 'ValidationError') {
-      return res.status(400).json({ message: error.message });
+      return Response.json({ message: error.message }, { status: 400 });
     }
     if (error.code === 11000) {
-      return res.status(400).json({ message: 'StaffID already exists' });
+      return Response.json({ message: 'StaffID already exists' }, { status: 400 });
     }
-    res.status(500).json({ message: 'Server error' });
+    return Response.json({ message: 'Server error' }, { status: 500 });
   }
 }

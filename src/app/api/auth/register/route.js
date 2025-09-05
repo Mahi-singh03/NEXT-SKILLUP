@@ -1,8 +1,8 @@
 import { NextResponse } from 'next/server';
-import registered_students from '../../../../models/students.js';
+import registered_students from '@/models/students.js';
 import jwt from 'jsonwebtoken';
-import connectDB from '../../../../lib/DBconnection.js';
-import { registrationLimiter } from '../../../middleware/rateLimiter';
+import connectDB from '@/lib/DBconnection';
+import { registrationLimiter } from '@/app/middleware/rateLimiter';
 
 export async function POST(request) {
   try {
@@ -31,8 +31,17 @@ export async function POST(request) {
 
     await connectDB();
     
-
     // Parse JSON body
+    let requestBody;
+    try {
+      requestBody = await request.json();
+    } catch (error) {
+      return NextResponse.json(
+        { error: 'Invalid JSON payload' },
+        { status: 400 }
+      );
+    }
+
     const {
       fullName,
       fatherName,
@@ -49,8 +58,7 @@ export async function POST(request) {
       qualification,
       password,
       joiningDate,
-    } = await request.json();
-
+    } = requestBody;
 
     // Validate required fields
     if (!emailAddress || !password) {

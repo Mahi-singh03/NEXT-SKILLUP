@@ -1,7 +1,7 @@
 import { Geist, Geist_Mono } from "next/font/google";
-import ScrollToTop from "../components/ScrollToTop";
-import { UserProvider } from "../components/UserContext"; 
-import ProtectedAdminRoute from "../components/ProtectedAdminRoute"; 
+import ScrollToTop from "@/app/components/scrollToTop";
+import { UserProvider } from "@/app/components/userContext"; 
+import ProtectedAdminRoute from "@/app/components/protectedAdminRoute"; 
 import Navbar from "../components/navbar";
 
 const geistSans = Geist({
@@ -16,23 +16,19 @@ const geistMono = Geist_Mono({
 
 export const metadata = {
   title: "Admin Section",
-  description: "Best Computer Skills Training Institute in Garhshankar, Punjab",
+  description: "Admin Section",
 };
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <UserProvider>
-          <ProtectedAdminRoute>
-            <ScrollToTop />
-            <Navbar />
-                  <main className="pt-20 md:pt-[120px]">{children}</main>
-          </ProtectedAdminRoute>
-        </UserProvider>
-      </body>
-    </html>
+    <div className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <UserProvider>
+        <ProtectedAdminRoute>
+          <ScrollToTop />
+          <Navbar />
+          <main className="pt-20 md:pt-[135px]">{children}</main>
+        </ProtectedAdminRoute>
+      </UserProvider>
+    </div>
   );
 }

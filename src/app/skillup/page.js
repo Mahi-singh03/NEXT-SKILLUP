@@ -8,12 +8,19 @@ import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
+import { FaChalkboardTeacher } from "react-icons/fa";
 import { 
-  FaUserGraduate, FaChalkboardTeacher, FaEdit, FaUserEdit,
+  FaUserGraduate, FaEdit, FaUserEdit,
   FaMoneyBillWave, FaUsers, FaCamera, FaCertificate,
   FaChevronLeft, FaChevronRight, FaSignOutAlt, FaCalendarAlt,
-  FaTimes, FaHome, FaChartLine, FaCog
+  FaTimes, FaHome, FaChartLine, FaCog, FaUserShield, FaImages,
+  FaBook, FaVideo, FaTrophy, 
 } from 'react-icons/fa';
+import { MdOutlineReviews } from "react-icons/md";
+import { BsFillPersonLinesFill } from "react-icons/bs";
+import { TbHelpOctagon } from "react-icons/tb";
+import { MdVideoLibrary } from "react-icons/md";
+import { TbFileCv } from "react-icons/tb";
 
 const AdminDashboard = () => {
   const [loading, setLoading] = useState(true);
@@ -35,13 +42,13 @@ const AdminDashboard = () => {
     const fetchData = async () => {
       try {
         // Load admin data from localStorage
-        const adminData = localStorage.getItem('adminData');
-        if (adminData) {
-          const parsedData = JSON.parse(adminData);
+        const adminDataStr = localStorage.getItem('adminData');
+        if (adminDataStr) {
+          const parsedData = JSON.parse(adminDataStr);
           setAdminName(parsedData.name || 'Admin');
         }
 
-        // Fetch student and staff stats from API
+        // Fetch student and admin stats from API
         const [totalRes, activeRes, certifiedRes, staffRes] = await Promise.all([
           fetch('/api/admin/stats?type=total', { method: 'GET' }),
           fetch('/api/admin/stats?type=active', { method: 'GET' }),
@@ -68,7 +75,7 @@ const AdminDashboard = () => {
           totalStudents: totalData.data?.totalStudents || 0,
           activeStudents: activeData.data?.activeStudents || 0,
           certifiedStudents: certifiedData.data?.certifiedStudents || 0,
-          totalStaff: staffData.data?.certifiedStaff || staffData.data?.totalStaff || 0,
+          totalstaff: staffData.data?.certifiedStaff || 0, // <-- FIXED: use certifiedStaff
         });
       } catch (error) {
         console.error('Error fetching stats:', error);
@@ -82,78 +89,165 @@ const AdminDashboard = () => {
   }, []);
 
   const actionCards = [
+
+    // 1
+
     { 
-      id: 'view-students', 
-      title: 'View Students', 
+      id: 'Manage Students', 
+      title: 'Manage Students', 
       icon: <FaUsers className="text-4xl" />,
-      bgColor: 'bg-indigo-100',
-      hoverBgColor: 'bg-indigo-200',
-      textColor: 'text-indigo-800',
-      path: '/skillup/students/all-students'
-    },
-    { 
-      id: 'add-student', 
-      title: 'Add Student', 
-      icon: <FaUserGraduate className="text-4xl" />,
-      bgColor: 'bg-purple-100',
-      hoverBgColor: 'bg-purple-200',
-      textColor: 'text-purple-800',
-      path: '/skillup/students/add-student'
-    },
-    { 
-      id: 'add-staff', 
-      title: 'Add Staff', 
-      icon: <FaChalkboardTeacher className="text-4xl" />,
-      bgColor: 'bg-blue-100',
-      hoverBgColor: 'bg-blue-200',
+      bgColor: 'bg-yellow-100',
+      hoverBgColor: 'bg-blue-50',
       textColor: 'text-blue-800',
-      path: '/skillup/add-staff'
+      path: '/skillup/students/manageStudents'
     },
+
+    // 2
+
     { 
-      id: 'edit-student', 
-      title: 'Edit Student', 
-      icon: <FaEdit className="text-4xl" />,
-      bgColor: 'bg-green-100',
-      hoverBgColor: 'bg-green-200',
-      textColor: 'text-green-800',
-      path: '/skillup/students/edit-student'
+      id: 'edit-online-course-student', 
+      title: 'Edit Online Courses students', 
+      icon: <FaVideo className="text-4xl" />,
+      bgColor: 'bg-purple-200',
+      hoverBgColor: 'bg-green-50',
+      textColor: 'text-blue-800',
+      path: '/skillup/onlineCourseStudents'
     },
+
+    //3
+
     { 
       id: 'edit-staff', 
       title: 'Edit Staff', 
-      icon: <FaUserEdit className="text-4xl" />,
-      bgColor: 'bg-yellow-100',
-      hoverBgColor: 'bg-yellow-200',
-      textColor: 'text-yellow-800',
-      path: '/skillup/edit-staff'
+      icon: <FaChalkboardTeacher className="text-4xl" />,
+      bgColor: 'bg-green-200',
+      hoverBgColor: 'bg-blue-50',
+      textColor: 'text-blue-800',
+      path: '/skillup/staff/editStaff'
     },
+
+
+    //4
+
     { 
-      id: 'add-fees', 
-      title: 'Student Fees', 
+      id: 'ManageFees', 
+      title: 'Manage Fees', 
       icon: <FaMoneyBillWave className="text-4xl" />,
-      bgColor: 'bg-red-100',
-      hoverBgColor: 'bg-red-200',
-      textColor: 'text-red-800',
-      path: '/skillup/fees'
+      bgColor: 'bg-orange-100',
+      hoverBgColor: 'bg-blue-50',
+      textColor: 'text-blue-800',
+      path: '/skillup/students/fees'
     },
-    { 
-      id: 'add-photo', 
-      title: 'Student Photos', 
-      icon: <FaCamera className="text-4xl" />,
-      bgColor: 'bg-teal-100',
-      hoverBgColor: 'bg-teal-200',
-      textColor: 'text-teal-800',
-      path: '/skillup/students/add-photo'
-    },
+
+    //5
+
     { 
       id: 'certificates', 
       title: 'Certificates', 
       icon: <FaCertificate className="text-4xl" />,
-      bgColor: 'bg-pink-100',
-      hoverBgColor: 'bg-pink-200',
-      textColor: 'text-pink-800',
+      bgColor: 'bg-white',
+      hoverBgColor: 'bg-blue-50',
+      textColor: 'text-blue-800',
       path: '/skillup/certificate'
-    }
+    },
+
+    //6
+    
+    { 
+      id: 'edit-achievements', 
+      title: 'Edit Achievements', 
+      icon: <FaTrophy className="text-4xl" />,
+      bgColor: 'bg-green-200',
+      hoverBgColor: 'bg-blue-50',
+      textColor: 'text-blue-800',
+      path: '/skillup/achievements'
+    },
+
+    // 7
+        { 
+      id: 'edit-gallery', 
+      title: 'Edit Gallery', 
+      icon: <FaImages className="text-4xl" />,
+      bgColor: 'bg-blue-200',
+      hoverBgColor: 'bg-blue-50',
+      textColor: 'text-blue-800',
+      path: '/skillup/gallery/editGallery'
+    },
+
+    // 8
+
+    { 
+      id: 'add-resources', 
+      title: 'Edit Resources', 
+      icon: <FaBook className="text-4xl" />,
+      bgColor: 'bg-red-200',
+      hoverBgColor: 'bg-blue-50',
+      textColor: 'text-blue-800',
+      path: '/skillup/eduResources'
+    },
+
+    // 9
+
+    { 
+      id: 'edit-courses', 
+      title: 'Edit Online Courses', 
+      icon: <MdVideoLibrary className="text-4xl" />,
+      bgColor: 'bg-purple-200',
+      hoverBgColor: 'bg-green-50',
+      textColor: 'text-blue-800',
+      path: '/skillup/onlineCourse'
+    },
+
+    // 10
+
+    { 
+      id: 'add-admin', 
+      title: 'Add Admin', 
+      icon: <FaUserShield className="text-4xl" />,
+      bgColor: 'bg-orange-200',
+      hoverBgColor: 'bg-blue-50',
+      textColor: 'text-blue-800',
+      path: '/skillup/register'
+    },
+
+    //11
+
+    { 
+      id: 'edit-review', 
+      title: 'Edit Reviews', 
+      icon: <MdOutlineReviews className="text-4xl" />,
+      bgColor: 'bg-green-200',
+      hoverBgColor: 'bg-blue-50',
+      textColor: 'text-blue-800',
+      path: '/skillup/review'
+    },
+
+     // 12
+
+
+    {
+      id: 'job-candidate', 
+      title: 'Job Candidate', 
+      icon: <TbFileCv className="text-5xl" />,
+      bgColor: 'bg-yellow-100',
+      hoverBgColor: 'bg-blue-50',
+      textColor: 'text-blue-800',
+      path: '/skillup/job'
+    },
+
+
+    // 13
+
+    { 
+      id: 'get-help', 
+      title: 'Get Help', 
+      icon: <TbHelpOctagon className="text-4xl" />,
+      bgColor: 'bg-yellow-100',
+      hoverBgColor: 'bg-blue-50',
+      textColor: 'text-blue-800',
+      path: '/skillup/getHelp'
+    },
+
   ];
 
   const handlePrevMonth = () => {
@@ -180,7 +274,7 @@ const AdminDashboard = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-gray-50"
+        className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-white"
       >
         <motion.div
           animate={{ 
@@ -203,24 +297,24 @@ const AdminDashboard = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="min-h-screen bg-gradient-to-br from-blue-50 to-gray-50"
+      className="min-h-screen bg-gradient-to-br from-blue-50 to-white"
     >
       {/* Header */}
       <motion.header 
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5 }}
-        className="bg-white shadow-sm py-4 px-6 flex justify-between items-center sticky top-0 z-30"
+        className="bg-white shadow-md py-4 px-6 flex justify-between items-center sticky top-0 z-30 border-b border-blue-100"
       >
         <div className="flex items-center space-x-4">
           <Link href="/skillup" className="flex items-center">
             <motion.div 
-              whileHover={{ rotate: 10 }}
+              whileHover={{ rotate: 10, scale: 1.1 }}
               className="bg-blue-600 p-2 rounded-lg"
             >
-              <FaUserGraduate className="text-white text-xl" />
+              <FaUserShield className="text-white text-xl" />
             </motion.div>
-            <h1 className="text-4xl font-bold text-blue-600 ml-2 p-4">SkillUp Admin Section</h1>
+            <h1 className="text-3xl font-bold text-blue-800 ml-2 p-4">Admin Portal</h1>
           </Link>
         </div>
         
@@ -229,9 +323,9 @@ const AdminDashboard = () => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => setCalendarOpen(true)}
-            className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center space-x-2"
+            className="p-2 rounded-full bg-blue-100 hover:bg-blue-200 flex items-center space-x-2 text-blue-800"
           >
-            <FaCalendarAlt className="text-gray-600" />
+            <FaCalendarAlt />
             <span className="hidden md:inline">Calendar</span>
           </motion.button>
           
@@ -239,7 +333,7 @@ const AdminDashboard = () => {
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
             onClick={handleLogout}
-            className="flex items-center space-x-2 bg-gradient-to-r from-gray-700 to-gray-600 text-white px-4 py-2 rounded-lg hover:from-gray-800 hover:to-gray-700 shadow-md"
+            className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 shadow-sm font-medium"
           >
             <span>Logout</span>
             <FaSignOutAlt />
@@ -247,100 +341,98 @@ const AdminDashboard = () => {
         </div>
       </motion.header>
 
-      {/* Sidebar and Main Content */}
-      <div className="flex">
-        {/* Main Content */}
-        <main className="flex-1 container mx-auto px-4 py-8">
-          {/* Welcome Section */}
-          <motion.div
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.3 }}
-            className="bg-white rounded-xl shadow-md p-6 mb-8 border-l-4 border-blue-500"
-          >
-            <h2 className="text-2xl font-bold text-gray-800 mb-2">
-              Welcome back, <span className="text-blue-600">{adminName}</span>!
-            </h2>
-            <p className="text-gray-600">
-              You are the Admin now, You have the Power!!!
-            </p>
-            
-            {statsError ? (
-              <div className="text-red-600 text-center mt-4">Error: {statsError}</div>
-            ) : (
-              <motion.div 
-                initial={{ scale: 0.9, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                transition={{ delay: 0.5 }}
-                className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-4"
-              >
-                <div className="bg-yellow-50 p-4 rounded-lg border border-yellow-100">
-                  <p className="text-sm text-yellow-600">Active Students</p>
-                  <p className="text-2xl font-bold">{stats.activeStudents}</p>
-                </div>
-                <div className="bg-red-50 p-4 rounded-lg border border-red-100">
-                  <p className="text-sm text-red-600">Certificate Issued</p>
-                  <p className="text-2xl font-bold">{stats.certifiedStudents}</p>
-                </div>
-                <div className="bg-blue-50 p-4 rounded-lg border border-blue-100">
-                  <p className="text-sm text-blue-600">Total Students</p>
-                  <p className="text-2xl font-bold">{stats.totalStudents}</p>
-                </div>
-                <div className="bg-green-50 p-4 rounded-lg border border-green-100">
-                  <p className="text-sm text-green-600">Staff</p>
-                  <p className="text-2xl font-bold">{stats.totalStaff}</p>
-                </div>
-              </motion.div>
-            )}
-          </motion.div>
+      {/* Main Content */}
+      <main className="container mx-auto px-4 py-8">
+        {/* Welcome Section */}
+        <motion.div
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.3 }}
+          className="bg-white rounded-xl shadow-sm p-6 mb-8 border-l-4 border-blue-500"
+        >
+          <h2 className="text-2xl font-bold text-gray-800 mb-2">
+            Welcome back, <span className="text-blue-600">{adminName}</span>!
+          </h2>
+          <p className="text-gray-600">
+            Manage your academy with powerful tools and insights.
+          </p>
+          
+          {statsError ? (
+            <div className="text-red-600 text-center mt-4">Error: {statsError}</div>
+          ) : (
+            <motion.div 
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ delay: 0.5 }}
+              className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-4"
+            >
+              <div className="bg-blue-50 p-4 rounded-lg border border-blue-100 shadow-sm">
+                <p className="text-sm text-blue-700 font-medium">Active Students</p>
+                <p className="text-2xl font-bold text-blue-800">{stats.activeStudents}</p>
+              </div>
+              <div className="bg-blue-50 p-4 rounded-lg border border-blue-100 shadow-sm">
+                <p className="text-sm text-blue-700 font-medium">Certificates Issued</p>
+                <p className="text-2xl font-bold text-blue-800">{stats.certifiedStudents}</p>
+              </div>
+              <div className="bg-blue-50 p-4 rounded-lg border border-blue-100 shadow-sm">
+                <p className="text-sm text-blue-700 font-medium">Total Students</p>
+                <p className="text-2xl font-bold text-blue-800">{stats.totalStudents}</p>
+              </div>
+              <div className="bg-blue-50 p-4 rounded-lg border border-blue-100 shadow-sm">
+                <p className="text-sm text-blue-700 font-medium">Staff</p>
+                <p className="text-2xl font-bold text-blue-800">{stats.totalstaff}</p>
+              </div>
+            </motion.div>
+          )}
+        </motion.div>
 
-          {/* Action Cards Grid */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.4 }}
-            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
-          >
-            {actionCards.map((card) => (
-              <Link href={card.path} key={card.id}>
+        {/* Action Cards Grid */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.4 }}
+          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
+        >
+          {actionCards.map((card) => (
+            <Link href={card.path} key={card.id}>
+              <motion.div
+                initial={{ scale: 0.95, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                whileHover={{ 
+                  y: -8,
+                  scale: 1.02,
+                  boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1)"
+                }}
+                whileTap={{ scale: 0.98 }}
+                onMouseEnter={() => setIsHovering(card.id)}
+                onMouseLeave={() => setIsHovering(null)}
+                className={`${card.bgColor} ${isHovering === card.id ? card.hoverBgColor : ''} ${card.textColor} rounded-xl p-6 flex flex-col items-center cursor-pointer h-full transition-all duration-300 shadow-sm border border-blue-100`}
+              >
                 <motion.div
-                  initial={{ scale: 0.95, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  whileHover={{ 
-                    y: -8,
-                    boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1)"
-                  }}
-                  whileTap={{ scale: 0.98 }}
-                  onMouseEnter={() => setIsHovering(card.id)}
-                  onMouseLeave={() => setIsHovering(null)}
-                  className={`${card.bgColor} ${isHovering === card.id ? card.hoverBgColor : ''} ${card.textColor} rounded-xl shadow-sm p-6 flex flex-col items-center cursor-pointer h-full transition-colors duration-300 border border-transparent hover:border-opacity-20 hover:border-current`}
+                  animate={isHovering === card.id ? { 
+                    scale: [1, 1.15, 1],
+                    rotate: [0, 5, -5, 0]
+                  } : {}}
+                  transition={{ duration: 0.5 }}
+                  className="mb-4"
                 >
-                  <motion.div
-                    animate={isHovering === card.id ? { 
-                      scale: [1, 1.1, 1],
-                      rotate: [0, 5, -5, 0]
-                    } : {}}
-                    transition={{ duration: 0.5 }}
-                    className="mb-4"
-                  >
-                    {card.icon}
-                  </motion.div>
-                  <h3 className="text-lg font-bold mb-1 text-center">{card.title}</h3>
-                  <motion.p 
-                    animate={isHovering === card.id ? { 
-                      opacity: [0.8, 1, 0.8],
-                    } : {}}
-                    transition={{ duration: 1.5, repeat: Infinity }}
-                    className="text-sm opacity-80"
-                  >
-                    Click to access
-                  </motion.p>
+                  {card.icon}
                 </motion.div>
-              </Link>
-            ))}
-          </motion.div>
-        </main>
-      </div>
+                <h3 className="text-lg font-bold mb-1 text-center">{card.title}</h3>
+                <motion.p 
+                  animate={isHovering === card.id ? { 
+                    opacity: [0.8, 1, 0.8],
+                  } : {}}
+                  transition={{ duration: 1.5, repeat: Infinity }}
+                  className="text-sm opacity-80"
+                >
+                  Click to access
+                </motion.p>
+              </motion.div>
+            </Link>
+          ))}
+        </motion.div>
+      </main>
 
       {/* Calendar Panel */}
       <AnimatePresence>
@@ -351,7 +443,7 @@ const AdminDashboard = () => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setCalendarOpen(false)}
-              className="fixed inset-0 bg-blur bg-opacity-30 z-40 backdrop-blur-sm"
+              className="fixed inset-0 bg-blur bg-opacity-20 z-40 backdrop-blur-sm"
             />
             
             <motion.aside
@@ -359,14 +451,14 @@ const AdminDashboard = () => {
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-              className="fixed top-0 right-0 w-full max-w-md h-full bg-white shadow-xl z-50 p-6 overflow-y-auto"
+              className="fixed top-0 right-0 w-full max-w-md h-full bg-white shadow-xl z-50 p-6 overflow-y-auto border-l border-blue-100"
             >
               <div className="flex justify-between items-center mb-6">
                 <motion.h2 
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.2 }}
-                  className="text-xl font-bold"
+                  className="text-xl font-bold text-blue-800"
                 >
                   Academic Calendar
                 </motion.h2>
@@ -375,7 +467,7 @@ const AdminDashboard = () => {
                   whileHover={{ rotate: 90, scale: 1.1 }}
                   whileTap={{ scale: 0.9 }}
                   onClick={() => setCalendarOpen(false)}
-                  className="p-2 rounded-md hover:bg-gray-100 text-gray-500 hover:text-gray-700"
+                  className="p-2 rounded-md hover:bg-blue-100 text-blue-600 hover:text-blue-800"
                 >
                   <FaTimes />
                 </motion.button>
@@ -385,13 +477,13 @@ const AdminDashboard = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
-                className="flex items-center justify-between mb-4 bg-gray-50 p-2 rounded-lg"
+                className="flex items-center justify-between mb-4 bg-blue-50 p-2 rounded-lg"
               >
                 <motion.button 
                   whileHover={{ x: -2 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={handlePrevMonth}
-                  className="p-2 rounded-md hover:bg-gray-200"
+                  className="p-2 rounded-md hover:bg-blue-200 text-blue-700"
                 >
                   <FaChevronLeft />
                 </motion.button>
@@ -400,7 +492,7 @@ const AdminDashboard = () => {
                   key={currentDate.toString()}
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  className="font-medium"
+                  className="font-medium text-blue-800"
                 >
                   {currentDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
                 </motion.span>
@@ -409,7 +501,7 @@ const AdminDashboard = () => {
                   whileHover={{ x: 2 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={handleNextMonth}
-                  className="p-2 rounded-md hover:bg-gray-200"
+                  className="p-2 rounded-md hover:bg-blue-200 text-blue-700"
                 >
                   <FaChevronRight />
                 </motion.button>
@@ -419,7 +511,7 @@ const AdminDashboard = () => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.4 }}
-                className="bg-gray-50 rounded-lg p-4 shadow-inner"
+                className="bg-blue-50 rounded-lg p-4 shadow-inner"
               >
                 <FullCalendar
                   plugins={[dayGridPlugin]}

@@ -2,7 +2,7 @@
 
 import { useContext, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { UserContext } from "./UserContext";
+import { UserContext } from "./userContext";
 import { Loader2, ShieldAlert } from "lucide-react";
 
 export default function ProtectedAdminRoute({ children }) {
@@ -11,7 +11,7 @@ export default function ProtectedAdminRoute({ children }) {
 
   useEffect(() => {
     if (!loading && (!isAuthenticated || !isAdmin)) {
-      router.push("/admin-login");
+      router.push("/adminLogin");
     }
   }, [loading, isAuthenticated, isAdmin, router]);
 

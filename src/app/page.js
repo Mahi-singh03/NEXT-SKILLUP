@@ -62,10 +62,10 @@ const dropdowns = [
 ];
 
 const buttons = [
-  { path: "/cources", icon: <FaBook />, text: "Courses" },
-  { path: "/gallery", icon: <FaImage />, text: "Gallery" },
-  { path: "/register", icon: <FaUserPlus />, text: "Register" },
-  { path: "/about", icon: <FaInfoCircle />, text: "About" }
+  { path: "/courses", icon: <FaBook />, text: "courses" },
+  { path: "/gallery", icon: <FaImage />, text: "gallery" },
+  { path: "/register", icon: <FaUserPlus />, text: "register" },
+  { path: "/about", icon: <FaInfoCircle />, text: "about" }
 ];
 
 const LandingPage = () => {
