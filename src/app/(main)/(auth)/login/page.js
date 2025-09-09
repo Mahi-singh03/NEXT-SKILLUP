@@ -3,7 +3,7 @@
 import { useState, useEffect, useContext } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { UserContext } from '@/app/components/userContext';
+import { UserContext }  from '../../../components/userContext';
 
 const StudentLoginForm = () => {
   const router = useRouter();
