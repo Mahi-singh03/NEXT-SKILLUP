@@ -2,7 +2,7 @@
 
 import { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { UserContext } from "@/app/components/userContext";
+import { UserContext } from "../components/userContext";
 
 export default function PaymentPage() {
   const { user, isAuthenticated, loading } = useContext(UserContext);

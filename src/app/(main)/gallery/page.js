@@ -251,7 +251,7 @@ const Gallery = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#eaf6fe] px-4  sm:px-6 py-10 lg:px-8 transition-colors duration-300">
+    <div className="min-h-screen bg-[#eaf6fe] px-2  sm:px-6 py-10 lg:px-8 transition-colors duration-300">
       <div className="max-w-7xl mx-auto">
         <motion.div 
           initial={{ opacity: 0, y: -20 }}

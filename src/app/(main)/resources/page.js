@@ -4,7 +4,7 @@ import { useState, useEffect, useContext } from 'react';
 import Head from 'next/head';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
-import { UserContext } from "@/app/components/userContext";
+import { UserContext } from "../components/userContext";
 
 export default function ResourceLibrary() {
   const { isAuthenticated, loading } = useContext(UserContext);
