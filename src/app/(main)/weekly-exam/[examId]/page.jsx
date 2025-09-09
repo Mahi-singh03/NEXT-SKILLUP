@@ -3,7 +3,7 @@
 import { useState, useEffect, useContext } from "react";
 import { useRouter, useParams } from "next/navigation";
 import Link from "next/link";
-import { UserContext } from "../../../components/userContext";
+import { UserContext } from "@/app/components/userContext.js";
 import { WE_1 } from "../question-paper/WE_1.jsx";
 import { WE_2 } from "../question-paper/WE_2.jsx";
 import { WE_3 } from "../question-paper/WE_3.jsx";

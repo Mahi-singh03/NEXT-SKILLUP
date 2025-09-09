@@ -2,7 +2,7 @@
 
 import { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { UserContext } from "@/app/components/userContext";new 
+import { UserContext } from "@/components/userContext";
 
 export default function ContactPage() {
   const { user, isAuthenticated, loading } = useContext(UserContext);
