@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { Menu, X, ChevronDown, User, ChevronRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { UserContext } from "./userContext";
+import { UserContext } from "./new/userContext";
 import Image from 'next/image';
 
 const dropdowns = [

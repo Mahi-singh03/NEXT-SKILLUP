@@ -1,6 +1,6 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import ScrollToTop from "@/app/components/scrollToTop";
-import { UserProvider } from "../components/userContext"; 
+import { UserProvider } from "../components/new/userContext"; 
 import ProtectedAdminRoute from "@/app/components/protectedAdminRoute"; 
 import Navbar from "../components/navbar";
 

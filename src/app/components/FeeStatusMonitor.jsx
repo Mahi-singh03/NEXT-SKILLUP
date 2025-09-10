@@ -1,7 +1,7 @@
 // FeeStatusMonitor.jsx
 import { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { UserContext } from './userContext';
+import { UserContext } from './new/userContext';
 
 const FeeStatusMonitor = ({ onAccessGranted }) => {
   const { user, isAuthenticated, isAdmin, checkFeeStatus } = useContext(UserContext);
