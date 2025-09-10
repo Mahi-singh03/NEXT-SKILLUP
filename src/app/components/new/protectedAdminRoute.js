@@ -2,7 +2,7 @@
 
 import { useContext, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { UserContext } from "./new/userContext";
+import { UserContext } from "../new/userContext";
 import { Loader2, ShieldAlert } from "lucide-react";
 
 export default function ProtectedAdminRoute({ children }) {
