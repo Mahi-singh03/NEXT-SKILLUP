@@ -1,6 +1,6 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import ScrollToTop from "@/app/components/scrollToTop";
+import ScrollToTop from "@/app/components/new/scrollToTop";
 
 
 const geistSans = Geist({
