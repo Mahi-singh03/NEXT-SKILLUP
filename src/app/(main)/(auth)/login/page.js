@@ -18,7 +18,7 @@ const StudentLoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
-    // If already authenticated, redirect to profile
+    // If already authenticated, redirect to profiles
     if (isAuthenticated) {
       router.replace('/profile');
       return;
