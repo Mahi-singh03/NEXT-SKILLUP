@@ -1,7 +1,7 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import ScrollToTop from "@/app/components/new/scrollToTop";
 import { UserProvider } from "../components/new/userContext"; 
-import ProtectedAdminRoute from "@/app/components/protectedAdminRoute"; 
+import ProtectedAdminRoute from "@/app/components/new/protectedAdminRoute"; 
 import Navbar from "../components/navbar";
 
 const geistSans = Geist({
