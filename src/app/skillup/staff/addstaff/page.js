@@ -161,7 +161,7 @@ const AddStaff = () => {
     }
   };
 
-  const handleGoToHome = () => router.push('/mahi');
+  const handleGoToHome = () => router.push('/skillup');
   const handleGoToStaffList = () => router.push('/skillup/staff/editStaff');
 
   // Scroll to top function

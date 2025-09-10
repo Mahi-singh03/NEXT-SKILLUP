@@ -9,6 +9,16 @@ export default function StaffVerification() {
   const [error, setError] = useState('');
   const [staffData, setStaffData] = useState(null);
 
+  // Function to format date to DD-MM-YYYY
+  const formatDate = (dateString) => {
+    if (!dateString) return 'N/A';
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+    return `${day}-${month}-${year}`;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -58,7 +68,7 @@ export default function StaffVerification() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div>
-                <label htmlFor="staffID" className="block text-base font-semibold text-blue-700 mb-2 tracking-wide">
+                <label htmlFor="staffID" className="block text-base font-semibold text-blue-400 mb-2 tracking-wide">
                   Staff ID
                 </label>
                 <input
@@ -66,13 +76,13 @@ export default function StaffVerification() {
                   type="text"
                   value={staffID}
                   onChange={(e) => setStaffID(e.target.value)}
-                  className="w-full px-5 py-3 border border-blue-200 rounded-xl focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all duration-200 bg-blue-50 text-blue-900 placeholder-blue-400 shadow-sm"
+                  className="w-full px-5 py-3 border border-blue-200 rounded-xl focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all duration-200 bg-blue-50 text-blue-400 placeholder-blue-400 shadow-sm"
                   placeholder="Enter your Staff ID"
                   required
                 />
               </div>
               <div>
-                <label htmlFor="dob" className="block text-base font-semibold text-blue-700 mb-2 tracking-wide">
+                <label htmlFor="dob" className="block text-base font-semibold text-blue-400 mb-2 tracking-wide">
                   Date of Birth
                 </label>
                 <input
@@ -80,7 +90,7 @@ export default function StaffVerification() {
                   type="date"
                   value={dob}
                   onChange={(e) => setDob(e.target.value)}
-                  className="w-full px-5 py-3 border border-blue-200 rounded-xl focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all duration-200 bg-blue-50 text-blue-900 placeholder-blue-400 shadow-sm"
+                  className="w-full px-5 py-3 border border-blue-200 rounded-xl focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all duration-200 bg-blue-50 text-blue-400 placeholder-blue-400 shadow-sm"
                   required
                 />
               </div>
@@ -120,7 +130,7 @@ export default function StaffVerification() {
           )}
 
           {staffData && (
-            <div className="mt-10 bg-gradient-to-br from-blue-50 via-blue-100 to-blue-200 rounded-2xl p-8 relative overflow-hidden animate-fade-in-up shadow-xl border border-blue-200">
+            <div className="mt-10 bg-gradient-to-br from-blue-50 via-blue-100 to-blue-200 rounded-2xl p-3 relative overflow-hidden animate-fade-in-up shadow-xl border border-blue-200">
               {/* Verification Stamp */}
               <div className="absolute top-8 -right-8 bg-green-500 text-white font-extrabold py-2 px-14 rotate-45 transform origin-center shadow-lg opacity-95 animate-stamp text-2xl tracking-widest drop-shadow-xl">
                 VERIFIED
@@ -131,16 +141,12 @@ export default function StaffVerification() {
                     <h2 className="text-3xl font-extrabold text-blue-800 mb-1 tracking-tight">{staffData.data.Name}</h2>
                     <p className="text-blue-600 font-medium text-lg">Staff ID: {staffData.data.StaffID}</p>
                   </div>
-                  <div className="bg-blue-100 p-4 rounded-full shadow-md">
-                    <svg className="w-10 h-10 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-                    </svg>
-                  </div>
+                 
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <div>
                     <h3 className="text-xs font-semibold text-blue-500 uppercase mb-1 tracking-wider">Joining Date</h3>
-                    <p className="text-lg font-bold text-blue-900">{new Date(staffData.data.JoinningData).toLocaleDateString()}</p>
+                    <p className="text-lg font-bold text-blue-900">{formatDate(staffData.data.JoinningData)}</p>
                   </div>
                   <div>
                     <h3 className="text-xs font-semibold text-blue-500 uppercase mb-1 tracking-wider">Designation</h3>
@@ -148,12 +154,12 @@ export default function StaffVerification() {
                   </div>
                   <div>
                     <h3 className="text-xs font-semibold text-blue-500 uppercase mb-1 tracking-wider">Date of Birth</h3>
-                    <p className="text-lg font-bold text-blue-900">{new Date(staffData.data.DOB).toLocaleDateString()}</p>
+                    <p className="text-lg font-bold text-blue-900">{formatDate(staffData.data.DOB)}</p>
                   </div>
                   <div>
                     <h3 className="text-xs font-semibold text-blue-500 uppercase mb-1 tracking-wider">Leaving Date</h3>
                     <p className="text-lg font-bold text-blue-900">
-                      {staffData.data.LeavingDate ? new Date(staffData.data.LeavingDate).toLocaleDateString() : 'N/A'}
+                      {staffData.data.LeavingDate ? formatDate(staffData.data.LeavingDate) : 'Currently Working'}
                     </p>
                   </div>
                   <div>

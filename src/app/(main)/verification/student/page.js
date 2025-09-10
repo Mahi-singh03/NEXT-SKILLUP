@@ -8,6 +8,16 @@ export default function StudentVerification() {
   const [error, setError] = useState('');
   const [studentData, setStudentData] = useState(null);
 
+  // Function to format date to DD-MM-YYYY
+  const formatDate = (dateString) => {
+    if (!dateString) return 'N/A';
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+    return `${day}-${month}-${year}`;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -56,7 +66,7 @@ export default function StudentVerification() {
 
   return (
     <div className=" flex  justify-center bg-[#e8efff] pb-80">
-      <div className="w-full max-w-3xl bg-white/90 rounded-3xl shadow-2xl overflow-hidden transform transition-all duration-300 hover:shadow-3xl mt-8 mb-8 border border-blue-200 backdrop-blur-md">
+      <div className="w-full max-w-3xl bg-white/90 rounded-3xl shadow-2xl overflow-hidden transform transition-all duration-300 hover:shadow-3xl mt-8 mb-8 border m-6 border-blue-200 backdrop-blur-md">
         <div className="bg-[#51a4f4] p-8 text-white text-center rounded-b-3xl shadow-md">
           <h1 className="text-4xl font-extrabold mb-2 tracking-tight drop-shadow-lg">Student Verification</h1>
           <p className="opacity-95 text-lg font-medium">Verify your student details quickly and securely</p>
@@ -66,7 +76,7 @@ export default function StudentVerification() {
           <form onSubmit={handleSubmit} className="space-y-8">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div>
-                <label htmlFor="rollNo" className="block text-base font-semibold text-blue-700 mb-2 tracking-wide">
+                <label htmlFor="rollNo" className="block text-base font-semibold text-blue-400 mb-2 tracking-wide">
                   Roll Number
                 </label>
                 <input
@@ -80,7 +90,7 @@ export default function StudentVerification() {
                 />
               </div>
               <div>
-                <label htmlFor="dob" className="block text-base font-semibold text-blue-700 mb-2 tracking-wide">
+                <label htmlFor="dob" className="block text-base font-semibold text-blue-400 mb-2 tracking-wide">
                   Date of Birth
                 </label>
                 <input
@@ -88,7 +98,7 @@ export default function StudentVerification() {
                   type="date"
                   value={dob}
                   onChange={(e) => setDob(e.target.value)}
-                  className="w-full px-5 py-3 border border-blue-200 rounded-xl focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all duration-200 bg-blue-50 text-blue-900 placeholder-blue-400 shadow-sm"
+                  className="w-full px-5 py-3 border border-blue-200 rounded-xl focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all duration-200 bg-blue-50 text-blue-400 placeholder-blue-400 shadow-sm"
                   required
                 />
               </div>
@@ -128,7 +138,7 @@ export default function StudentVerification() {
           )}
 
           {studentData && (
-            <div className="mt-10 bg-gradient-to-br from-blue-50 via-blue-100 to-blue-200 rounded-2xl p-8 relative overflow-hidden shadow-xl border border-blue-200">
+            <div className="mt-10 bg-gradient-to-br from-blue-50 via-blue-100 to-blue-200 rounded-2xl p-3 relative overflow-hidden shadow-xl border border-blue-200">
               {/* Verification Stamp */}
               <div className="absolute top-8 -right-8 bg-green-500 text-white font-extrabold py-2 px-14 rotate-45 transform origin-center shadow-lg opacity-95 text-2xl tracking-widest drop-shadow-xl">
                 VERIFIED
@@ -144,7 +154,7 @@ export default function StudentVerification() {
                       <img 
                         src={studentData.data.photo.url} 
                         alt="Student" 
-                        className="w-30 h-30 rounded-full object-cover border-2 border-white"
+                        className="w-38 h-38 rounded-full object-cover border-2 border-white"
                       />
                     </div>
                   ) : (
@@ -172,13 +182,13 @@ export default function StudentVerification() {
                   <div>
                     <h3 className="text-xs font-semibold text-blue-500 uppercase mb-1 tracking-wider">Start Date</h3>
                     <p className="text-lg font-bold text-blue-900">
-                      {new Date(studentData.data.startDate).toLocaleDateString()}
+                      {formatDate(studentData.data.startDate)}
                     </p>
                   </div>
                   <div>
                     <h3 className="text-xs font-semibold text-blue-500 uppercase mb-1 tracking-wider">End Date</h3>
                     <p className="text-lg font-bold text-blue-900">
-                      {studentData.data.endDate ? new Date(studentData.data.endDate).toLocaleDateString() : 'N/A'}
+                      {studentData.data.endDate ? formatDate(studentData.data.endDate) : 'N/A'}
                     </p>
                   </div>
                   <div>
