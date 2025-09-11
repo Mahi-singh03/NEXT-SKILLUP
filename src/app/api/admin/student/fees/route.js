@@ -59,9 +59,10 @@ export async function GET(request) {
       });
     }
 
-    // Apply course completion filter
+    // Apply course completion filter (supports 'true'/'false' or 'completed'/'active')
     if (courseCompleted) {
-      const isCompleted = courseCompleted === 'true';
+      const normalized = String(courseCompleted).toLowerCase();
+      const isCompleted = normalized === 'true' || normalized === 'completed';
       const currentDate = new Date();
       
       students = students.filter(student => {
@@ -72,8 +73,8 @@ export async function GET(request) {
 
     // Format response with fee status
     const formattedStudents = students.map(student => {
-      const { totalFees = 0, remainingFees = 0, installmentDetails = [], payments = [] } = student.feeDetails || {};
-      const paidFees = payments.reduce((sum, payment) => sum + payment.amount, 0);
+      const { totalFees = 0, remainingFees = 0, installmentDetails = [] } = student.feeDetails || {};
+      const paidFees = totalFees - remainingFees;
       
       let feeStatus = 'unpaid';
       if (remainingFees === 0 && totalFees > 0) feeStatus = 'paid';
@@ -94,12 +95,17 @@ export async function GET(request) {
           paidFees,
           remainingFees,
           status: feeStatus,
-          installmentDetails: installmentDetails.map(installment => ({
-            amount: installment.amount,
-            submissionDate: installment.submissionDate,
-            paid: installment.paid,
-            payments: installment.payments || []
-          }))
+          installmentDetails: installmentDetails.map(installment => {
+            const sub = installment?.submissionDate ? new Date(installment.submissionDate) : null;
+            const safeSubmission = sub && !isNaN(sub) ? sub.toISOString() : new Date().toISOString();
+            return {
+              amount: installment.amount,
+              originalAmount: installment.originalAmount,
+              submissionDate: safeSubmission,
+              paid: installment.paid,
+              payments: installment.payments || []
+            };
+          })
         },
         isCourseCompleted
       };
@@ -208,19 +214,28 @@ export async function PUT(request) {
       if (student.feeDetails.totalFees && feeData.installments) {
         const amountPerInstallment = Math.floor(student.feeDetails.totalFees / feeData.installments);
         const remainingAmount = student.feeDetails.totalFees % feeData.installments;
-        const joining = new Date(student.joiningDate);
-        
-        student.feeDetails.installmentDetails = Array.from({ length: feeData.installments }, (_, index) => {
-          const submissionDate = new Date(joining);
-          submissionDate.setMonth(joining.getMonth() + index);
-          
-          // Distribute remaining amount to first installment
+
+        const joining = student.joiningDate ? new Date(student.joiningDate) : new Date();
+        const endDate = student.farewellDate ? new Date(student.farewellDate) : new Date(new Date(joining).setMonth(joining.getMonth() + feeData.installments - 1));
+
+        const count = feeData.installments;
+        const startMs = joining.getTime();
+        const endMs = endDate.getTime();
+        const spanMs = Math.max(0, endMs - startMs);
+
+        student.feeDetails.installmentDetails = Array.from({ length: count }, (_, index) => {
+          // First installment exactly on joining date; others evenly spaced to endDate
+          const ratio = count === 1 ? 0 : index / (count - 1);
+          const submissionDate = new Date(startMs + Math.round(spanMs * ratio));
+
           const installmentAmount = index === 0 ? amountPerInstallment + remainingAmount : amountPerInstallment;
-          
+
           return {
             amount: installmentAmount,
+            originalAmount: installmentAmount,
             submissionDate,
-            paid: false
+            paid: false,
+            payments: []
           };
         });
       }

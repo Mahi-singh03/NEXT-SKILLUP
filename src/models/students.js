@@ -407,13 +407,16 @@ userSchema.pre('save', async function (next) {
     if (!installmentDetails || installmentDetails.length === 0) {
       const amountPerInstallment = Math.floor(totalFees / installments);
       const remainingAmount = totalFees % installments;
-      const joining = new Date(this.joiningDate);
+      const joining = this.joiningDate ? new Date(this.joiningDate) : new Date();
+      const endDate = this.farewellDate ? new Date(this.farewellDate) : new Date(new Date(joining).setMonth(joining.getMonth() + Math.max(0, installments - 1)));
+      const startMs = joining.getTime();
+      const endMs = endDate.getTime();
+      const spanMs = Math.max(0, endMs - startMs);
       
       this.feeDetails.installmentDetails = Array.from({ length: installments }, (_, index) => {
-        const submissionDate = new Date(joining);
-        submissionDate.setMonth(joining.getMonth() + index);
+        const ratio = installments === 1 ? 0 : index / (installments - 1);
+        const submissionDate = new Date(startMs + Math.round(spanMs * ratio));
         
-        // Distribute remaining amount to first installment
         const installmentAmount = index === 0 ? amountPerInstallment + remainingAmount : amountPerInstallment;
         
         return {

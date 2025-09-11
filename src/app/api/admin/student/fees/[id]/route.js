@@ -28,8 +28,8 @@ export async function GET(request, { params }) {
     }
 
     // Format response with fee status
-    const { totalFees = 0, remainingFees = 0, installmentDetails = [], payments = [] } = student.feeDetails || {};
-    const paidFees = payments.reduce((sum, payment) => sum + payment.amount, 0);
+    const { totalFees = 0, remainingFees = 0, installmentDetails = [] } = student.feeDetails || {};
+    const paidFees = totalFees - remainingFees;
     
     let feeStatus = 'unpaid';
     if (remainingFees === 0 && totalFees > 0) feeStatus = 'paid';
@@ -50,12 +50,17 @@ export async function GET(request, { params }) {
         paidFees,
         remainingFees,
         status: feeStatus,
-        installmentDetails: installmentDetails.map(installment => ({
-          amount: installment.amount,
-          submissionDate: installment.submissionDate,
-          paid: installment.paid,
-          payments: installment.payments || []
-        }))
+        installmentDetails: installmentDetails.map(installment => {
+          const sub = installment?.submissionDate ? new Date(installment.submissionDate) : null;
+          const safeSubmission = sub && !isNaN(sub) ? sub.toISOString() : new Date().toISOString();
+          return {
+            amount: installment.amount,
+            originalAmount: installment.originalAmount,
+            submissionDate: safeSubmission,
+            paid: installment.paid,
+            payments: installment.payments || []
+          };
+        })
       },
       isCourseCompleted,
       farewellDate: student.farewellDate,
@@ -102,94 +107,88 @@ export async function PUT(request, { params }) {
 
     // Handle fee details update
     if (updateData.feeDetails) {
-      if (updateData.feeDetails.totalFees !== undefined) {
-        // Validate total fees
-        if (updateData.feeDetails.totalFees < 0) {
-          return Response.json({
-            success: false,
-            message: 'Total fees cannot be negative'
-          }, { status: 400 });
-        }
-        
-        student.feeDetails.totalFees = updateData.feeDetails.totalFees;
-        
-        // If remainingFees is not provided, set it to totalFees
-        if (updateData.feeDetails.remainingFees === undefined) {
-          student.feeDetails.remainingFees = updateData.feeDetails.totalFees;
+      const details = updateData.feeDetails;
+
+      if (details.totalFees !== undefined) {
+        student.feeDetails.totalFees = details.totalFees;
+        // If remainingFees is not provided, default to totalFees
+        if (details.remainingFees === undefined) {
+          student.feeDetails.remainingFees = details.totalFees;
         }
       }
 
-      if (updateData.feeDetails.remainingFees !== undefined) {
-        // Validate remaining fees
-        if (updateData.feeDetails.remainingFees < 0) {
-          return Response.json({
-            success: false,
-            message: 'Remaining fees cannot be negative'
-          }, { status: 400 });
-        }
-        
-        if (updateData.feeDetails.remainingFees > student.feeDetails.totalFees) {
-          return Response.json({
-            success: false,
-            message: 'Remaining fees cannot be greater than total fees'
-          }, { status: 400 });
-        }
-        
-        student.feeDetails.remainingFees = updateData.feeDetails.remainingFees;
+      if (details.remainingFees !== undefined) {
+        student.feeDetails.remainingFees = details.remainingFees;
       }
 
-      if (updateData.feeDetails.installments !== undefined) {
-        student.feeDetails.installments = updateData.feeDetails.installments;
-        
-        // Regenerate installment details if installments changed
-        if (student.feeDetails.totalFees && updateData.feeDetails.installments) {
-          const amountPerInstallment = Math.floor(student.feeDetails.totalFees / updateData.feeDetails.installments);
-          const remainingAmount = student.feeDetails.totalFees % updateData.feeDetails.installments;
-          const joining = new Date(student.joiningDate);
-          
-          student.feeDetails.installmentDetails = Array.from({ length: updateData.feeDetails.installments }, (_, index) => {
-            const submissionDate = new Date(joining);
-            submissionDate.setMonth(joining.getMonth() + index);
-            
-            // Distribute remaining amount to first installment
-            const installmentAmount = index === 0 ? amountPerInstallment + remainingAmount : amountPerInstallment;
-            
-            return {
-              amount: installmentAmount,
-              submissionDate,
-              paid: false
-            };
-          });
+      const hasInstallmentsNumber = details.installments !== undefined && details.installments !== null;
+      const hasInstallmentAmounts = Array.isArray(details.installmentAmounts) && details.installmentAmounts.length > 0;
+
+      // Regenerate installment details if installments or custom amounts provided
+      if (hasInstallmentsNumber || hasInstallmentAmounts) {
+        const count = hasInstallmentAmounts
+          ? details.installmentAmounts.length
+          : (hasInstallmentsNumber ? parseInt(details.installments) : (student.feeDetails.installmentDetails?.length || 0));
+
+        student.feeDetails.installments = count;
+
+        const joining = student.joiningDate ? new Date(student.joiningDate) : new Date();
+        const endDate = student.farewellDate ? new Date(student.farewellDate) : new Date(new Date(joining).setMonth(joining.getMonth() + Math.max(0, count - 1)));
+        const startMs = joining.getTime();
+        const endMs = endDate.getTime();
+        const spanMs = Math.max(0, endMs - startMs);
+
+        let amounts = [];
+        if (hasInstallmentAmounts) {
+          amounts = details.installmentAmounts.map(a => parseFloat(a));
+        } else {
+          const total = Number(student.feeDetails.totalFees || 0);
+          const base = count > 0 ? Math.floor(total / count) : 0;
+          const remainder = count > 0 ? total % count : 0;
+          amounts = Array.from({ length: count }, (_, i) => (i === 0 ? base + remainder : base));
         }
+
+        student.feeDetails.installmentDetails = Array.from({ length: count }, (_, index) => {
+          const ratio = count === 1 ? 0 : index / (count - 1);
+          const submissionDate = new Date(startMs + Math.round(spanMs * ratio));
+          const amount = amounts[index] ?? 0;
+          return {
+            amount,
+            originalAmount: amount,
+            submissionDate,
+            paid: false,
+            payments: []
+          };
+        });
       }
 
-      // Update specific installment if provided
-      if (updateData.feeDetails.installmentDetails) {
-        // Handle single installment update
-        if (typeof updateData.feeDetails.installmentDetails === 'object' && !Array.isArray(updateData.feeDetails.installmentDetails)) {
-          const installmentIndex = updateData.feeDetails.installmentDetails.index;
-          const updates = updateData.feeDetails.installmentDetails;
-          
-          if (installmentIndex !== undefined && student.feeDetails.installmentDetails[installmentIndex]) {
-            if (updates.amount !== undefined) {
-              student.feeDetails.installmentDetails[installmentIndex].amount = updates.amount;
-            }
-            if (updates.submissionDate !== undefined) {
-              student.feeDetails.installmentDetails[installmentIndex].submissionDate = new Date(updates.submissionDate);
-            }
-            if (updates.paid !== undefined) {
-              student.feeDetails.installmentDetails[installmentIndex].paid = updates.paid;
-            }
-          }
-        } else if (Array.isArray(updateData.feeDetails.installmentDetails)) {
-          // Handle array of installment updates
-          updateData.feeDetails.installmentDetails.forEach((updatedInstallment, index) => {
+      // Update specific installments if provided (supports array or index-mapped object)
+      if (details.installmentDetails) {
+        const updates = details.installmentDetails;
+        if (Array.isArray(updates)) {
+          updates.forEach((updatedInstallment, index) => {
             if (student.feeDetails.installmentDetails[index]) {
               if (updatedInstallment.amount !== undefined) {
                 student.feeDetails.installmentDetails[index].amount = updatedInstallment.amount;
               }
               if (updatedInstallment.submissionDate !== undefined) {
-                student.feeDetails.installmentDetails[index].submissionDate = new Date(updatedInstallment.submissionDate);
+                student.feeDetails.installmentDetails[index].submissionDate = updatedInstallment.submissionDate;
+              }
+              if (updatedInstallment.paid !== undefined) {
+                student.feeDetails.installmentDetails[index].paid = updatedInstallment.paid;
+              }
+            }
+          });
+        } else if (typeof updates === 'object') {
+          Object.keys(updates).forEach(key => {
+            const index = parseInt(key);
+            const updatedInstallment = updates[key];
+            if (Number.isInteger(index) && student.feeDetails.installmentDetails[index]) {
+              if (updatedInstallment.amount !== undefined) {
+                student.feeDetails.installmentDetails[index].amount = updatedInstallment.amount;
+              }
+              if (updatedInstallment.submissionDate !== undefined) {
+                student.feeDetails.installmentDetails[index].submissionDate = updatedInstallment.submissionDate;
               }
               if (updatedInstallment.paid !== undefined) {
                 student.feeDetails.installmentDetails[index].paid = updatedInstallment.paid;

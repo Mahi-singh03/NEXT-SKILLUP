@@ -59,7 +59,7 @@ export async function POST(request, { params }) {
 
     student.feeDetails.payments.push(payment);
     
-    // Calculate total paid fees from all payments
+    // Update remaining fees based on all payments vs total fees
     const totalPaidFees = student.feeDetails.payments.reduce((sum, p) => sum + p.amount, 0);
     const totalFees = student.feeDetails.totalFees || 0;
     student.feeDetails.remainingFees = Math.max(0, totalFees - totalPaidFees);
@@ -74,11 +74,40 @@ export async function POST(request, { params }) {
           installment.payments = [];
         }
         
+        // Store original amount if not already stored
+        if (!installment.originalAmount) {
+          installment.originalAmount = installment.amount;
+        }
+        
         installment.payments.push(payment);
         
-        // Check if installment is fully paid
+        // Calculate total paid for this installment
         const totalPaid = installment.payments.reduce((sum, p) => sum + p.amount, 0);
-        installment.paid = totalPaid >= installment.amount;
+        
+        // NEW LOGIC: When any payment is made towards this installment,
+        // reduce this installment's amount to totalPaid so due becomes 0,
+        // then move the shortage to the next installment.
+        if (totalPaid > 0 && !installment.paid) {
+          const shortage = Math.max(installment.originalAmount - totalPaid, 0);
+
+          // Make this installment show no due in UI (amount - payments = 0)
+          installment.amount = totalPaid;
+          installment.paid = true;
+
+          if (shortage > 0) {
+            // Add shortage to the next unpaid installment
+            for (let i = installmentIndex + 1; i < student.feeDetails.installmentDetails.length; i++) {
+              const nextInstallment = student.feeDetails.installmentDetails[i];
+              // Store original amount if not already stored
+              if (!nextInstallment.originalAmount) {
+                nextInstallment.originalAmount = nextInstallment.amount;
+              }
+              nextInstallment.amount += shortage;
+              // Don't mark it paid here; UI will compute due based on payments
+              break; // Only add to the immediate next installment
+            }
+          }
+        }
       }
     }
 

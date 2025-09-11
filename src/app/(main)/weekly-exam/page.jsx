@@ -113,7 +113,7 @@ export default function ExamList() {
         <FeeStatusMonitor onAccessGranted={handleAccessGranted} />
       )}
 
-      <div className="min-h-screen bg-[#ddedf1] py-12 px-4 sm:px-6 lg:px-8">
+      <div className="min-h-screen bg-[#ddedf1] py-2 px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl mx-auto">
           <div className="text-center mb-12">
            
@@ -127,7 +127,7 @@ export default function ExamList() {
           {/* Show exams only if admin or access is granted */}
           {(isAdmin || accessGranted) ? (
             <div className="space-y-4">
-               <h1 className="text-3xl sm:text-4xl text-center pb-10 font-bold text-blue-600 mb-2">
+               <h1 className="text-3xl sm:text-4xl text-center pb-7 font-bold text-blue-600 mb-2">
               Available Weekly Exams
                </h1>
               {exams.map((exam) => (
