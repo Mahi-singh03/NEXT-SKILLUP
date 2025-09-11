@@ -152,6 +152,18 @@ const StudentManagementDashboard = () => {
   // Handle fee payment
   const handleFeePayment = async (studentId, amount, installmentIndex = null) => {
     try {
+      // Validate payment amount
+      if (!amount || amount <= 0) {
+        setError('Please enter a valid payment amount');
+        return;
+      }
+      
+      const paymentAmount = parseFloat(amount);
+      if (paymentAmount <= 0) {
+        setError('Payment amount must be greater than 0');
+        return;
+      }
+      
       setModalLoading(true);
       const response = await fetch(`/api/admin/student/fees/${studentId}/payments`, {
         method: 'POST',
@@ -159,7 +171,7 @@ const StudentManagementDashboard = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          amount: parseFloat(amount),
+          amount: paymentAmount,
           installmentIndex,
           paymentMethod: 'online'
         }),
@@ -181,7 +193,7 @@ const StudentManagementDashboard = () => {
         setSuccessMessage('Payment successful!');
         setTimeout(() => setSuccessMessage(null), 3000);
       } else {
-        setError('Payment failed');
+        setError(data.message || 'Payment failed');
       }
     } catch (err) {
       setError('Error processing payment');
@@ -225,7 +237,7 @@ const StudentManagementDashboard = () => {
         setSuccessMessage('Fee structure updated successfully!');
         setTimeout(() => setSuccessMessage(null), 3000);
       } else {
-        setError('Failed to update fee structure');
+        setError(data.message || 'Failed to update fee structure');
       }
     } catch (err) {
       setError('Error updating fee structure');
@@ -845,11 +857,15 @@ const StudentManagementDashboard = () => {
                             type="number"
                             className="w-full p-2 border border-gray-300 rounded"
                             value={feeEditData.totalFees}
-                            onChange={(e) => setFeeEditData({
-                              ...feeEditData,
-                              totalFees: parseFloat(e.target.value),
-                              remainingFees: parseFloat(e.target.value) - (feeEditData.totalFees - feeEditData.remainingFees)
-                            })}
+                            onChange={(e) => {
+                              const newTotalFees = parseFloat(e.target.value) || 0;
+                              const currentPaidFees = selectedStudent.feeDetails.paidFees || 0;
+                              setFeeEditData({
+                                ...feeEditData,
+                                totalFees: newTotalFees,
+                                remainingFees: Math.max(0, newTotalFees - currentPaidFees)
+                              });
+                            }}
                           />
                         </div>
                         <div>

@@ -23,16 +23,15 @@ const dropdowns = [
     icon: <MdCastForEducation />,
     label: "Online Courses",
     links: [
-      { path: "/OnlineCourse/Register", text: "Register" },
-      { path: "/OnlineCourse/Course-Videos", text: "Course Videos" },
+      { path: "/onlineCourse/register", text: "Register" },
+      { text: "Login", path: "/onlineCourse/login" },
     ],
   },
   {
     icon: <FaGraduationCap />,
     label: "Exam",
     links: [
-      { path: "/weekly-exam", text: "Weekly Exam" },
-      { path: "/Exams/Final-Exam", text: "Final Exams" },
+      { path: "/weekly-exam", text: "Weekly Exam" }
     ],
   },
   {
@@ -47,16 +46,15 @@ const dropdowns = [
     icon: <FaBriefcase />,
     label: "Job",
     links: [
-      { path: "/Job/Job-Apply", text: "Apply Job" },
-      { path: "/Job/Career-Guidance", text: "Career Guidance" },
+      { path: "/job/jobApply", text: "Apply Job" },
+     
     ],
   },
   {
     icon: <FaSignInAlt />,
     label: "Login",
     links: [
-      { path: "/student-login", text: "Student Login" },
-      { path: "/Admin/login", text: "Admin Login" },
+      { path: "/login", text: "Student Login" },
     ],
   },
 ];

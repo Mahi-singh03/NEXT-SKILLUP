@@ -59,10 +59,10 @@ export async function POST(request, { params }) {
 
     student.feeDetails.payments.push(payment);
     
-    // Update remaining fees
-    const currentRemaining = student.feeDetails.remainingFees || 0;
-    const newRemaining = Math.max(0, currentRemaining - parseFloat(amount));
-    student.feeDetails.remainingFees = newRemaining;
+    // Calculate total paid fees from all payments
+    const totalPaidFees = student.feeDetails.payments.reduce((sum, p) => sum + p.amount, 0);
+    const totalFees = student.feeDetails.totalFees || 0;
+    student.feeDetails.remainingFees = Math.max(0, totalFees - totalPaidFees);
 
     // Update installment if specified
     if (installmentIndex !== null && student.feeDetails.installmentDetails) {

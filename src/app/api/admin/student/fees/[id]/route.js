@@ -28,8 +28,8 @@ export async function GET(request, { params }) {
     }
 
     // Format response with fee status
-    const { totalFees = 0, remainingFees = 0, installmentDetails = [] } = student.feeDetails || {};
-    const paidFees = totalFees - remainingFees;
+    const { totalFees = 0, remainingFees = 0, installmentDetails = [], payments = [] } = student.feeDetails || {};
+    const paidFees = payments.reduce((sum, payment) => sum + payment.amount, 0);
     
     let feeStatus = 'unpaid';
     if (remainingFees === 0 && totalFees > 0) feeStatus = 'paid';
@@ -103,6 +103,14 @@ export async function PUT(request, { params }) {
     // Handle fee details update
     if (updateData.feeDetails) {
       if (updateData.feeDetails.totalFees !== undefined) {
+        // Validate total fees
+        if (updateData.feeDetails.totalFees < 0) {
+          return Response.json({
+            success: false,
+            message: 'Total fees cannot be negative'
+          }, { status: 400 });
+        }
+        
         student.feeDetails.totalFees = updateData.feeDetails.totalFees;
         
         // If remainingFees is not provided, set it to totalFees
@@ -112,6 +120,21 @@ export async function PUT(request, { params }) {
       }
 
       if (updateData.feeDetails.remainingFees !== undefined) {
+        // Validate remaining fees
+        if (updateData.feeDetails.remainingFees < 0) {
+          return Response.json({
+            success: false,
+            message: 'Remaining fees cannot be negative'
+          }, { status: 400 });
+        }
+        
+        if (updateData.feeDetails.remainingFees > student.feeDetails.totalFees) {
+          return Response.json({
+            success: false,
+            message: 'Remaining fees cannot be greater than total fees'
+          }, { status: 400 });
+        }
+        
         student.feeDetails.remainingFees = updateData.feeDetails.remainingFees;
       }
 
@@ -142,19 +165,38 @@ export async function PUT(request, { params }) {
 
       // Update specific installment if provided
       if (updateData.feeDetails.installmentDetails) {
-        updateData.feeDetails.installmentDetails.forEach((updatedInstallment, index) => {
-          if (student.feeDetails.installmentDetails[index]) {
-            if (updatedInstallment.amount !== undefined) {
-              student.feeDetails.installmentDetails[index].amount = updatedInstallment.amount;
+        // Handle single installment update
+        if (typeof updateData.feeDetails.installmentDetails === 'object' && !Array.isArray(updateData.feeDetails.installmentDetails)) {
+          const installmentIndex = updateData.feeDetails.installmentDetails.index;
+          const updates = updateData.feeDetails.installmentDetails;
+          
+          if (installmentIndex !== undefined && student.feeDetails.installmentDetails[installmentIndex]) {
+            if (updates.amount !== undefined) {
+              student.feeDetails.installmentDetails[installmentIndex].amount = updates.amount;
             }
-            if (updatedInstallment.submissionDate !== undefined) {
-              student.feeDetails.installmentDetails[index].submissionDate = updatedInstallment.submissionDate;
+            if (updates.submissionDate !== undefined) {
+              student.feeDetails.installmentDetails[installmentIndex].submissionDate = new Date(updates.submissionDate);
             }
-            if (updatedInstallment.paid !== undefined) {
-              student.feeDetails.installmentDetails[index].paid = updatedInstallment.paid;
+            if (updates.paid !== undefined) {
+              student.feeDetails.installmentDetails[installmentIndex].paid = updates.paid;
             }
           }
-        });
+        } else if (Array.isArray(updateData.feeDetails.installmentDetails)) {
+          // Handle array of installment updates
+          updateData.feeDetails.installmentDetails.forEach((updatedInstallment, index) => {
+            if (student.feeDetails.installmentDetails[index]) {
+              if (updatedInstallment.amount !== undefined) {
+                student.feeDetails.installmentDetails[index].amount = updatedInstallment.amount;
+              }
+              if (updatedInstallment.submissionDate !== undefined) {
+                student.feeDetails.installmentDetails[index].submissionDate = new Date(updatedInstallment.submissionDate);
+              }
+              if (updatedInstallment.paid !== undefined) {
+                student.feeDetails.installmentDetails[index].paid = updatedInstallment.paid;
+              }
+            }
+          });
+        }
       }
     }
 

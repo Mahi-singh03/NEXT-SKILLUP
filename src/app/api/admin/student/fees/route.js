@@ -72,8 +72,8 @@ export async function GET(request) {
 
     // Format response with fee status
     const formattedStudents = students.map(student => {
-      const { totalFees = 0, remainingFees = 0, installmentDetails = [] } = student.feeDetails || {};
-      const paidFees = totalFees - remainingFees;
+      const { totalFees = 0, remainingFees = 0, installmentDetails = [], payments = [] } = student.feeDetails || {};
+      const paidFees = payments.reduce((sum, payment) => sum + payment.amount, 0);
       
       let feeStatus = 'unpaid';
       if (remainingFees === 0 && totalFees > 0) feeStatus = 'paid';
