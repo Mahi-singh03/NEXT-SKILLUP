@@ -44,7 +44,7 @@ const StudentManagementDashboard = () => {
     courseCompleted: ''
   });
 
-  // Fetch students from API with pagination
+  // Fetch students from API with pagination (or all when filtered)
   const fetchStudents = async (page = 1) => {
     try {
       setLoading(true);
@@ -58,6 +58,10 @@ const StudentManagementDashboard = () => {
       if (searchTerm) params.append('search', searchTerm);
       if (filters.feeStatus) params.append('feeStatus', filters.feeStatus);
       if (filters.courseCompleted) params.append('courseCompleted', filters.courseCompleted);
+      // When a feeStatus filter is active, request all results in a single page
+      if (filters.feeStatus || filters.courseCompleted) {
+        params.append('all', 'true');
+      }
       
       const response = await fetch(`/api/admin/student/fees?${params.toString()}`);
       const data = await response.json();
@@ -65,11 +69,20 @@ const StudentManagementDashboard = () => {
       if (data.success) {
         setStudents(data.data);
         setFilteredStudents(data.data);
-        setCurrentPage(data.currentPage);
-        setTotalPages(data.totalPages);
-        setTotalStudents(data.totalStudents);
-        setHasNextPage(data.hasNextPage);
-        setHasPrevPage(data.hasPrevPage);
+        // When showing all results, collapse pagination state
+        if (filters.feeStatus || filters.courseCompleted) {
+          setCurrentPage(1);
+          setTotalPages(1);
+          setTotalStudents(data.totalStudents);
+          setHasNextPage(false);
+          setHasPrevPage(false);
+        } else {
+          setCurrentPage(data.currentPage);
+          setTotalPages(data.totalPages);
+          setTotalStudents(data.totalStudents);
+          setHasNextPage(data.hasNextPage);
+          setHasPrevPage(data.hasPrevPage);
+        }
       } else {
         setError('Failed to fetch students');
       }
@@ -84,30 +97,10 @@ const StudentManagementDashboard = () => {
     fetchStudents(1);
   }, []);
 
-  // Apply filters and search
+  // Keep filteredStudents in sync with server data only
   useEffect(() => {
-    let result = students;
-
-    // Apply tab filter
-    if (activeTab === 'active') {
-      result = result.filter(student => !student.isCourseCompleted);
-    } else if (activeTab === 'completed') {
-      result = result.filter(student => student.isCourseCompleted);
-    }
-
-    // Apply fee status filter
-    if (filters.feeStatus) {
-      result = result.filter(student => student.feeDetails.status === filters.feeStatus);
-    }
-
-    // Apply course completion filter
-    if (filters.courseCompleted) {
-      const isCompleted = filters.courseCompleted === 'completed';
-      result = result.filter(student => student.isCourseCompleted === isCompleted);
-    }
-
-    setFilteredStudents(result);
-  }, [students, activeTab, filters]);
+    setFilteredStudents(students);
+  }, [students]);
 
   // Handle search with debouncing
   useEffect(() => {
@@ -403,8 +396,8 @@ const StudentManagementDashboard = () => {
       >
         <div className="flex justify-between items-start">
           <div>
-            <h1 className="text-3xl font-bold text-gray-800">Student Management</h1>
-            <p className="text-gray-600">Manage and track student information</p>
+            <h1 className="text-3xl font-bold text-blue-500">Student Management</h1>
+            <p className="text-gray-600">Manage and track student Fees</p>
           </div>
           <div className="flex gap-2">
             <button
@@ -417,15 +410,7 @@ const StudentManagementDashboard = () => {
               </svg>
               {loading ? 'Refreshing...' : 'Refresh'}
             </button>
-            <button
-              onClick={testPaymentLogic}
-              className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors flex items-center gap-2"
-            >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              Test Logic
-            </button>
+           
           </div>
         </div>
         <p className="text-sm text-gray-500 mt-2">
@@ -583,19 +568,28 @@ const StudentManagementDashboard = () => {
         <div className="flex border-b border-gray-200 mt-4">
           <button
             className={`px-4 py-2 font-medium ${activeTab === 'all' ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-500'}`}
-            onClick={() => setActiveTab('all')}
+            onClick={() => {
+              setActiveTab('all');
+              setFilters(prev => ({ ...prev, courseCompleted: '' }));
+            }}
           >
             All Students
           </button>
           <button
             className={`px-4 py-2 font-medium ${activeTab === 'active' ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-500'}`}
-            onClick={() => setActiveTab('active')}
+            onClick={() => {
+              setActiveTab('active');
+              setFilters(prev => ({ ...prev, courseCompleted: 'active' }));
+            }}
           >
             Active
           </button>
           <button
             className={`px-4 py-2 font-medium ${activeTab === 'completed' ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-500'}`}
-            onClick={() => setActiveTab('completed')}
+            onClick={() => {
+              setActiveTab('completed');
+              setFilters(prev => ({ ...prev, courseCompleted: 'completed' }));
+            }}
           >
             Completed
           </button>
@@ -704,7 +698,7 @@ const StudentManagementDashboard = () => {
       </motion.div>
 
       {/* Pagination */}
-      {totalPages > 1 && (
+      {totalPages > 1 && !filters.feeStatus && !filters.courseCompleted && (
         <motion.div 
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}

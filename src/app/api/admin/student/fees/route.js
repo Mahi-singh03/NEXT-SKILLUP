@@ -13,76 +13,126 @@ export async function GET(request) {
     const rollNo = searchParams.get('rollNo');
     const name = searchParams.get('name');
     const feeStatus = searchParams.get('feeStatus'); // 'paid', 'unpaid', or 'partial'
-    const courseCompleted = searchParams.get('courseCompleted'); // 'true' or 'false'
+    const courseCompleted = searchParams.get('courseCompleted'); // 'true'/'false' or 'completed'/'active'
     const page = parseInt(searchParams.get('page')) || 1;
-    const limit = parseInt(searchParams.get('limit')) || 15;
-    const skip = (page - 1) * limit;
+    const limitParam = searchParams.get('limit');
+    const all = String(searchParams.get('all')) === 'true';
+    const limit = all ? null : (parseInt(limitParam) || 15);
+    const skip = all ? 0 : (page - 1) * (limit || 0);
 
-    // Build query object
-    let query = {};
+    // Build base match
+    let baseMatch = {};
 
-    // Search across multiple fields
     if (search) {
-      query.$or = [
+      baseMatch.$or = [
         { fullName: { $regex: search, $options: 'i' } },
         { rollNo: { $regex: search, $options: 'i' } },
         { phoneNumber: { $regex: search, $options: 'i' } },
         { emailAddress: { $regex: search, $options: 'i' } }
       ];
     }
+    if (phoneNumber) baseMatch.phoneNumber = phoneNumber;
+    if (rollNo) baseMatch.rollNo = rollNo;
+    if (name) baseMatch.fullName = { $regex: name, $options: 'i' };
 
-    // Specific field searches
-    if (phoneNumber) query.phoneNumber = phoneNumber;
-    if (rollNo) query.rollNo = rollNo;
-    if (name) query.fullName = { $regex: name, $options: 'i' };
+    const now = new Date();
 
-    // Get total count for pagination
-    const totalStudents = await registered_students.countDocuments(query);
-    const totalPages = Math.ceil(totalStudents / limit);
+    // Aggregation to compute fee status and filter server-side before pagination
+    const pipeline = [
+      { $match: baseMatch },
+      {
+        $project: {
+          fullName: 1,
+          photo: 1,
+          rollNo: 1,
+          phoneNumber: 1,
+          emailAddress: 1,
+          farewellDate: 1,
+          'feeDetails.totalFees': { $ifNull: ['$feeDetails.totalFees', 0] },
+          'feeDetails.remainingFees': { $ifNull: ['$feeDetails.remainingFees', 0] },
+          'feeDetails.installmentDetails': { $ifNull: ['$feeDetails.installmentDetails', []] }
+        }
+      },
+      {
+        $addFields: {
+          paidFees: { $subtract: ['$feeDetails.totalFees', '$feeDetails.remainingFees'] },
+          computedFeeStatus: {
+            $switch: {
+              branches: [
+                {
+                  case: { $and: [ { $gt: ['$feeDetails.totalFees', 0] }, { $eq: ['$feeDetails.remainingFees', 0] } ] },
+                  then: 'paid'
+                },
+                {
+                  case: { $eq: ['$feeDetails.remainingFees', '$feeDetails.totalFees'] },
+                  then: 'unpaid'
+                },
+                {
+                  case: { $and: [ { $gt: ['$feeDetails.remainingFees', 0] }, { $lt: ['$feeDetails.remainingFees', '$feeDetails.totalFees'] } ] },
+                  then: 'partial'
+                }
+              ],
+              default: 'unpaid'
+            }
+          },
+          isCourseCompletedComputed: { $cond: [ { $lt: ['$farewellDate', now] }, true, false ] }
+        }
+      }
+    ];
 
-    // Fetch students with basic info and pagination
-    let students = await registered_students.find(query)
-      .select('fullName photo rollNo phoneNumber emailAddress feeDetails farewellDate')
-      .skip(skip)
-      .limit(limit)
-      .lean();
-
-    // Apply fee status filter
+    // Apply feeStatus filter if provided
     if (feeStatus) {
-      students = students.filter(student => {
-        const { totalFees, remainingFees } = student.feeDetails || { totalFees: 0, remainingFees: 0 };
-        
-        if (feeStatus === 'paid') return remainingFees === 0;
-        if (feeStatus === 'unpaid') return remainingFees === totalFees;
-        if (feeStatus === 'partial') return remainingFees > 0 && remainingFees < totalFees;
-        return true;
-      });
+      pipeline.push({ $match: { computedFeeStatus: feeStatus } });
     }
 
-    // Apply course completion filter (supports 'true'/'false' or 'completed'/'active')
+    // Apply courseCompleted filter if provided
     if (courseCompleted) {
       const normalized = String(courseCompleted).toLowerCase();
-      const isCompleted = normalized === 'true' || normalized === 'completed';
-      const currentDate = new Date();
-      
-      students = students.filter(student => {
-        const completed = student.farewellDate && new Date(student.farewellDate) < currentDate;
-        return isCompleted ? completed : !completed;
+      const wantCompleted = normalized === 'true' || normalized === 'completed';
+      pipeline.push({ $match: { isCourseCompletedComputed: wantCompleted } });
+    }
+
+    // Facet for total count and (optionally) pagination after filters
+    if (all) {
+      pipeline.push({
+        $facet: {
+          data: [ ],
+          meta: [ { $count: 'total' } ]
+        }
+      });
+    } else {
+      pipeline.push({
+        $facet: {
+          data: [ { $skip: skip }, { $limit: limit } ],
+          meta: [ { $count: 'total' } ]
+        }
       });
     }
 
-    // Format response with fee status
-    const formattedStudents = students.map(student => {
-      const { totalFees = 0, remainingFees = 0, installmentDetails = [] } = student.feeDetails || {};
+    const aggResult = await registered_students.aggregate(pipeline);
+    let dataDocs = [];
+    let filteredTotal = 0;
+    if (all) {
+      // When using facet without data pipeline, we need to fetch data separately
+      // Re-run the same pipeline but without the $facet to get all docs efficiently
+      const pipelineWithoutFacet = pipeline.slice(0, -1);
+      const metaResult = aggResult[0]?.meta || [];
+      filteredTotal = metaResult[0]?.total || 0;
+      dataDocs = await registered_students.aggregate(pipelineWithoutFacet);
+    } else {
+      dataDocs = (aggResult[0]?.data || []);
+      filteredTotal = aggResult[0]?.meta?.[0]?.total || 0;
+    }
+    const totalPages = all ? 1 : (Math.ceil(filteredTotal / (limit || 1)) || 1);
+
+    // Map to response shape
+    const formattedStudents = dataDocs.map(student => {
+      const totalFees = student.feeDetails?.totalFees || 0;
+      const remainingFees = student.feeDetails?.remainingFees || 0;
       const paidFees = totalFees - remainingFees;
-      
-      let feeStatus = 'unpaid';
-      if (remainingFees === 0 && totalFees > 0) feeStatus = 'paid';
-      else if (paidFees > 0 && remainingFees > 0) feeStatus = 'partial';
-      
-      const currentDate = new Date();
-      const isCourseCompleted = student.farewellDate && new Date(student.farewellDate) < currentDate;
-      
+      const installmentDetails = Array.isArray(student.feeDetails?.installmentDetails) ? student.feeDetails.installmentDetails : [];
+      const isCourseCompleted = !!student.isCourseCompletedComputed;
+
       return {
         _id: student._id,
         fullName: student.fullName,
@@ -94,7 +144,7 @@ export async function GET(request) {
           totalFees,
           paidFees,
           remainingFees,
-          status: feeStatus,
+          status: student.computedFeeStatus,
           installmentDetails: installmentDetails.map(installment => {
             const sub = installment?.submissionDate ? new Date(installment.submissionDate) : null;
             const safeSubmission = sub && !isNaN(sub) ? sub.toISOString() : new Date().toISOString();
@@ -114,7 +164,7 @@ export async function GET(request) {
     return Response.json({
       success: true,
       count: formattedStudents.length,
-      totalStudents,
+      totalStudents: filteredTotal,
       totalPages,
       currentPage: page,
       hasNextPage: page < totalPages,
