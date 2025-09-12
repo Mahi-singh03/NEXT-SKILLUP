@@ -8,6 +8,10 @@ import FeeStatusMonitor from "@/app/components/FeeStatusMonitor";
 
 
 const exams = [
+  { id: "WE_23", title: "Weekly Exam 23 ( Python ) ",path:"/weekly-exam/WE_23"},
+  { id: "WE_22", title: "Weekly Exam 22 ( Tally ) ",path:"/weekly-exam/WE_22"},
+  { id: "WE_21", title: "Weekly Exam 21 ( Advance MS Excel ) ",path:"/weekly-exam/WE_21"},
+  { id: "WE_20", title: "Weekly Exam 20 ( Basc Computer + Excel + Word + Internet Browsing) ",path:"/weekly-exam/WE_20"},
   { id: "WE_19", title: "Weekly Exam 19 ",path:"/weekly-exam/WE_19"},
   { id: "WE_18", title: "Weekly Exam 18 ",path:"/weekly-exam/WE_18"},
   { id: "WE_17", title: "Weekly Exam 17 ",path:"/weekly-exam/WE_17"},
