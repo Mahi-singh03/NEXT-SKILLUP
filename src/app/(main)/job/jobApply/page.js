@@ -90,7 +90,7 @@ I have submitted my application through your website and would appreciate it if 
   const handleWhatsAppShare = () => {
     const message = generateWhatsAppMessage();
     // Replace with your actual WhatsApp number (with country code, without +)
-    const whatsappNumber = '1234567890';
+    const whatsappNumber = '=919463926371';
     
     window.open(`https://wa.me/${whatsappNumber}?text=${message}`, '_blank');
   };

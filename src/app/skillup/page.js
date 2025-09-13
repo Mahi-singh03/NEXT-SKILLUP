@@ -11,7 +11,7 @@ import interactionPlugin from '@fullcalendar/interaction';
 import { FaChalkboardTeacher } from "react-icons/fa";
 import { 
   FaUserGraduate, FaEdit, FaUserEdit,
-  FaMoneyBillWave, FaUsers, FaCamera, FaCertificate,
+  FaMoneyBillWave, FaUsers, FaCamera, 
   FaChevronLeft, FaChevronRight, FaSignOutAlt, FaCalendarAlt,
   FaTimes, FaHome, FaChartLine, FaCog, FaUserShield, FaImages,
   FaBook, FaVideo, FaTrophy, 
@@ -21,6 +21,9 @@ import { BsFillPersonLinesFill } from "react-icons/bs";
 import { TbHelpOctagon } from "react-icons/tb";
 import { MdVideoLibrary } from "react-icons/md";
 import { TbFileCv } from "react-icons/tb";
+import { MdVerified } from "react-icons/md";
+import { PiStudentBold } from "react-icons/pi";  
+import { FaRegFaceLaugh } from "react-icons/fa6";
 
 const AdminDashboard = () => {
   const [loading, setLoading] = useState(true);
@@ -90,6 +93,18 @@ const AdminDashboard = () => {
 
   const actionCards = [
 
+    //0
+
+    {
+      id: 'mark-student-attendence', 
+      title: 'Mark Attendence', 
+      icon: <PiStudentBold className="text-5xl" />,
+      bgColor: 'bg-green-200',
+      hoverBgColor: 'bg-blue-50',
+      textColor: 'text-blue-800',
+      path: '/mahi/attendence/markAttendence'
+    },
+
     // 1
 
     { 
@@ -130,6 +145,18 @@ const AdminDashboard = () => {
     //4
 
     { 
+      id: 'add-face', 
+      title: 'Add Face ', 
+      icon: <FaRegFaceLaugh className="text-4xl" />,
+      bgColor: 'bg-yellow-100',
+      hoverBgColor: 'bg-blue-50',
+      textColor: 'text-blue-800',
+      path: '/mahi/attendence/upload-face'
+    },
+
+
+
+    { 
       id: 'ManageFees', 
       title: 'Manage Fees', 
       icon: <FaMoneyBillWave className="text-4xl" />,
@@ -142,9 +169,9 @@ const AdminDashboard = () => {
     //5
 
     { 
-      id: 'certificates', 
-      title: 'Certificates', 
-      icon: <FaCertificate className="text-4xl" />,
+      id: 'result', 
+      title: 'Student Result', 
+      icon: <MdVerified className="text-4xl" />,
       bgColor: 'bg-white',
       hoverBgColor: 'bg-blue-50',
       textColor: 'text-blue-800',
@@ -157,7 +184,7 @@ const AdminDashboard = () => {
       id: 'edit-achievements', 
       title: 'Edit Achievements', 
       icon: <FaTrophy className="text-4xl" />,
-      bgColor: 'bg-green-200',
+      bgColor: 'bg-yellow-100',
       hoverBgColor: 'bg-blue-50',
       textColor: 'text-blue-800',
       path: '/skillup/achievements'
@@ -242,7 +269,7 @@ const AdminDashboard = () => {
       id: 'get-help', 
       title: 'Get Help', 
       icon: <TbHelpOctagon className="text-4xl" />,
-      bgColor: 'bg-yellow-100',
+      bgColor: 'bg-red-200',
       hoverBgColor: 'bg-blue-50',
       textColor: 'text-blue-800',
       path: '/skillup/getHelp'
@@ -354,7 +381,7 @@ const AdminDashboard = () => {
             Welcome back, <span className="text-blue-600">{adminName}</span>!
           </h2>
           <p className="text-gray-600">
-            Manage your academy with powerful tools and insights.
+            With greate admin power comes greate responsibilties! 
           </p>
           
           {statsError ? (
