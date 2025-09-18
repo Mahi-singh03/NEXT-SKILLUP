@@ -247,6 +247,8 @@ export default function NewStudent() {
                 <option value="MS Office">MS Office</option>
                 <option value="PTE">PTE</option>
                 <option value="AutoCAD">AutoCAD</option>
+                <option value="Social Media Marketing">Social Media Marketing</option>
+                <option value="Python">Python</option>
               </select>
             </div>
 

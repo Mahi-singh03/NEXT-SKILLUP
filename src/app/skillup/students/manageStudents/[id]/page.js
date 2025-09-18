@@ -82,6 +82,22 @@ export default function StudentDetail() {
         default: return course;
       }
     }
+    else if (course === 'Social Media Marketing') {
+      switch (duration) {
+        case '3 Months': return 'CERTIFICATION IN SOCIAL MEDIA MARKETING';
+        case '6 Months': return 'DIPLOMA IN SOCIAL MEDIA MARKETING';
+        case '1 Year': return 'ADVANCE DIPLOMA IN SOCIAL MEDIA MARKETING';
+        default: return course;
+      }
+    }
+    else if (course === 'Python') {
+      switch (duration) {
+        case '3 Months': return 'CERTIFICATION IN PYTHON';
+        case '6 Months': return 'DIPLOMA IN PYTHON';
+        case '1 Year': return 'ADVANCE DIPLOMA IN PYTHON';
+        default: return course;
+      }
+    }
     else if (course === 'ChatGPT and AI tools') {
       switch (duration) {
         case '3 Months': return 'CERTIFICATION IN AI TOOLS';
@@ -713,6 +729,8 @@ export default function StudentDetail() {
                         <option value="MS Office">MS Office</option>
                         <option value="PTE">PTE</option>
                         <option value="AutoCAD">AutoCAD</option>
+                        <option value="Social Media Marketing">Social Media Marketing</option>
+                         <option value="Python">Python</option>
                       </select>
                     ) : (
                       <p className="px-4 py-2 bg-gray-50 rounded-lg">{student.selectedCourse}</p>

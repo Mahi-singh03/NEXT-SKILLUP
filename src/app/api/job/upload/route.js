@@ -29,7 +29,15 @@ export async function POST(request) {
     // Check file size (10MB limit)
     if (cvFile.size > 10 * 1024 * 1024) {
       return NextResponse.json({ 
-        message: 'File size must be less than 10MB' 
+        message: 'File size must be less than 10MB. Please compress your file or choose a smaller one.' 
+      }, { status: 413 });
+    }
+
+    // Check file type
+    const allowedTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+    if (!allowedTypes.includes(cvFile.type)) {
+      return NextResponse.json({ 
+        message: 'Please upload a valid PDF, DOC, or DOCX file.' 
       }, { status: 400 });
     }
     

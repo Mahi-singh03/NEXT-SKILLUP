@@ -75,7 +75,40 @@ export const generateCertificationTitle = (selectedCourse, courseDuration) => {
     }
   } else if (selectedCourse === 'Industrial Training') {
     return 'INDUSTRIAL TRAINING CERTIFICATION';
-  } else if (selectedCourse === 'React') {
+  }
+    else if (this.selectedCourse === 'Social Media Marketing') {
+      switch (this.courseDuration) {
+        case '3 Months':
+          this.certificationTitle = 'CERTIFICATION IN Social Media Marketing';
+          break;
+        case '6 Months':
+          this.certificationTitle = 'DIPLOMA IN Social Media Marketing';
+          break;
+        case '1 Year':
+          this.certificationTitle = 'ADVANCE DIPLOMA IN Social Media Marketing';
+          break;
+        default:
+          this.certificationTitle = this.selectedCourse;
+      }
+    } 
+
+    else if (this.selectedCourse === 'Python') {
+      switch (this.courseDuration) {
+        case '3 Months':
+          this.certificationTitle = 'CERTIFICATION IN Python';
+          break;
+        case '6 Months':
+          this.certificationTitle = 'DIPLOMA IN Python';
+          break;
+        case '1 Year':
+          this.certificationTitle = 'ADVANCE DIPLOMA IN Python';
+          break;
+        default:
+          this.certificationTitle = this.selectedCourse;
+      }
+    } 
+
+    else if (selectedCourse === 'React') {
     switch (courseDuration) {
       case '3 Months':
         return 'CERTIFICATION IN REACT JS';

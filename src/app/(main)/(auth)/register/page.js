@@ -465,7 +465,9 @@ const StudentRegistrationForm = () => {
                   'MS Office',
                   'PTE',
                   'ChatGPT and AI tools',
-                  'Industrial Training'
+                  'Industrial Training',
+                  'Social Media Marketing', 
+                  "Python"
                 ].map((course) => (
                   <option key={course} value={course}>{course}</option>
                 ))}

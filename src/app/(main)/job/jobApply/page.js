@@ -30,10 +30,35 @@ const JobSeekerForm = () => {
   };
 
   const handleFileChange = (e) => {
-    setFormData(prev => ({
-      ...prev,
-      cv: e.target.files[0]
-    }));
+    const file = e.target.files[0];
+    
+    if (file) {
+      // Check file size (10MB limit)
+      const maxSize = 10 * 1024 * 1024; // 10MB in bytes
+      if (file.size > maxSize) {
+        setMessage('File size must be less than 10MB. Please choose a smaller file.');
+        e.target.value = ''; // Clear the file input
+        return;
+      }
+      
+      // Check file type
+      const allowedTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+      if (!allowedTypes.includes(file.type)) {
+        setMessage('Please upload a valid PDF, DOC, or DOCX file.');
+        e.target.value = ''; // Clear the file input
+        return;
+      }
+      
+      setFormData(prev => ({
+        ...prev,
+        cv: file
+      }));
+      
+      // Clear any previous error messages
+      if (message.includes('File size') || message.includes('valid')) {
+        setMessage('');
+      }
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -63,10 +88,21 @@ const JobSeekerForm = () => {
         setShowWhatsAppOptions(true);
         // Don't reset form yet as we want to show the WhatsApp options with the data
       } else {
-        setMessage(`Error: ${result.message}`);
+        if (response.status === 413) {
+          setMessage(`File too large: ${result.message}`);
+        } else if (response.status === 400) {
+          setMessage(`Validation error: ${result.message}`);
+        } else {
+          setMessage(`Error: ${result.message}`);
+        }
       }
     } catch (error) {
-      setMessage('Error submitting application. Please try again.');
+      console.error('Upload error:', error);
+      if (error.message.includes('413') || error.message.includes('too large')) {
+        setMessage('File is too large. Please choose a file smaller than 10MB.');
+      } else {
+        setMessage('Error submitting application. Please try again.');
+      }
     } finally {
       setIsSubmitting(false);
     }
@@ -281,9 +317,14 @@ I have submitted my application through your website and would appreciate it if 
                     PDF, DOC, DOCX up to 10MB
                   </p>
                   {formData.cv && (
-                    <p className="text-sm text-green-600 font-medium mt-2 transition-all duration-300">
-                      Selected: {formData.cv.name}
-                    </p>
+                    <div className="mt-2 transition-all duration-300">
+                      <p className="text-sm text-green-600 font-medium">
+                        Selected: {formData.cv.name}
+                      </p>
+                      <p className="text-xs text-gray-500">
+                        Size: {(formData.cv.size / (1024 * 1024)).toFixed(2)} MB
+                      </p>
+                    </div>
                   )}
                 </div>
               </div>

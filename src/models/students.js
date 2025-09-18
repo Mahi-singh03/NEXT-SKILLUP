@@ -83,7 +83,7 @@ const userSchema = new mongoose.Schema({
   selectedCourse: {
     type: String,
     required: [true, 'Course selection is required'],
-    enum: ['HTML, CSS, JS','ChatGPT and AI tools','Industrial Training', 'React', 'MERN FullStack', 'CorelDRAW', 'Tally', 'Premier Pro', 'WordPress', 'Computer Course', 'MS Office', 'PTE', "AutoCAD"],
+    enum: ['HTML, CSS, JS','ChatGPT and AI tools','Social Media Marketing', "Python",'Industrial Training', 'React', 'MERN FullStack', 'CorelDRAW', 'Tally', 'Premier Pro', 'WordPress', 'Computer Course', 'MS Office', 'PTE', "AutoCAD"],
   },
   courseDuration: {
     type: String,
@@ -243,6 +243,39 @@ userSchema.pre('save', async function (next) {
           this.certificationTitle = this.selectedCourse;
       }
     } 
+
+    else if (this.selectedCourse === 'Social Media Marketing') {
+      switch (this.courseDuration) {
+        case '3 Months':
+          this.certificationTitle = 'CERTIFICATION IN Social Media Marketing';
+          break;
+        case '6 Months':
+          this.certificationTitle = 'DIPLOMA IN Social Media Marketing';
+          break;
+        case '1 Year':
+          this.certificationTitle = 'ADVANCE DIPLOMA IN Social Media Marketing';
+          break;
+        default:
+          this.certificationTitle = this.selectedCourse;
+      }
+    } 
+
+    else if (this.selectedCourse === 'Python') {
+      switch (this.courseDuration) {
+        case '3 Months':
+          this.certificationTitle = 'CERTIFICATION IN Python';
+          break;
+        case '6 Months':
+          this.certificationTitle = 'DIPLOMA IN Python';
+          break;
+        case '1 Year':
+          this.certificationTitle = 'ADVANCE DIPLOMA IN Python';
+          break;
+        default:
+          this.certificationTitle = this.selectedCourse;
+      }
+    } 
+
     else if (this.selectedCourse === 'HTML, CSS, JS') {
       switch (this.courseDuration) {
         case '3 Months':
