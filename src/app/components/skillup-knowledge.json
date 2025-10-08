@@ -1,0 +1,153 @@
+{
+  "instituteName": "Skill Up Institute of Learning",
+  "contact": {
+    "phone": ["98551-46491", "94639-26371"],
+    "email": "info@skillupinstitute.co.in",
+    "website": "https://skillupinstitute.co.in",
+    "address": "Chandigarh Chowk, Garhshankar"
+  },
+  "admissions": {
+    "process": "Visit the institute or apply online via the website. Choose your course, complete registration, and confirm admission by paying the first installment.",
+    "intakes": ["January", "April", "July", "October"],
+    "eligibility": "Open to students, graduates, and working professionals. Basic computer knowledge preferred."
+  },
+  "fees": {
+    "currency": "INR",
+    "paymentOptions": ["Full", "Monthly Installments"],
+    "refundPolicy": "Refunds are subject to management policy and timing of withdrawal before or after course commencement."
+  },
+  "placements": {
+    "assistance": true,
+    "partners": [],
+    "averageCTC": "Varies by course and performance; skill development focused for job readiness.",
+    "support": ["Job-ready skill development", "Resume building", "Weekly & monthly online tests"]
+  },
+  "courses": [
+    {
+      "id": "comp-app",
+      "name": "Computer Application",
+      "durationOptions": {
+        "3_month": 5000,
+        "6_month": 9500,
+        "1_year": 12500
+      },
+      "department": "Computer Department"
+    },
+    {
+      "id": "office-auto",
+      "name": "Office Automation",
+      "durationOptions": {
+        "3_month": 5500,
+        "6_month": 10000,
+        "1_year": 13500
+      },
+      "department": "Computer Department"
+    },
+    {
+      "id": "languages",
+      "name": "Programming Languages",
+      "certificates": ["C", "C++", "JavaScript", "HTML & CSS", "SQL"],
+      "duration": "3 months",
+      "fees": 5500,
+      "department": "Languages Department"
+    },
+    {
+      "id": "graphic-design",
+      "name": "Graphic Designing",
+      "durationOptions": {
+        "3_month": 7500,
+        "6_month": 12500,
+        "1_year": 18500
+      },
+      "department": "Designing Department"
+    },
+    {
+      "id": "web-design",
+      "name": "Web Designing",
+      "durationOptions": {
+        "3_month": 9500,
+        "6_month": 14500,
+        "1_year": 21500
+      },
+      "department": "Designing Department"
+    },
+    {
+      "id": "autocad",
+      "name": "AutoCAD",
+      "durationOptions": {
+        "3_month": 9500,
+        "6_month": 14500,
+        "1_year": 21500
+      },
+      "department": "Designing Department"
+    },
+    {
+      "id": "tally",
+      "name": "Tally ERP-9 & PRIME",
+      "durationOptions": {
+        "3_month": 6500,
+        "6_month": 10500,
+        "1_year": 13500
+      },
+      "department": "Accounting Department"
+    },
+    {
+      "id": "video-editing",
+      "name": "Video Editing",
+      "durationOptions": {
+        "3_month": 9500,
+        "6_month": 14500,
+        "1_year": 21500
+      },
+      "department": "Editing Department"
+    },
+    {
+      "id": "typing",
+      "name": "English & Punjabi Typing",
+      "fees": 1500,
+      "duration": "Per month",
+      "department": "Typing Department"
+    },
+    {
+      "id": "spoken-english",
+      "name": "Spoken English",
+      "fees": 2500,
+      "duration": "Per month",
+      "department": "Language Department"
+    }
+  ],
+  "distanceEducation": {
+    "degrees": [
+      "BA", "MA", "B.COM", "M.COM", 
+      "DCA", "BCA", "MCA", 
+      "B.Sc IT", "M.Sc IT", 
+      "DLIS", "BLIS", "MLIS"
+    ],
+    "mode": "Distance Education"
+  },
+  "timing": [
+    "9:00 AM - 11:00 AM",
+    "11:00 AM - 1:00 PM",
+    "2:00 PM - 4:00 PM",
+    "3:00 PM - 5:00 PM"
+  ],
+  "highlights": [
+    "Affordable Tuition Fees",
+    "Flexible Class Schedules",
+    "Experienced Instructors",
+    "Supportive Learning Environment",
+    "Job-Ready Skill Development",
+    "Weekly & Monthly Online Tests",
+    "Online Verified Certificate"
+  ],
+  "accreditations": [
+    "ISO 9001:2015 Certified",
+    "EGAC Accredited",
+    "IAF Member"
+  ],
+  "faqs": [
+    { "q": "Do you offer certificates?", "a": "Yes, online verified certificates are issued after successful course completion." },
+    { "q": "Can I take classes online?", "a": "Some courses are offered online with AI tools and assessments." },
+    { "q": "Do you provide placement assistance?", "a": "Yes, we focus on job-ready skill development and guidance for career preparation." }
+  ]
+}

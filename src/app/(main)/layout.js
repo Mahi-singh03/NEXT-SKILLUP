@@ -3,6 +3,7 @@ import "./globals.css";
 import ScrollToTop from "@/app/components/new/scrollToTop";
 import Navbar from "../components/navbar";
 import { UserProvider } from '../components/new/userContext';
+import ChatBotBubble from "../components/ChatBotBubble";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,6 +26,7 @@ export default function RootLayout({ children }) {
         <Navbar />
         <ScrollToTop/>
         <main className="pt-20 md:pt-[135px]">{children}</main>
+        <ChatBotBubble />
       </div>
     </UserProvider>
   );
