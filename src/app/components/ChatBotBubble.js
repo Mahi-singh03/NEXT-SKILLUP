@@ -629,7 +629,7 @@ const ChatBotBubble = () => {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 50, scale: 0.9 }}
             transition={{ type: "spring", stiffness: 120, damping: 14 }}
-            className="fixed bottom-24 right-6 w-80 sm:w-96 h-[600px] max-h-[60vh] flex flex-col bg-white border border-gray-200 rounded-2xl shadow-2xl overflow-hidden z-50"
+            className="fixed bottom-24 right-6 w-80 sm:w-96 h-[600px] max-h-[68vh] flex flex-col bg-white border border-gray-200 rounded-2xl shadow-2xl overflow-hidden z-50"
           >
             {/* Header */}
             <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-3 flex justify-between items-center">
