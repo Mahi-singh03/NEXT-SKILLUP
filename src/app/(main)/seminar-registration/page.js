@@ -2,6 +2,7 @@
 "use client"
 import { useState, useEffect } from 'react';
 import { FaUser, FaPhone, FaEnvelope, FaMapMarkerAlt, FaLaptop, FaBuilding, FaPaperPlane, FaCheckCircle } from 'react-icons/fa';
+import Image from 'next/image';
 
 export default function SeminarRegistrationForm() {
   const [formData, setFormData] = useState({
@@ -77,8 +78,8 @@ export default function SeminarRegistrationForm() {
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-fade-in">
       <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full transform animate-scale-in">
         <div className="p-8 text-center">
-          <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-            <FaCheckCircle className="text-4xl text-green-500 animate-bounce" />
+          <div className="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
+            <FaCheckCircle className="text-4xl text-blue-500 animate-bounce" />
           </div>
           
           <h2 className="text-2xl font-bold text-gray-800 mb-4">
@@ -93,6 +94,7 @@ export default function SeminarRegistrationForm() {
           </p>
 
 
+
           <button
             onClick={() => setShowSuccess(false)}
             className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 transform hover:scale-105"
@@ -103,6 +105,9 @@ export default function SeminarRegistrationForm() {
       </div>
     </div>
   );
+
+  // Check if field has value
+  const hasValue = (fieldName) => formData[fieldName] && formData[fieldName].trim() !== '';
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-blue-100 to-cyan-100 flex items-center justify-center p-4 md:p-6">
@@ -133,7 +138,7 @@ export default function SeminarRegistrationForm() {
             </div>
             
             {/* Animated wave effect */}
-            <div className="absolute bottom-0 left-0 w-full h-2 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-wave"></div>
+            <div className="absolute bottom-0 left-0 w-full h-2 bg-gradient-to-r from-transparent via-wshite/30 to-transparent animate-wave"></div>
           </div>
 
           {/* Form */}
@@ -155,7 +160,11 @@ export default function SeminarRegistrationForm() {
                   Full Name *
                 </label>
                 <div className="relative transform transition-transform duration-200 group-focus-within:scale-[1.02]">
-                  <FaUser className="absolute left-3 top-1/2 transform -translate-y-1/2 text-blue-900 text-sm transition-colors duration-200 group-focus-within:text-blue-500" />
+                  <FaUser className={`absolute left-3 top-1/2 transform -translate-y-1/2 text-sm transition-all duration-200 ${
+                    hasValue('name') || document.activeElement?.name === 'name'
+                      ? 'text-blue-500 scale-110'
+                      : 'text-blue-400'
+                  }`} />
                   <input
                     type="text"
                     name="name"
@@ -174,7 +183,11 @@ export default function SeminarRegistrationForm() {
                   Phone Number *
                 </label>
                 <div className="relative transform transition-transform duration-200 group-focus-within:scale-[1.02]">
-                  <FaPhone className="absolute left-3 top-1/2 transform -translate-y-1/2 text-blue-900 text-sm transition-colors duration-200 group-focus-within:text-blue-500" />
+                  <FaPhone className={`absolute left-3 top-1/2 transform -translate-y-1/2 text-sm transition-all duration-200 ${
+                    hasValue('phoneNumber') || document.activeElement?.name === 'phoneNumber'
+                      ? 'text-blue-500 scale-110'
+                      : 'text-blue-400'
+                  }`} />
                   <input
                     type="tel"
                     name="phoneNumber"
@@ -193,7 +206,11 @@ export default function SeminarRegistrationForm() {
                   Email Address *
                 </label>
                 <div className="relative transform transition-transform duration-200 group-focus-within:scale-[1.02]">
-                  <FaEnvelope className="absolute left-3 top-1/2 transform -translate-y-1/2 text-blue-900 text-sm transition-colors duration-200 group-focus-within:text-blue-500" />
+                  <FaEnvelope className={`absolute left-3 top-1/2 transform -translate-y-1/2 text-sm transition-all duration-200 ${
+                    hasValue('email') || document.activeElement?.name === 'email'
+                      ? 'text-blue-500 scale-110'
+                      : 'text-blue-400'
+                  }`} />
                   <input
                     type="email"
                     name="email"
@@ -212,7 +229,11 @@ export default function SeminarRegistrationForm() {
                   Address *
                 </label>
                 <div className="relative transform transition-transform duration-200 group-focus-within:scale-[1.02]">
-                  <FaMapMarkerAlt className="absolute left-3 top-4 text-blue-900 text-sm transition-colors duration-200 group-focus-within:text-blue-500" />
+                  <FaMapMarkerAlt className={`absolute left-3 top-4 text-sm transition-all duration-200 ${
+                    hasValue('address') || document.activeElement?.name === 'address'
+                      ? 'text-blue-500 scale-110'
+                      : 'text-blue-400'
+                  }`} />
                   <textarea
                     name="address"
                     value={formData.address}
@@ -220,7 +241,7 @@ export default function SeminarRegistrationForm() {
                     required
                     rows="3"
                     className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white/80 backdrop-blur-sm resize-none"
-                    placeholder="Enter your complete address"
+                    placeholder="Where are you from?"
                   />
                 </div>
               </div>
@@ -248,7 +269,11 @@ export default function SeminarRegistrationForm() {
                         ? 'border-blue-500 bg-blue-50 text-blue-700 shadow-blue-200'
                         : 'border-gray-300 bg-gray-50 text-gray-600 hover:border-blue-300 hover:bg-blue-25'
                     }`}>
-                      <FaLaptop className="mx-auto mb-2 text-lg transition-transform duration-300 group-hover:scale-110" />
+                      <FaLaptop className={`mx-auto mb-2 text-lg transition-all duration-300 ${
+                        formData.modePreference === 'online' 
+                          ? 'text-blue-500 scale-110' 
+                          : 'text-blue-400 group-hover:scale-110'
+                      }`} />
                       <div className="font-medium text-sm">Online</div>
                       <div className="text-xs opacity-70 mt-1">Join remotely</div>
                     </div>
@@ -271,7 +296,11 @@ export default function SeminarRegistrationForm() {
                         ? 'border-blue-500 bg-blue-50 text-blue-700 shadow-blue-200'
                         : 'border-gray-300 bg-gray-50 text-gray-600 hover:border-blue-300 hover:bg-blue-25'
                     }`}>
-                      <FaBuilding className="mx-auto mb-2 text-lg transition-transform duration-300 group-hover:scale-110" />
+                      <FaBuilding className={`mx-auto mb-2 text-lg transition-all duration-300 ${
+                        formData.modePreference === 'offline' 
+                          ? 'text-blue-500 scale-110' 
+                          : 'text-blue-400 group-hover:scale-110'
+                      }`} />
                       <div className="font-medium text-sm">Offline</div>
                       <div className="text-xs opacity-70 mt-1">Attend in person</div>
                     </div>
@@ -296,7 +325,7 @@ export default function SeminarRegistrationForm() {
                   </>
                 ) : (
                   <>
-                    <FaPaperPlane className="text-sm transition-transform duration-300 group-hover:translate-x-1" />
+                    <FaPaperPlane className="text-sm text-white transition-transform duration-300 group-hover:translate-x-1" />
                     <span>Register for Seminar</span>
                   </>
                 )}
