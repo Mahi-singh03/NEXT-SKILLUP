@@ -155,7 +155,7 @@ export default function SeminarRegistrationForm() {
                   Full Name *
                 </label>
                 <div className="relative transform transition-transform duration-200 group-focus-within:scale-[1.02]">
-                  <FaUser className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-sm transition-colors duration-200 group-focus-within:text-blue-500" />
+                  <FaUser className="absolute left-3 top-1/2 transform -translate-y-1/2 text-blue-900 text-sm transition-colors duration-200 group-focus-within:text-blue-500" />
                   <input
                     type="text"
                     name="name"
@@ -174,7 +174,7 @@ export default function SeminarRegistrationForm() {
                   Phone Number *
                 </label>
                 <div className="relative transform transition-transform duration-200 group-focus-within:scale-[1.02]">
-                  <FaPhone className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-sm transition-colors duration-200 group-focus-within:text-blue-500" />
+                  <FaPhone className="absolute left-3 top-1/2 transform -translate-y-1/2 text-blue-900 text-sm transition-colors duration-200 group-focus-within:text-blue-500" />
                   <input
                     type="tel"
                     name="phoneNumber"
@@ -193,7 +193,7 @@ export default function SeminarRegistrationForm() {
                   Email Address *
                 </label>
                 <div className="relative transform transition-transform duration-200 group-focus-within:scale-[1.02]">
-                  <FaEnvelope className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-sm transition-colors duration-200 group-focus-within:text-blue-500" />
+                  <FaEnvelope className="absolute left-3 top-1/2 transform -translate-y-1/2 text-blue-900 text-sm transition-colors duration-200 group-focus-within:text-blue-500" />
                   <input
                     type="email"
                     name="email"
@@ -212,7 +212,7 @@ export default function SeminarRegistrationForm() {
                   Address *
                 </label>
                 <div className="relative transform transition-transform duration-200 group-focus-within:scale-[1.02]">
-                  <FaMapMarkerAlt className="absolute left-3 top-4 text-gray-400 text-sm transition-colors duration-200 group-focus-within:text-blue-500" />
+                  <FaMapMarkerAlt className="absolute left-3 top-4 text-blue-900 text-sm transition-colors duration-200 group-focus-within:text-blue-500" />
                   <textarea
                     name="address"
                     value={formData.address}
