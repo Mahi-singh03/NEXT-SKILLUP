@@ -161,7 +161,7 @@ export default function SeminarRegistrationForm() {
                 </label>
                 <div className="relative transform transition-transform duration-200 group-focus-within:scale-[1.02]">
                   <FaUser className={`absolute left-3 top-1/2 transform -translate-y-1/2 text-sm transition-all duration-200 ${
-                    hasValue('name') || document.activeElement?.name === 'name'
+                    hasValue('name') || (typeof document !== 'undefined' && document.activeElement?.name === 'name')
                       ? 'text-blue-500 scale-110'
                       : 'text-blue-400'
                   }`} />
@@ -184,7 +184,7 @@ export default function SeminarRegistrationForm() {
                 </label>
                 <div className="relative transform transition-transform duration-200 group-focus-within:scale-[1.02]">
                   <FaPhone className={`absolute left-3 top-1/2 transform -translate-y-1/2 text-sm transition-all duration-200 ${
-                    hasValue('phoneNumber') || document.activeElement?.name === 'phoneNumber'
+                    hasValue('phoneNumber') || (typeof document !== 'undefined' && document.activeElement?.name === 'phoneNumber')
                       ? 'text-blue-500 scale-110'
                       : 'text-blue-400'
                   }`} />
@@ -207,7 +207,7 @@ export default function SeminarRegistrationForm() {
                 </label>
                 <div className="relative transform transition-transform duration-200 group-focus-within:scale-[1.02]">
                   <FaEnvelope className={`absolute left-3 top-1/2 transform -translate-y-1/2 text-sm transition-all duration-200 ${
-                    hasValue('email') || document.activeElement?.name === 'email'
+                    hasValue('email') || (typeof document !== 'undefined' && document.activeElement?.name === 'email')
                       ? 'text-blue-500 scale-110'
                       : 'text-blue-400'
                   }`} />
@@ -230,7 +230,7 @@ export default function SeminarRegistrationForm() {
                 </label>
                 <div className="relative transform transition-transform duration-200 group-focus-within:scale-[1.02]">
                   <FaMapMarkerAlt className={`absolute left-3 top-4 text-sm transition-all duration-200 ${
-                    hasValue('address') || document.activeElement?.name === 'address'
+                    hasValue('address') || (typeof document !== 'undefined' && document.activeElement?.name === 'address')
                       ? 'text-blue-500 scale-110'
                       : 'text-blue-400'
                   }`} />
