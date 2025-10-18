@@ -13,24 +13,25 @@ const subjects = [
     title: "MS Word",
     description: "Document processing and formatting",
     createdBy: "Neha Rana",
-    image: "https://res.cloudinary.com/dufxj1sau/image/upload/v1760158853/20251008_1411_MS_Word_Icon_remix_01k71fkx0mer08nw6s815kf1vm_oqx4hi.png",
+    image: "https://res.cloudinary.com/dufxj1sau/image/upload/v1760760217/20251008_1411_MS_Word_Icon_remix_01k71fkx0mer08nw6s815kf1vm_oqx4hi_qrgwja.png",
     difficulty: {
-      easy: { path: "/exams/word-easy", questions: 30, duration: "45 min" },
-      medium: { path: "/exams/word-medium", questions: 30, duration: "45 min" },
-      hard: { path: "/exams/word-hard", questions: 30, duration: "45 min" }
+      easy: { path: "/weekly-exam/WordEasy", questions: 30, duration: "45 min" },
+      medium: { path: "/weekly-exam/WordMedium", questions: 30, duration: "45 min" },
+      hard: { path: "/weekly-exam/WordHard", questions: 30, duration: "45 min" }
     },
     color: "from-blue-500 to-blue-600"
   },
+  
   {
     id: "ms_excel",
     title: "MS Excel",
     description: "Spreadsheets and data analysis",
     createdBy: "Neha Rana",
-    image: "https://res.cloudinary.com/dufxj1sau/image/upload/v1760158853/20251008_1404_MS_Excel_Logo_remix_01k71f8p6hfzkr7ha6skvjk8rx_fgjt7o.png",
+    image: "https://res.cloudinary.com/dufxj1sau/image/upload/v1760760217/20251008_1404_MS_Excel_Logo_remix_01k71f8p6hfzkr7ha6skvjk8rx_fgjt7o_nq5nog.png",
     difficulty: {
-      easy: { path: "/exams/excel-easy", questions: 30, duration: "45 min" },
-      medium: { path: "/exams/excel-medium", questions: 30, duration: "45 min" },
-      hard: { path: "/exams/excel-hard", questions: 30, duration: "45 min" }
+      easy: { path: "/weekly-exam/ExcelEasy", questions: 30, duration: "45 min" },
+      medium: { path: "/weekly-exam/ExcelMedium", questions: 30, duration: "45 min" },
+      hard: { path: "/weekly-exam/ExcelHard", questions: 30, duration: "45 min" }
     },
     color: "from-green-500 to-green-600"
   },
@@ -39,11 +40,11 @@ const subjects = [
     title: "MS PowerPoint",
     description: "Presentation design and delivery",
     createdBy: "Neha Rana",
-    image: "https://res.cloudinary.com/dufxj1sau/image/upload/v1760158849/20251008_1418_Logo_Mockup_remix_01k71g27dre0psbstr1ax06wtg_rkh95d.png",
+    image: "https://res.cloudinary.com/dufxj1sau/image/upload/v1760760217/20251008_1418_Logo_Mockup_remix_01k71g27dre0psbstr1ax06wtg_rkh95d_avl2ms.png",
     difficulty: {
-      easy: { path: "/exams/powerpoint-easy", questions: 30, duration: "45 min" },
-      medium: { path: "/exams/powerpoint-medium", questions: 30, duration: "45 min" },
-      hard: { path: "/exams/powerpoint-hard", questions: 30, duration: "45 min" }
+      easy: { path: "/weekly-exam/PowerPointEasy", questions: 30, duration: "45 min" },
+      medium: { path: "/weekly-exam/PowerPointMedium", questions: 30, duration: "45 min" },
+      hard: { path: "/weekly-exam/PowerPointHard", questions: 30, duration: "45 min" }
     },
     color: "from-orange-500 to-orange-600"
   },
@@ -52,11 +53,11 @@ const subjects = [
     title: "MS Office Suite",
     description: "Complete Office package mastery",
     createdBy: "Neha Rana",
-    image: "https://res.cloudinary.com/dufxj1sau/image/upload/v1760158855/20251008_1321_Office_Icons_Trio_remix_01k71cs8rsfkf9zqdbzdzbjz6d_gjgyo0.png",
+    image: "https://res.cloudinary.com/dufxj1sau/image/upload/v1760760217/20251008_1321_Office_Icons_Trio_remix_01k71cs8rsfkf9zqdbzdzbjz6d_gjgyo0_w4rcgb.png",
     difficulty: {
-      easy: { path: "/exams/office-easy", questions: 30, duration: "45 min" },
-      medium: { path: "/exams/office-medium", questions: 30, duration: "45 min" },
-      hard: { path: "/exams/office-hard", questions: 30, duration: "45 min" }
+      easy: { path: "/weekly-exam/OfficeEasy", questions: 30, duration: "45 min" },
+      medium: { path: "/weekly-exam/OfficeMedium", questions: 30, duration: "45 min" },
+      hard: { path: "/weekly-exam/OfficeHard", questions: 30, duration: "45 min" }
     },
     color: "from-red-500 to-red-600"
   },
@@ -65,11 +66,11 @@ const subjects = [
     title: "Adobe Photoshop",
     description: "Image editing and graphic design",
     createdBy: "Aditya Sharma",
-    image: "https://res.cloudinary.com/dufxj1sau/image/upload/v1760158847/20251008_1428_Photoshop_Logo_Concept_remix_01k71gm10jfbqtkhw6amd1j040_gkbqp1.png",
+    image: "https://res.cloudinary.com/dufxj1sau/image/upload/v1760760217/20251008_1428_Photoshop_Logo_Concept_remix_01k71gm10jfbqtkhw6amd1j040_gkbqp1_acrvv9.png",
     difficulty: {
-      easy: { path: "/exams/photoshop-easy", questions: 15, duration: "45 min" },
-      medium: { path: "/exams/photoshop-medium", questions: 20, duration: "45 min" },
-      hard: { path: "/exams/photoshop-hard", questions: 25, duration: "45 min" }
+      easy: { path: "/weekly-exam/PhotoshopEasy", questions: 15, duration: "45 min" },
+      medium: { path: "/weekly-exam/PhotoshopMedium", questions: 20, duration: "45 min" },
+      hard: { path: "/weekly-exam/PhotoshopHard", questions: 25, duration: "45 min" }
     },
     color: "from-purple-500 to-purple-600"
   },
@@ -78,11 +79,11 @@ const subjects = [
     title: "AI Tools",
     description: "Artificial Intelligence applications",
     createdBy: "Mahi Singh",
-    image: "https://res.cloudinary.com/dufxj1sau/image/upload/v1760158847/20251008_1507_AI_Tools_Logo_remix_01k71jw2z0fb1trt54gw0z64ed_izkj4u.png",
+    image: "https://res.cloudinary.com/dufxj1sau/image/upload/v1760760218/20251008_1507_AI_Tools_Logo_remix_01k71jw2z0fb1trt54gw0z64ed_izkj4u_tiucuk.png",
     difficulty: {
-      easy: { path: "/exams/ai-easy", questions: 15, duration: "45 min" },
-      medium: { path: "/exams/ai-medium", questions: 20, duration: "45 min" },
-      hard: { path: "/exams/ai-hard", questions: 25, duration: "45 min" }
+      easy: { path: "/weekly-exam/AIEasy", questions: 15, duration: "45 min" },
+      medium: { path: "/weekly-exam/AIMedium", questions: 20, duration: "45 min" },
+      hard: { path: "/weekly-exam/AIHard", questions: 25, duration: "45 min" }
     },
     color: "from-teal-500 to-teal-600"
   },
@@ -91,11 +92,11 @@ const subjects = [
     title: "Tally ERP",
     description: "Accounting and business management",
     createdBy: "Jaswinder Singh",
-    image: "https://res.cloudinary.com/dufxj1sau/image/upload/v1760158847/20251009_1022_Tally_Logo_Background_Change_remix_01k73mz5wqewhtd4tzsqyswtg9_oiv7fv.png",
+    image: "https://res.cloudinary.com/dufxj1sau/image/upload/v1760760218/20251009_1022_Tally_Logo_Background_Change_remix_01k73mz5wqewhtd4tzsqyswtg9_oiv7fv_s9yogj.png",
     difficulty: {
-      easy: { path: "/exams/tally-easy", questions: 18, duration: "45 min" },
-      medium: { path: "/exams/tally-medium", questions: 22, duration: "45 min" },
-      hard: { path: "/exams/tally-hard", questions: 28, duration: "45 min" }
+      easy: { path: "/weekly-exam/TallyEasy", questions: 18, duration: "45 min" },
+      medium: { path: "/weekly-exam/TallyMedium", questions: 22, duration: "45 min" },
+      hard: { path: "/weekly-exam/TallyHard", questions: 28, duration: "45 min" }
     },
     color: "from-indigo-500 to-indigo-600"
   },
@@ -104,11 +105,11 @@ const subjects = [
     title: "Python Programming",
     description: "Python development and scripting",
     createdBy: "Mahi SIngh",
-    image: "https://res.cloudinary.com/dufxj1sau/image/upload/v1760158853/20251008_1411_MS_Word_Icon_remix_01k71fkx0mer08nw6s815kf1vm_oqx4hi.png",
+    image: "https://res.cloudinary.com/dufxj1sau/image/upload/v1760760217/20251008_1422_Blue_Tech_Logo_remix_01k71g8q9senes8qb47wnrvnab_1_yxdtc4_aifipr.png",
     difficulty: {
-      easy: { path: "/exams/python-easy", questions: 15, duration: "45 min" },
-      medium: { path: "/exams/python-medium", questions: 20, duration: "45 min" },
-      hard: { path: "/exams/python-hard", questions: 25, duration: "45 min" }
+      easy: { path: "/weekly-exam/PythonEasy", questions: 15, duration: "45 min" },
+      medium: { path: "/weekly-exam/PythonMedium", questions: 20, duration: "45 min" },
+      hard: { path: "/weekly-exam/PythonHard", questions: 25, duration: "45 min" }
     },
     color: "from-yellow-500 to-yellow-600"
   },
@@ -117,11 +118,11 @@ const subjects = [
     title: "HTML, CSS, JS",
     description: "Frontend web development",
     createdBy: "Mahi SIngh",
-    image: "https://res.cloudinary.com/dufxj1sau/image/upload/v1760165467/20251011_1214_HTML_CSS_JS_Logo_remix_01k7904eryfr7vkqs14azqef09_cnf3cp.png",
+    image: "https://res.cloudinary.com/dufxj1sau/image/upload/v1760760218/20251011_1214_HTML_CSS_JS_Logo_remix_01k7904eryfr7vkqs14azqef09_cnf3cp_shyvqv.png",
     difficulty: {
-      easy: { path: "/exams/web-easy", questions: 30, duration: "45 min" },
-      medium: { path: "/exams/web-medium", questions: 30, duration: "45 min" },
-      hard: { path: "/exams/web-hard", questions: 30, duration: "45 min" }
+      easy: { path: "/weekly-exam/WebEasy", questions: 30, duration: "45 min" },
+      medium: { path: "/weekly-exam/WebMedium", questions: 30, duration: "45 min" },
+      hard: { path: "/weekly-exam/WebHard", questions: 30, duration: "45 min" }
     },
     color: "from-pink-500 to-pink-600"
   },
@@ -130,11 +131,11 @@ const subjects = [
     title: "MERN Full-stack",
     description: "Complete web development stack",
     createdBy: "Mahi Singh",
-    image: "https://res.cloudinary.com/dufxj1sau/image/upload/v1760165621/20251011_1221_MERN_Logo_Concept_remix_01k790j1w9emp9tt715wzqw4xm_izfh25.png",
+    image: "https://res.cloudinary.com/dufxj1sau/image/upload/v1760760225/20251011_1221_MERN_Logo_Concept_remix_01k790j1w9emp9tt715wzqw4xm_izfh25_g7a9c8.png",
     difficulty: {
-      easy: { path: "/exams/mern-easy", questions: 30, duration: "45 min" },
-      medium: { path: "/exams/mern-medium", questions: 30, duration: "45 min" },
-      hard: { path: "/exams/mern-hard", questions: 30, duration: "45 min" }
+      easy: { path: "/weekly-exam/MERNEasy", questions: 30, duration: "45 min" },
+      medium: { path: "/weekly-exam/MERNMedium", questions: 30, duration: "45 min" },
+      hard: { path: "/weekly-exam/MERNHard", questions: 30, duration: "45 min" }
     },
     color: "from-emerald-500 to-emerald-600"
   },
@@ -143,11 +144,11 @@ const subjects = [
     title: "Video Editing",
     description: "Professional video production",
     createdBy: "Aditya Sharma",
-    image: "https://res.cloudinary.com/dufxj1sau/image/upload/v1760165949/20251011_1224_Video_Editing_Logo_remix_01k790qrpvep5t09hrqe5fb7ke_mtmmmj.png",
+    image: "https://res.cloudinary.com/dufxj1sau/image/upload/v1760760227/20251011_1224_Video_Editing_Logo_remix_01k790qrpvep5t09hrqe5fb7ke_mtmmmj_ycvwsp.png",
     difficulty: {
-      easy: { path: "/exams/video-easy", questions: 30, duration: "45 min" },
-      medium: { path: "/exams/video-medium", questions: 30, duration: "45 min" },
-      hard: { path: "/exams/video-hard", questions: 30, duration: "45 min" }
+      easy: { path: "/weekly-exam/VideoEasy", questions: 30, duration: "45 min" },
+      medium: { path: "/weekly-exam/VideoMedium", questions: 30, duration: "45 min" },
+      hard: { path: "/weekly-exam/VideoHard", questions: 30, duration: "45 min" }
     },
     color: "from-rose-500 to-rose-600"
   },
@@ -156,11 +157,11 @@ const subjects = [
     title: "English Speaking",
     description: "Communication and fluency",
     createdBy: "Language Experts",
-    image: "https://res.cloudinary.com/dufxj1sau/image/upload/v1760165949/20251011_1226_English_Speaking_Logo_remix_01k790vf09fv4vyvkakatz1q8s_qif7uy.png",
+    image: "https://res.cloudinary.com/dufxj1sau/image/upload/v1760760226/20251011_1226_English_Speaking_Logo_remix_01k790vf09fv4vyvkakatz1q8s_qif7uy_ykwerp.png",
     difficulty: {
-      easy: { path: "/exams/english-easy", questions: 30, duration: "45 min" },
-      medium: { path: "/exams/english-medium", questions: 30, duration: "45 min" },
-      hard: { path: "/exams/english-hard", questions: 30, duration: "45 min" }
+      easy: { path: "/weekly-exam/EnglishEasy", questions: 30, duration: "45 min" },
+      medium: { path: "/weekly-exam/EnglishMedium", questions: 30, duration: "45 min" },
+      hard: { path: "/weekly-exam/EnglishHard", questions: 30, duration: "45 min" }
     },
     color: "from-cyan-500 to-cyan-600"
   }

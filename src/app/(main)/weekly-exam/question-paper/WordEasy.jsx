@@ -1,9 +1,11 @@
+import { useState } from 'react';
+
 const getRandomQuestions = (questions, count) => {
     const shuffled = [...questions].sort(() => 0.5 - Math.random());
     return shuffled.slice(0, count);
-  };
+};
 
-  const allQuestions = [
+const allQuestions = [
     {
         "question": "What is the default file extension for a Microsoft Word document?",
         "options": [".txt", ".docx", ".xlsx", ".pptx"],
@@ -794,10 +796,10 @@ const getRandomQuestions = (questions, count) => {
         "options": ["Enter", "Tab", "Spacebar", "Right Arrow"],
         "answer": "Enter"
     }
-]
+];
 
 
-  const questions = getRandomQuestions(allQuestions, 30);
+const questions = getRandomQuestions(allQuestions, 30);
 
 const Question = ({ currentQuestion, onAnswerSubmit }) => {
     const [selectedAnswer, setSelectedAnswer] = useState('');
@@ -851,4 +853,4 @@ const Question = ({ currentQuestion, onAnswerSubmit }) => {
 // Only export the 30 random questions and the component
 export { questions };
 export default Question;
-export const WordEasy = getRandomQuestions(questions, 30);    
+export const WordEasy = getRandomQuestions(allQuestions, 30);    
